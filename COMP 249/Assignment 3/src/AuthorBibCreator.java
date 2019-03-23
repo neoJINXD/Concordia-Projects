@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import static java.nio.file.StandardCopyOption.*;
 
 /**
- * Main class containing the driver to run the program
+ * Main class containing the driver to run the program.
+ * The purpose of this program is to search through given .bib files, which contain information about articles stored in a .json style format. The goal is to read through those files and return every article containing an author
+ * chosen by the user by last name. There can be any number of them including people with different surnames but the same last name.
  * @author Anik Patel - 40091908
  */
 public class AuthorBibCreator {
@@ -62,12 +64,13 @@ public class AuthorBibCreator {
         } else {
             System.out.println("All the proper files where found, continuing the program...");
         }
+        //Loop to reformat the input files into a format that could be turned into objects
         for (String j : bibPaths) {
             //Prints the paths of found .bib files
             //System.out.println("Opening file: " + j);
             String file = "";
             String splitFile = "";
-            sc = new Scanner(new FileInputStream(j));
+            sc = new Scanner(new FileInputStream(j), "windows-1252");
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -333,7 +336,7 @@ public class AuthorBibCreator {
 
     /**
      * Main method that runs the program
-     * @param args
+     * @param args Default main method
      */
     public static void main(String[] args) {
         //Start message
