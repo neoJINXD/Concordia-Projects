@@ -1,11 +1,17 @@
+// ----------------------------------------------------
+// Assignment 4
+// Question: 2 - Singly Linked Lists
+// Written by: Anik Patel - 40091908
+// -----------------------------------------------------
+
 import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class CellListUtilization {
     public static void main(String[] args) {
-        Random rand = new Random();
+        System.out.println("Welcome to the test run for the CellList Linked List system!\n");
+
         ArrayList<Cellphone> ting = new ArrayList<>();
         Scanner reader = null;
         String read = "";
@@ -21,9 +27,6 @@ public class CellListUtilization {
         }
 
         String[] split = read.split("\\s");
-//        for(String i : split)
-//            System.out.println(i);
-        //System.out.println(read);
 
         for (int i = 0; i < split.length; i += 4) {
             long serial = Long.parseLong(split[i]);
@@ -34,36 +37,28 @@ public class CellListUtilization {
         }
         ArrayList<Cellphone> added = new ArrayList<>();
         CellList list1 = new CellList();
-        CellList list2 = new CellList();
-//        int addedIterator = 0;
-        for (Cellphone i : ting)
-            System.out.println(i);
+        CellList list2;
+//        for (Cellphone i : ting)
+//            System.out.println(i);
 
-
-        //FIX THIS SHIT NOTHING IS GETTING ADDED
         for (int i = 0; i < ting.toArray().length; i++) {
-
-            //System.out.println(i);
-//                if (added.isEmpty()) {
-//                    list1.addToStart(ting.get(i));
-//                    added.add(ting.get(i));
-//                    continue;
-//                }
-
+            if (list1.contains(ting.get(i).getSerialNum()))
+                continue;
             list1.addToStart(ting.get(i));
-            //added.add(ting.get(i));
-            System.out.println("added");
-
-
+//            System.out.println("added");
         }
-        //list1.addToStart(ting.get(0));
-        //list1.addToStart(ting.get(1));
-        //list1.addToStart(ting.get(2));
-        //list1.addToStart(ting.get(3));
-        //list1.addToStart(ting.get(4));
-        list1.showContents();
 
+        try {
+            assert list1.getSize() == 23 : "Added too many or too little Cellphones to Linked List, Check duplicate checks";
 
+            list1.showContents();
+            list2 = new CellList(list1);
+            list2.showContents();
+            //System.out.println(list2.getSize());
+        } catch (AssertionError e){
+            System.out.println(e.getMessage());
+        }
 
+        System.out.println("\nThe tests have ended, thank you for using this program!\n Have a nice day!");
     }
 }
