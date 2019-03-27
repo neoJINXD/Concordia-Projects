@@ -58,7 +58,17 @@ public class CellList {
 
     public CellList(CellList linkedList) {
         CellList newList = new CellList();
-        this.head = linkedList.getHead();
+        CellNode current = new CellNode(linkedList.getHead());
+        CellNode[] whole = new CellNode[this.size];
+        for (int i =0; i<this.size; i++){
+            whole[i] = new CellNode(current);
+            current = current.getPointer();
+        }
+        newList.setHead(new CellNode(linkedList.getHead()));
+        for (int i = whole.length-1; i>=0 ; i--){
+            newList.addToStart(whole[i].getCell());
+        }
+        this.head = newList.getHead();
         this.size = linkedList.getSize();
     }
 
@@ -89,7 +99,7 @@ public class CellList {
         }
     }
 
-    public void deleteFromIndex(int index) {
+    public void deleteFromIndex(int index) throws NoSuchElementException{
         if (this.head == null || index < 0 || index > this.size - 1)
             throw new NoSuchElementException("Index out of bounds.");
         else {
@@ -104,9 +114,9 @@ public class CellList {
         }
     }
 
-    public void deleteFromStart() {
+    public void deleteFromStart() throws NoSuchElementException {
         if (this.head == null)
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Linked list is empty!");
         this.head = this.head.getPointer();
         this.size--;
     }
@@ -157,12 +167,18 @@ public class CellList {
     }
 
     public void showContents() {
+        int count = 0;
         CellNode current = new CellNode(this.head);
         System.out.println("The current list is of size " + this.size + " and contains:\n=================================================\n");
         do {
-            String toPrint = current.getCell().getSerialNum() + ": " + current.getCell().getBrand() + " " + current.getCell().getPrice() + "$ " + current.getCell().getYear() + "--->";
-            System.out.println(toPrint);
+            if (count > 3){
+                count = 0;
+                System.out.println();
+            }
+            String toPrint = current.getCell().getSerialNum() + ": " + current.getCell().getBrand() + " " + current.getCell().getPrice() + "$ " + current.getCell().getYear() + "--->  ";
+            System.out.print(toPrint);
             current = current.getPointer();
+            count++;
 
         } while (current != null);
         System.out.println("X");
