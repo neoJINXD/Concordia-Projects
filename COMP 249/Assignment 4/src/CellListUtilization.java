@@ -4,7 +4,9 @@
 // Written by: Anik Patel - 40091908
 // -----------------------------------------------------
 
+
 import java.io.*;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -35,27 +37,49 @@ public class CellListUtilization {
             Cellphone cell = new Cellphone(serial, split[i + 1], year, price);
             ting.add(cell);
         }
-        ArrayList<Cellphone> added = new ArrayList<>();
         CellList list1 = new CellList();
         CellList list2;
-//        for (Cellphone i : ting)
-//            System.out.println(i);
 
         for (int i = 0; i < ting.toArray().length; i++) {
             if (list1.contains(ting.get(i).getSerialNum()))
                 continue;
             list1.addToStart(ting.get(i));
-//            System.out.println("added");
+            //System.out.println("added");
         }
 
         try {
             assert list1.getSize() == 23 : "Added too many or too little Cellphones to Linked List, Check duplicate checks";
 
+            System.out.println("Original starting Linked List...");
             list1.showContents();
             list2 = new CellList(list1);
-            list2.showContents();
-            //System.out.println(list2.getSize());
-        } catch (AssertionError e){
+            assert list1.equals(list2) : "Either the copy constructor failed to copy everything or the equals method failed";
+
+            list1.insertAtIndex(new Cellphone(69696969, "Google", 2016, 100.42), 14);
+            assert list1.contains(69696969) && list1.getSize() == 24 : "InsertAtIndex failed!";
+
+            list1.addToStart(new Cellphone(115115, "LG", 2012, 399.55));
+            assert list1.contains(115115) && list1.getSize() == 25 : "AddToStart failed!";
+
+            list1.deleteFromIndex(1);
+            assert !list1.contains(1119000) && list1.getSize() == 24 : "DeleteFromIndex failed!";
+
+            list1.deleteFromIndex(2);
+            assert !list1.contains(5909887) && list1.getSize() ==23 : "InsertAtIndex failed!";
+
+            list1.replaceAtIndex(new Cellphone(9876543, "BananaPhone", 2025, 469.95), list1.getSize() - 1);
+            assert list1.contains(9876543) && list1.getSize() == 23 : "ReplaceAtIndex failed to add new Cellphone!";
+            assert !list1.contains(3890909) && list1.getSize() == 23 : "ReplaceAtIndex failed to remove previous Cellphone at index";
+
+            System.out.println("To find the Cellphone with serial number \"69696969\"...");
+            System.out.println(list1.find(69696969));
+
+            System.out.println("\nFinal Linked lists after every test...");
+            list1.showContents();
+
+        } catch (AssertionError e) {
+            System.out.println("Failed the assert test");
+        } catch (NoSuchElementException e) {
             System.out.println(e.getMessage());
         }
 
