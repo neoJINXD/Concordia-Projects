@@ -65,7 +65,7 @@ public class CellListUtilization {
             assert !list1.contains(1119000) && list1.getSize() == 24 : "DeleteFromIndex failed!";
 
             list1.deleteFromIndex(2);
-            assert !list1.contains(5909887) && list1.getSize() ==23 : "InsertAtIndex failed!";
+            assert !list1.contains(5909887) && list1.getSize() == 23 : "InsertAtIndex failed!";
 
             list1.replaceAtIndex(new Cellphone(9876543, "BananaPhone", 2025, 469.95), list1.getSize() - 1);
             assert list1.contains(9876543) && list1.getSize() == 23 : "ReplaceAtIndex failed to add new Cellphone!";
@@ -83,6 +83,28 @@ public class CellListUtilization {
             System.out.println(e.getMessage());
         }
 
-        System.out.println("\nThe tests have ended, thank you for using this program!\n Have a nice day!");
+        System.out.println("\nThe tests have ended.");
+
+        System.out.println("Please enter a few serial number that you wish to look for, enter -1 to stop:");
+
+
+        //User input to search through the linked list for specific serial numbers
+        Scanner input = new Scanner(System.in);
+        ArrayList<String> serials = new ArrayList<>();
+        while (true) {
+            String in = input.next();
+            serials.add(in);
+            if (Long.parseLong(in) < 0)
+                break;
+        }
+        for (String i : serials) {
+            Long serial = Long.parseLong(i);
+            System.out.println("Looking for serial number : " + serial + "...");
+            System.out.println("Found at --> " + list1.find(serial));
+            System.out.println();
+        }
+
+
+        System.out.println("\nProgram has terminated. Thank you for using this program!\nHave a nice day!");
     }
 }
