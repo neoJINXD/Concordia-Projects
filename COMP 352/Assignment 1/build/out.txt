@@ -1,0 +1,92 @@
+This is the 5th number in the Tetranacci set
+The result is 2
+Time taken for Exponential: 107700ns
+Time taken for TR: 10900ns
+
+This is the 10th number in the Tetranacci set
+The result is 56
+Time taken for Exponential: 49700ns
+Time taken for TR: 6500ns
+
+This is the 15th number in the Tetranacci set
+The result is 1490
+Time taken for Exponential: 628300ns
+Time taken for TR: 18100ns
+
+This is the 20th number in the Tetranacci set
+The result is 39648
+Time taken for Exponential: 539900ns
+Time taken for TR: 5800ns
+
+This is the 25th number in the Tetranacci set
+The result is 1055026
+Time taken for Exponential: 8511700ns
+Time taken for TR: 3800ns
+
+This is the 30th number in the Tetranacci set
+The result is 28074040
+Time taken for Exponential: 254409500ns
+Time taken for TR: 5100ns
+
+This is the 35th number in the Tetranacci set
+The result is 747044834
+Time taken for Exponential: 7120403000ns
+Time taken for TR: 10900ns
+
+This is the 40th number in the Tetranacci set
+The result is 19878720128
+Time taken for Exponential: 164252440800ns
+Time taken for TR: 21600ns
+
+
+From now on, ExponentialTetranacci will take too long to computer
+So we will just calculate TRTetranacci from now on
+
+This is the 45th number in the Tetranacci set
+The result is 528968939938
+Time taken for TR: 7600ns
+
+This is the 50th number in the Tetranacci set
+The result is 14075762303480
+Time taken for TR: 7800ns
+
+This is the 55th number in the Tetranacci set
+The result is 374553342295090
+Time taken for TR: 39700ns
+
+This is the 60th number in the Tetranacci set
+The result is 9966792788887776
+Time taken for TR: 149600ns
+
+This is the 65th number in the Tetranacci set
+The result is 265214449530564434
+Time taken for TR: 2300ns
+
+This is the 70th number in the Tetranacci set
+The result is 7057305768232953720
+Time taken for TR: 2700ns
+
+This is the 75th number in the Tetranacci set
+The result is 3326115739525933250
+Time taken for TR: 3000ns
+
+This is the 80th number in the Tetranacci set
+The result is -1917029801431269376
+Time taken for TR: 2700ns
+
+This is the 85th number in the Tetranacci set
+The result is 9090637906711111746
+Time taken for TR: 3200ns
+
+This is the 90th number in the Tetranacci set
+The result is -7109564001247022408
+Time taken for TR: 1700ns
+
+This is the 95th number in the Tetranacci set
+The result is 7765711627022177170
+Time taken for TR: 3000ns
+
+This is the 100th number in the Tetranacci set
+The result is -6791676668216763936
+Time taken for TR: 3500ns
+
