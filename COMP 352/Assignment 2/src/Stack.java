@@ -1,57 +1,16 @@
-public class Stack<T>{
+/*
+Name:   Anik Patel
+ID:     40091908
+COMP 352 - Assignment 2
+Due Date: May 29th, 2019
+*/
 
-    private T[] holder;
-    private int counter;
+interface Stack<T>{
 
-    public Stack(){
-        this.holder = new T[10];
-        this.counter = 0;
-    }
-
-    public Stack(int size){
-        this.holder = new T[size];
-        this.counter = 0;
-    }
-
-    public int size(){
-        return counter;
-    }
-
-    public boolean isEmpty(){
-        return this.counter == 0;
-    }
-
-    //POSSIBLE PRIVACY LEAKS?
-    public T top(){
-        if (this.isEmpty())
-            return null;
-        return holder[counter];
-    }
-
-    public void push(E input){
-        holder[counter] = input;
-        this.counter++;
-    }
-
-    //POSSIBLE PRIVACY LEAKS?
-    public T pop(){
-        if (this.isEmpty())
-            return null;
-        
-        T temp = holder[counter];
-        holder[counter] = null;
-        this.counter--;
-        return temp;
-    }
-
-
-    private static void increase(){
-
-    }
-
-    private static void reduce(){
-
-    }
-
+    public void push(T input);
+    public T top();
+    public T pop();
+    public boolean isEmpty();
+    public int size();
 
 }
