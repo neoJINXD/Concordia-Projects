@@ -15,9 +15,6 @@ public class ArrayStack<T> implements Stack<T>{
     
 
     public ArrayStack(){
-        // this.stack = (T[]) new Object[5];
-        // this.topPointer = -1;
-        // this.size = 1;
         this(5);
     }
 
