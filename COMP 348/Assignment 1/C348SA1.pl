@@ -3,16 +3,16 @@
 /*  ===============														*/      
 /*																		*/
 /*																		*/
-/*																		*/
+/*		Kamran Adrien													*/
 /*		----------------------------    								*/
 /*																		*/
-/*																		*/
+/*		Parial - Bolusan Joshua											*/
 /*		----------------------------    								*/
 /*																		*/
-/*																		*/
+/*		Patel Anik														*/
 /*		----------------------------									*/
 /*																		*/
-/*																		*/
+/*		Takenake Michael												*/
 /*		----------------------------    								*/
 /*																		*/
 /*																		*/
@@ -181,9 +181,10 @@ keepAll(Li, [Rank|T], [RankR|Tr]) :-
 /* columns of the original relation			      				*/
 /****************************************************************/              
 projection(HeaderP, relation(Header, Table), R) :- 
-
-
-
+	verifRelation(relation(Header, Table)),
+	findIndices(HeaderP, Header, Indices),
+	keepAll(Indices, Table, Out),
+	R = Out.
 
 
 
@@ -298,10 +299,6 @@ join1(HeaderJ,Rel1,Rel2,Li2,RelR) :-
 	    join2(Rel1,Rel2,Li2,Lci,RelR).
 
 
-
-
-
-
 /****************************************************************/
 /* produces a new relation obtained by welding end-to-end     	*/
 /* rows of relation1 and relation2 which have identical       	*/
@@ -309,6 +306,11 @@ join1(HeaderJ,Rel1,Rel2,Li2,RelR) :-
 /* columns which are repeated                                 	*/
 /****************************************************************/              
 join(HeaderJ, Rel1,relation(ER2,Table2), RelR):-
+	% verifRelation(relation(ER2, Table2)),
+	findIndices(HeaderJ, ER2, Indices),
+	join1(HeaderJ, Rel1, relation(ER2, Table2), Indices, Out),
+	RelR = Out.
+
 
 
 
