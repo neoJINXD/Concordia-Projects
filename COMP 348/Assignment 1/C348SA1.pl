@@ -181,10 +181,10 @@ keepAll(Li, [Rank|T], [RankR|Tr]) :-
 /* columns of the original relation			      				*/
 /****************************************************************/              
 projection(HeaderP, relation(Header, Table), R) :- 
-		verifRelation(relation(Header, Table)),
-		findIndices(HeaderP, Header, Indices),
-		keepAll(Indices, Table, Out),
-		R = Out.
+		verifRelation(relation(Header, Table)),		% Verifies if the relation used exists
+		findIndices(HeaderP, Header, Indices),		% Finds the Indices of where the HeaderP is located in the Header of the relation
+		keepAll(Indices, Table, Out),				% Removes all elements that we do not want
+		R = Out.									% Output
 
 
 
