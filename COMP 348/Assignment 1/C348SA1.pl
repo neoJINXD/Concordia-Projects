@@ -76,8 +76,8 @@ member(X, [_|Rest]) :- member(X, Rest).
 /****************************************************************/
 noRepetition([]).
 noRepetition([Elem|Rest]) :-
-     \+ member(Elem, Rest), !,
-     noRepetition(Rest).
+		\+ member(Elem, Rest), !,
+		noRepetition(Rest).
 
 /****************************************************************/
 /* Counts the number of elements in a list     		      		*/
@@ -89,9 +89,9 @@ nbElements([_|Rest], N) :- nbElements(Rest, M), N is M + 1.
 /* Tests whether two lists are the same length 		      		*/
 /****************************************************************/
 sameLength(List1, List2) :-
-     nbElements(List1, N1),
-     nbElements(List2, N2),
-     N1=N2.
+		nbElements(List1, N1),
+		nbElements(List2, N2),
+		N1=N2.
 
 /****************************************************************/
 /* Verification compares the types of elements of two rows    	*/
@@ -99,8 +99,8 @@ sameLength(List1, List2) :-
 /****************************************************************/
 verifRows([], []).
 verifRows([Elem1|Rest1], [Elem2|Rest2]) :-
-     sameType(Elem1, Elem2), !,
-     verifRows(Rest1,Rest2).
+		sameType(Elem1, Elem2), !,
+		verifRows(Rest1,Rest2).
 
 /****************************************************************/
 /* Verification of the table associated with a relation       	*/
@@ -108,18 +108,18 @@ verifRows([Elem1|Rest1], [Elem2|Rest2]) :-
 verifTable([]).
 verifTable([_]).
 verifTable([Row1,Row2|Rest]) :-
-     sameLength(Row1, Row2),
-     verifRows(Row1, Row2),
-     verifTable([Row2|Rest]).
+		sameLength(Row1, Row2),
+		verifRows(Row1, Row2),
+		verifTable([Row2|Rest]).
 
 /****************************************************************/
 /* Verification of the relation                               	*/
 /****************************************************************/
 verifRelation(relation(Header, [])) :- noRepetition(Header).
 verifRelation(relation(Header, [Row|Rest])) :-
-     noRepetition(Header),
-     sameLength(Header, Row),
-     verifTable([Row|Rest]).
+		noRepetition(Header),
+		sameLength(Header, Row),
+		verifTable([Row|Rest]).
 
 /****************************************************************/
 /* Finds the index of an element in a list when it exists     	*/
@@ -127,8 +127,8 @@ verifRelation(relation(Header, [Row|Rest])) :-
 /****************************************************************/
 index(Elem, [Elem|_], 1).
 index(Elem, [_|Rest], Pos) :-
-     index(Elem, Rest, Pos1),
-     Pos is Pos1 + 1.
+		index(Elem, Rest, Pos1),
+		Pos is Pos1 + 1.
 
 /****************************************************************/
 /* Finds the index of an element in a list, knowing that      	*/ 
@@ -142,8 +142,8 @@ position(Elem, List, Pos) :- index(Elem, List, Pos).
 /****************************************************************/
 findIndices([], _, []).
 findIndices([Elem|RestE], List, [Index|RestI]) :-
-     position(Elem, List, Index),
-     findIndices(RestE, List, RestI).
+     	position(Elem, List, Index),
+     	findIndices(RestE, List, RestI).
 
 
 
@@ -152,8 +152,8 @@ findIndices([Elem|RestE], List, [Index|RestI]) :-
 /****************************************************************/
 keepElt(Index, Index,[X|_], X).
 keepElt(Index, Counter, [_|L], X) :- 
-	     Counter1 is Counter + 1, 
-	     keepElt(Index, Counter1, L, X).
+	    Counter1 is Counter + 1, 
+	    keepElt(Index, Counter1, L, X).
 
 
 
@@ -163,8 +163,8 @@ keepElt(Index, Counter, [_|L], X) :-
 /****************************************************************/
 keepRow([],_,[]).
 keepRow([I|Li], Rank, [X|Lr]) :- 
-	     keepElt(I,1,Rank,X),
-	     keepRow(Li,Rank,Lr).
+	    keepElt(I,1,Rank,X),
+	    keepRow(Li,Rank,Lr).
 
 
 /****************************************************************/
@@ -181,10 +181,10 @@ keepAll(Li, [Rank|T], [RankR|Tr]) :-
 /* columns of the original relation			      				*/
 /****************************************************************/              
 projection(HeaderP, relation(Header, Table), R) :- 
-	verifRelation(relation(Header, Table)),
-	findIndices(HeaderP, Header, Indices),
-	keepAll(Indices, Table, Out),
-	R = Out.
+		verifRelation(relation(Header, Table)),
+		findIndices(HeaderP, Header, Indices),
+		keepAll(Indices, Table, Out),
+		R = Out.
 
 
 
@@ -205,8 +205,8 @@ conc([X|L1], L2, [X|L]) :- conc(L1, L2, L).
 remove(_,_,[],[]).
 remove(Index, Index, [_|L], L) :- !. 
 remove(Index, Counter, [X|L], [X|Lr]) :- 
-	     Counter1 is Counter + 1,
-	     remove(Index, Counter1, L, Lr).
+	    Counter1 is Counter + 1,
+	    remove(Index, Counter1, L, Lr).
 
 
 /****************************************************************/
@@ -225,8 +225,8 @@ removeRow([Index|Li], Row, RowR) :-
 /****************************************************************/
 removeTable(_, [], []).
 removeTable(Li, [Row|RestT], [RowR|RestTr]) :- 
-	     removeRow(Li, Row, RowR), 
-	     removeTable(Li, RestT,RestTr).
+	    removeRow(Li, Row, RowR), 
+	    removeTable(Li, RestT,RestTr).
 
 
 /****************************************************************/
@@ -235,8 +235,8 @@ removeTable(Li, [Row|RestT], [RowR|RestTr]) :-
 /****************************************************************/
 removeT(_,[],[]).
 removeT(Li, relation(E, T), relation(Er, Tr)) :- 
-	     removeRow(Li, E, Er),
-	     removeTable(Li, T, Tr).
+	    removeRow(Li, E, Er),
+	    removeTable(Li, T, Tr).
 	     
 	     
 /****************************************************************/
@@ -246,9 +246,9 @@ removeT(Li, relation(E, T), relation(Er, Tr)) :-
 /****************************************************************/
 correspondance2(_, [], _, []). 
 correspondance2(Counter, [X|RT1], T2, [[Counter,B]|RLci]) :-
-	     Counter1 is Counter + 1,
-	     position(X, T2, B),
-	     correspondance2(Counter1, RT1, T2, RLci).
+	    Counter1 is Counter + 1,
+	    position(X, T2, B),
+	    correspondance2(Counter1, RT1, T2, RLci).
 
 
 
@@ -273,10 +273,10 @@ search(Index, [_|RT], L) :- Y is Index - 1, search(Y, RT, L).
 /****************************************************************/
 construct(_,_,[],[]).
 construct(T1,T2,[[X,Y]|RestCi],[L|Res]) :-
-	     search(X,T1,L1),
-	     search(Y,T2,L2), 
-	     conc(L1,L2,L),
-	     construct(T1,T2,RestCi,Res), !.
+	    search(X,T1,L1),
+	    search(Y,T2,L2), 
+	    conc(L1,L2,L),
+	    construct(T1,T2,RestCi,Res), !.
 
 
 /****************************************************************/
@@ -306,10 +306,9 @@ join1(HeaderJ,Rel1,Rel2,Li2,RelR) :-
 /* columns which are repeated                                 	*/
 /****************************************************************/              
 join(HeaderJ, Rel1,relation(ER2,Table2), RelR):-
-	% verifRelation(relation(ER2, Table2)),
-	findIndices(HeaderJ, ER2, Indices),
-	join1(HeaderJ, Rel1, relation(ER2, Table2), Indices, Out),
-	RelR = Out.
+		findIndices(HeaderJ, ER2, Indices),
+		join1(HeaderJ, Rel1, relation(ER2, Table2), Indices, Out),
+		RelR = Out.
 
 
 
