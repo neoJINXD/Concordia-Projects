@@ -6,63 +6,42 @@ Due Date: May 29th, 2019
 */
 
 public class Calculator{
+    private static ArrayStack<Integer> values = new ArrayStack<>();
+    private static ArrayStack<String> operations = new ArrayStack<>();
 
-    public static int addition(int augend, int addend){
-        return augend + addend;
-    }
-
-    public static int substraction(int minuend, int subtrahend){
-        return minuend - subtrahend;
-    }
-
-    public static int multiplication(int multiplicand, int multiplier){
-        return multiplicand * multiplier;
-    }
-
-    public static int division(int dividend, int divisor){
-        return dividend / divisor;
-    }
-
-    public static int power(int base, int exponent){
-        if (exponent == 0){
-            return 1;
+    public static String calculate(int first, int second, String op){
+        String result = "";
+        if (op.equals("^"))
+            result += MyMath.power(first, second);
+        else if (op.equals("*"))
+            result += MyMath.multiplication(first, second);
+        else if (op.equals("/"))
+            result += MyMath.division(first, second);
+        else if (op.equals("+"))
+            result += MyMath.addition(first, second);
+        else if (op.equals("-"))
+            result += MyMath.substraction(first, second);
+        else if (op.equals("<"))
+            result += MyMath.lessThan(first, second);
+        else if (op.equals(">"))
+            result += MyMath.moreThan(first, second);
+        else if (op.equals("<="))
+            result += MyMath.lessThanOrEqual(first, second);
+        else if (op.equals(">="))
+            result += MyMath.moreThanOrEqual(first, second);
+        else if (op.equals("=="))
+            result += MyMath.equals(first, second);
+        else if (op.equals("!="))
+            result += MyMath.notEquals(first, second);
+        else{
+            System.out.printf("Error, operator not valid\nExitting...\n");
+            System.exit(-1);
         }
-        return base * power(base, exponent - 1);
-    }
-
-    public static boolean lessThan(int first, int second){
-        return first < second;
-    }
-
-    public static boolean lessThanOrEqual(int first, int second){
-        return first <= second;
-    }
-
-    public static boolean moreThan(int first, int second){
-        return first > second;
-    }
-
-    public static boolean moreThanOrEqual(int first, int second){
-        return first >= second;
-    }
-
-    public static boolean equals(int first, int second){
-        return first == second;
-    }
-
-    public static boolean notEquals(int first, int second){
-        return first != second;
-    }
-
-    public static int calculate(){
-        return 0;
+        return result;
     }
     public static void main(String[] args){
-        ArrayStack<Integer> values = new ArrayStack<>();
-        ArrayStack<String> operations = new ArrayStack<>();
-
-
-
-
+        
+        System.out.println(calculate(4, 4, "<="));
+        
     }
 }

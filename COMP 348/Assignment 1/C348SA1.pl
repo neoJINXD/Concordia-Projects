@@ -305,7 +305,7 @@ join1(HeaderJ,Rel1,Rel2,Li2,RelR) :-
 /* values in the specified columns, taking care to remove     	*/
 /* columns which are repeated                                 	*/
 /****************************************************************/              
-join(HeaderJ, Rel1,relation(ER2,Table2), RelR):-
+join(HeaderJ, Rel1,relation(ER2,Table2), RelR):- %USE CONC
 		findIndices(HeaderJ, ER2, Indices),
 		join1(HeaderJ, Rel1, relation(ER2, Table2), Indices, Out),
 		RelR = Out.

@@ -81,6 +81,7 @@ public class ArrayStack<T> implements Stack<T>{
             t[i] = this.stack[i];
         }
         this.stack = (T[]) t;
+        this.size = t.length;
     }
 
     @SuppressWarnings("unchecked")
@@ -91,7 +92,9 @@ public class ArrayStack<T> implements Stack<T>{
             t[i] = this.stack[i];
         }
         this.stack = (T[]) t;
+        this.size = t.length;
     }
+
 
     public static void main(String[] args){
         ArrayStack<Integer> st = new ArrayStack<Integer>();
@@ -128,9 +131,7 @@ public class ArrayStack<T> implements Stack<T>{
         System.out.println(st.isEmpty());
         System.out.println(st.top());
 
-        
-
     }
 
 
-}
+} 
