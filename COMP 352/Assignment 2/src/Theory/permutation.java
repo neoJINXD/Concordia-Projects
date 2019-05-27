@@ -63,35 +63,23 @@ public class permutation{
 
 		while (true)
 		{
-			// Print current permutation
+			
 			System.out.println(Arrays.toString(s));
 
-			/* Below code will rearrange the string to next lexicographically
-			 ordered permutation (if any) or return if we are already at
-			 highest possible permutation */
-
-			// Find largest index i such that s[i-1] is less than s[i]
+			
 			int i = n - 1;
 			while (s[i-1] >= s[i])
 			{
-				// if i is first index of the string, that means we are 
-				// already at last possible permutation 
-				// (string is sorted in reverse order)
+				
 				if (--i == 0)
 					return;
 			}
-
-			// find highest index j to the right of index i such that 
-			// s[j] > s[i–1] (s[i..n-1] is sorted in reverse order)
 
 			int j = n - 1;
 			while (j > i && s[j] <= s[i-1])
 				j--;
 
-			// Swap characters at index i-1 with index j
 			swap(s, i-1, j);
-
-			// reverse the substring s[i..n-1] and return true
 			reverse (s, i, n-1);
 		}
 	}
