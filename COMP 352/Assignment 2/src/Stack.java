@@ -5,7 +5,7 @@ COMP 352 - Assignment 2
 Due Date: May 29th, 2019
 */
 
-interface Stack<T>{
+public interface Stack<T>{
 
     public void push(T input);
     public T top();

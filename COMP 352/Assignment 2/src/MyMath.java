@@ -38,7 +38,7 @@ public class MyMath{
         return first >= second;
     }
 
-    public static boolean equals(int first, int second){
+    public static boolean Equals(int first, int second){
         return first == second;
     }
 

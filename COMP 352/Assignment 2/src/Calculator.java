@@ -5,9 +5,13 @@ COMP 352 - Assignment 2
 Due Date: May 29th, 2019
 */
 
+import java.io.FileInputStream;
+import java.util.Scanner;
+
 public class Calculator{
     private static ArrayStack<Integer> values = new ArrayStack<>();
     private static ArrayStack<String> operations = new ArrayStack<>();
+    private static ArrayStack<Integer> st = new ArrayStack<>();
 
     public static String calculate(int first, int second, String op){
         String result = "";
@@ -30,7 +34,7 @@ public class Calculator{
         else if (op.equals(">="))
             result += MyMath.moreThanOrEqual(first, second);
         else if (op.equals("=="))
-            result += MyMath.equals(first, second);
+            result += MyMath.Equals(first, second);
         else if (op.equals("!="))
             result += MyMath.notEquals(first, second);
         else{
