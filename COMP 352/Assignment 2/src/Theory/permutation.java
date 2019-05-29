@@ -1,3 +1,4 @@
+package Theory;
 import java.util.Arrays;
 public class permutation{
 
@@ -46,14 +47,14 @@ public class permutation{
             System.out.println(Arrays.toString(a));
             return;
         }
-        Heap(a, n-1);
+        RecursiveHeap(a, n-1);
         for (int i = 0; i<n-1;i++){
             if (n%2==0){
                 swap(a, i, n-1);
             } else {
                 swap(a, 0, n-1);
             }
-            Heap(a,n-1);
+            RecursiveHeap(a,n-1);
             }
         
     }
