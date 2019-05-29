@@ -212,6 +212,8 @@ public class Calculator{
             //Closing Scanner and PrintWriter
             if (file != null) file.close();
             if (pw != null) pw.close();
+
+            System.out.printf("\nThis is the end of the program\n");
         }
     }
 }
