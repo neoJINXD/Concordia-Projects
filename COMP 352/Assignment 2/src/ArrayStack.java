@@ -75,7 +75,7 @@ public class ArrayStack<T> implements Stack<T>{
 
     @SuppressWarnings("unchecked")
     private void increase(){
-        System.out.println("STACK OVERFLOW");
+        // System.out.println("STACK OVERFLOW");
         Object[] t = new Object[this.stack.length+INCREMENT];
         for (int i = 0; i<this.stack.length; i++){
             t[i] = this.stack[i];
@@ -86,7 +86,7 @@ public class ArrayStack<T> implements Stack<T>{
 
     @SuppressWarnings("unchecked")
     private void reduce(){
-        System.out.println("UNDEFLOWING");
+        // System.out.println("UNDEFLOWING");
         Object[] t = new Object[this.stack.length-INCREMENT];
         for (int i = 0; i <= this.topPointer; i++){
             t[i] = this.stack[i];
