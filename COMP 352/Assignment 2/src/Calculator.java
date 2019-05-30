@@ -14,10 +14,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Calculator{
+    // Global variables
     private static ArrayStack<Double> values = new ArrayStack<>();
     private static ArrayStack<String> operations = new ArrayStack<>();
-    public static final int TRUE = 1111111111;
-    public static final int FALSE = 0000000000;
+    private static final int TRUE = 1111111111;
+    private static final int FALSE = 0000000000;
+    private static final String inFile = "equations.txt";
+    private static final String outFile = "out.txt";
 
     /** Local function to get the Precedence level of the operator
      * 
@@ -25,19 +28,17 @@ public class Calculator{
      * @return Integer number with the precedence, higher is more important
      */
     private static int getPrecedence(String op){
-        if (op.equals("("))
-            return 0;
-        else if (op.equals("^"))
-            return 6;
-        else if (op.equals("!"))
+        if (op.equals("^"))
             return 5;
+        // else if (op.equals("!"))
+        //     return 5;
         else if (op.equals("*") || op.equals("/"))
             return 4;
         else if (op.equals("+") || op.equals("-"))
             return 3;
         else if (op.equals(">") || op.equals("<") || op.equals("<=") || op.equals(">="))
             return 2;
-        else if (op.equals("==") || op.equals("!="))
+        else if (op.equals("==") || op.equals("!=") || op.equals("!"))
             return 1;
         return 0;
     }   
@@ -124,8 +125,8 @@ public class Calculator{
                 operations.push(current);
                 return;
             } else {
-            doOp(operations.pop());
-            precedenceCheck(current);
+                doOp(operations.pop());
+                precedenceCheck(current);
             }
         }
     }
@@ -146,8 +147,8 @@ public class Calculator{
         System.out.printf("It will calculate all the equations in \"equations.txt\"\n\n");
 
         try{
-            file = new Scanner(new FileInputStream("equations.txt"));
-            pw = new PrintWriter(new FileOutputStream("out.txt"));   
+            file = new Scanner(new FileInputStream(inFile));
+            pw = new PrintWriter(new FileOutputStream(outFile));   
             
             //Reads and stores each line seperately
             while (file.hasNextLine()){
@@ -161,7 +162,7 @@ public class Calculator{
                 char[] eqChar = eq.toCharArray();
                 System.out.printf("\nYOUR NEXT LINE WILL BE: %s\n\n", Arrays.toString(eqChar));
 
-                String numHolder = "";
+                String numHolder = ""; //Acts as a Buffer
                 //Iterate through each character
                 for (char i : eqChar){
                     if (i == ' ') continue;
@@ -179,7 +180,7 @@ public class Calculator{
                         precedenceCheck(holder);
                     }
                 }
-                //Pushes the remaining 
+                //Pushes the remaining number in the buffer
                 if (!numHolder.equals(""))
                     values.push(Double.parseDouble(numHolder));
                 //If there are any operations left, perform them

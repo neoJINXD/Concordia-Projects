@@ -1,0 +1,85 @@
+//Gets the precedence of the operator wanted
+def getPrecedence(op):
+    if op == "^":
+        then return 5 
+    if op == "*" or op == "/":
+        then return 4
+    if op == "+" or op == "-":
+        then return 3
+    if op == ">" or op == "<" or op == "<=" or op == ">=":
+        then return 2
+    if op == "==" or op == "!=" or op == "!":
+        then return 1
+    else return 0
+
+
+
+//Compares the precedence of the operator you are trying to add to the one at the top
+def precedenceCheck(op):
+    if op == "(":
+        operations <-- push(op)
+        return                                  //Ends the function
+
+    if operations is Empty:
+        insidePrecedence <-- 0;
+    else:
+        insidePrecedence <-- getPrecedence(operations.top())
+
+    outsidePrecedence <-- getPrecedence(op)
+
+    if insidePrecedence < outsidePrecedence:
+        operations <-- push(op)
+    else:
+        if op == ")":
+            if operations.top() == "(":
+                operations.pop()
+                return
+            else:
+                doOp(operations.pop())
+                precedenceCheck(op)
+        else if op == "=":
+            operations <-- push(op)
+            return
+        else:
+            doOp(operations.pop())
+            precedenceCheck(op)
+
+
+
+//Performs the operation with the top 2 values
+def doOp(op):
+    y <-- values.pop()
+    x <-- values.pop()
+
+    if op == "=": 
+        then op <-- operations.pop() + op
+    result <-- ( x op y )
+    values <-- push(result)
+
+
+
+//Calculation per equation
+def Calculator(equation):
+    numHolder <-- ""                            //Set to empty string as a buffer
+    for each character i in equation:
+        if i == ' ': then continue
+        if i isNumeric:                         //Is i a number?
+            then numHolder <-- numHolder + i
+        else: 
+            if numHolder isEmpty:
+                values <-- push(numHolder)
+                numHolder <-- ""                //Reset to empty string
+            
+            precedenceCheck(i)
+        
+    if numHolder is not Empty:
+        values <-- push(numHolder)              //Pushes remaining number from the buffer
+    
+    while operations is not Empty:
+        doOp(operations <-- pop())              //Performs remaining operations
+    
+    finalResult <-- values <-- pop()            //Final answer is stored in the stack
+    print(finalResult)
+
+
+TEST LOGS ARE IN THE BUILD FOLDER
