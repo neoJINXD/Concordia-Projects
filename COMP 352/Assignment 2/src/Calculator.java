@@ -36,7 +36,7 @@ public class Calculator{
             return 3;
         else if (op.equals(">") || op.equals("<") || op.equals("<=") || op.equals(">="))
             return 2;
-        else if (op.equals("==") || op.equals("!=") || op.equals("!"))
+        else if (op.equals("==") || op.equals("!=") || op.equals("!") || op.equals("="))
             return 1;
         return 0;
     }   
@@ -110,16 +110,10 @@ public class Calculator{
                     
         if (insidePrecedence < outsidePrecedence) operations.push(current);
         else { 
-            if (current.equals(")")){
-                if (operations.top().equals("(")){
+            if (current.equals(")") && operations.top().equals("(")){
                     operations.pop();
                     return;
-                } else {
-                    doOp(operations.pop());
-                    precedenceCheck(current);
-                }
-
-            } else if (current.equals("=")){
+            } else if (current.equals("=") && operations.top().equals("=")){// TODO BROKE
                 operations.push(current);
                 return;
             } else {
