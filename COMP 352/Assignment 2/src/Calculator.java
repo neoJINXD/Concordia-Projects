@@ -18,7 +18,7 @@ public class Calculator{
     private static ArrayStack<Double> values = new ArrayStack<>();
     private static ArrayStack<String> operations = new ArrayStack<>();
     private static final int TRUE = 1111111111;
-    private static final int FALSE = 0000000000;
+    private static final int FALSE = 1000000000;
     private static final String inFile = "equations.txt";
     private static final String outFile = "out.txt";
 
@@ -30,8 +30,6 @@ public class Calculator{
     private static int getPrecedence(String op){
         if (op.equals("^"))
             return 5;
-        // else if (op.equals("!"))
-        //     return 5;
         else if (op.equals("*") || op.equals("/"))
             return 4;
         else if (op.equals("+") || op.equals("-"))
@@ -160,7 +158,7 @@ public class Calculator{
             //Iterates through each line
             for (String eq : lineHolder){
                 char[] eqChar = eq.toCharArray();
-                System.out.printf("\nYOUR NEXT LINE WILL BE: %s\n\n", Arrays.toString(eqChar));
+                System.out.printf("\nYOUR NEXT LINE WILL BE: %s\n", Arrays.toString(eqChar));
 
                 String numHolder = ""; //Acts as a Buffer
                 //Iterate through each character

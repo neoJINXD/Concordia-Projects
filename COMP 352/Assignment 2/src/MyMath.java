@@ -72,7 +72,7 @@ public class MyMath{
     public static double lessThan(double first, double second){
         boolean temp = first < second;
         if (temp) return 1111111111;
-        return 0000000000;
+        return 1000000000;
     }
 
     /** Less Than or Equal
@@ -84,7 +84,7 @@ public class MyMath{
     public static double lessThanOrEqual(double first, double second){
         boolean temp = first <= second;
         if (temp) return 1111111111;
-        return 0000000000;
+        return 1000000000;
     }
 
     /** Greater Than
@@ -96,7 +96,7 @@ public class MyMath{
     public static double moreThan(double first, double second){
         boolean temp = first > second;
         if (temp) return 1111111111;
-        return 0000000000;
+        return 1000000000;
     }
 
     /** Greater Than or Equal
@@ -108,7 +108,7 @@ public class MyMath{
     public static double moreThanOrEqual(double first, double second){
         boolean temp = first >= second;
         if (temp) return 1111111111;
-        return 0000000000;
+        return 1000000000;
     }
 
     /** Equals
@@ -120,7 +120,7 @@ public class MyMath{
     public static double Equals(double first, double second){
         boolean temp = first == second;
         if (temp) return 1111111111;
-        return 0000000000;
+        return 1000000000;
     }
 
     /** Not Equals
@@ -132,7 +132,7 @@ public class MyMath{
     public static double notEquals(double first, double second){
         boolean temp = first != second;
         if (temp) return 1111111111;
-        return 0000000000;
+        return 1000000000;
     }
 
 }
