@@ -37,3 +37,9 @@ The result of (4 + 5) * (3 - 2) + 5 >= 129
 The result of 8 == 8 * 7
  is: 	false
 
+The result of (3+(4+(5+(6*1))))
+ is: 	18.00
+
+The result of (12+23*(10+((13))))/12
+ is: 	45.08
+
