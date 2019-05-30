@@ -113,7 +113,7 @@ public class Calculator{
             if (current.equals(")") && operations.top().equals("(")){
                     operations.pop();
                     return;
-            } else if (current.equals("=") && operations.top().equals("=")){// TODO BROKE
+            } else if (current.equals("=") && (operations.top().equals("=") || operations.top().equals("!") || operations.top().equals("<") || operations.top().equals(">"))){// TODO BROKE
                 operations.push(current);
                 return;
             } else {
