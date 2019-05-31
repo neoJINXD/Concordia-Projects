@@ -43,3 +43,18 @@ The result of (3+(4+(5+(6*1))))
 The result of (12+23*(10+((13))))/12
  is: 	45.08
 
+The result of (2)*(5-7/2)<=55-(6^2)
+ is: 	true
+
+The result of 50 - 20 * 2 + 240 * ( ( 14 / 2 ) ^ 3 - 12 )
+ is: 	79450.00
+
+The result of 1500 ^ 2 / ( 50 - ( 30 + 2 + 8 ) )
+ is: 	225000.00
+
+The result of 50 - 20 * 2 + 240 * ( ( 14 / 2 ) ^ 3 - 12 ) > 1500 ^ 2 / ( 50 - ( 30 + 2 + 8 ) )
+ is: 	false
+
+The result of 3*3*3*3*3*3*3*3*3 == 3^9
+ is: 	true
+
