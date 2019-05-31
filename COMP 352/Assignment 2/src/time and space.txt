@@ -1,0 +1,27 @@
+The getPrecedence has a time complexity of 
+    O(1)    --->    No loops, No recursion.
+and a space complexity of 
+    O(1)    --->    Only 1 variable gets used.
+
+
+The doOp has a time complexity of
+    O(1)    --->    No loops, No recursion, performs only once when called.
+and a space complexity of
+    O(1)    --->    Only a constant number of variables are created everytime.
+
+
+The precedenceCheck has a time complexity of
+    O(n)    --->    This function can call itself n/2 times, going character by character,
+                    as it might have to call itself up to n/2 times.
+and a space complexity of
+    O(n)    --->    While the code is recursive, nothing is returned by the function, as
+                    such, the space taken will be a constant times the amount of recursions
+                    that take place.
+
+
+The Calculator has a time complexity of
+    O(n^2)  --->    there is a loop going character by character (up to n times), and the
+                    precedenceCheck that might call itself n times.
+and a space complexity of
+    O(n)    --->    Gotten from the precedenceCheck, this funciton itself will only have a
+                    constant number of variables.
