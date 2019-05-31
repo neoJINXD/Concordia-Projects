@@ -8,7 +8,7 @@ def getPrecedence(op):
         then return 3
     if op == ">" or op == "<" or op == "<=" or op == ">=":
         then return 2
-    if op == "==" or op == "!=" or op == "!":
+    if op == "==" or op == "!=" or op == "!" or op == "=":
         then return 1
     else return 0
 
@@ -30,14 +30,10 @@ def precedenceCheck(op):
     if insidePrecedence < outsidePrecedence:
         operations <-- push(op)
     else:
-        if op == ")":
-            if operations.top() == "(":
-                operations.pop()
-                return
-            else:
-                doOp(operations.pop())
-                precedenceCheck(op)
-        else if op == "=":
+        if op == ")" and operations.top() == "(":
+            operations.pop()
+            return
+        else if op == "=" and (operations.top() == "=" or operations.top() == "!" or operations.top() == "<" or operations.top() == ">"):
             operations <-- push(op)
             return
         else:
