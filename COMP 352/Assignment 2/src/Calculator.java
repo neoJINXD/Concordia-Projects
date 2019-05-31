@@ -99,10 +99,12 @@ public class Calculator{
     private static void precedenceCheck(String current){
         int insidePrecedence, outsidePrecedence;
 
+        //Adds opening parentheses no matter what
         if (current.equals("(")){
             operations.push(current);
             return;
         }
+        //Makes sure the operator is added if the stack is empty
         if (operations.isEmpty()) insidePrecedence = 0;
         else insidePrecedence = getPrecedence(operations.top());
 
@@ -110,13 +112,16 @@ public class Calculator{
                     
         if (insidePrecedence < outsidePrecedence) operations.push(current);
         else { 
+            //Removes the opening bracket if and only if you have a closing bracket and no other operations are left in between
             if (current.equals(")") && operations.top().equals("(")){
-                    operations.pop();
-                    return;
+                operations.pop();
+                return;
             } else if (current.equals("=") && (operations.top().equals("=") || operations.top().equals("!") || operations.top().equals("<") || operations.top().equals(">"))){// TODO BROKE
+                //Equality checking operations
                 operations.push(current);
                 return;
             } else {
+                //Performing the operations if it has a higher precedence
                 doOp(operations.pop());
                 precedenceCheck(current);
             }
@@ -165,16 +170,19 @@ public class Calculator{
                     if (holder.matches("^\\d+$"))
                         numHolder += holder;
                     else {
+                        //Adds the buffer into the stack
                         if (!numHolder.equals("")){
                             values.push(Double.parseDouble(numHolder));
                             numHolder = "";
                         }
+                        //Checks if the previous operation should be performed first
                         precedenceCheck(holder);
                     }
                 }
                 //Pushes the remaining number in the buffer
                 if (!numHolder.equals(""))
                     values.push(Double.parseDouble(numHolder));
+                    
                 //If there are any operations left, perform them
                 while (!operations.isEmpty())
                     doOp(operations.pop());
