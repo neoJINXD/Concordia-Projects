@@ -1,0 +1,26 @@
+toggle():
+    depends on rebuild() and heapify(i)
+        rebuild() -> performs heapify(i) n/2 -1 times -> O(n)
+        heapify(i) -> performs logn times since it travels only on 1 side of the "binary heap" -> O(logn)
+    The whole toggle() method will then take O(n)*O(logn) = O(nlogn)
+
+
+remove(e):
+    In case the key to be removed is already at the top, it will only run logn times
+    Will traverse the array holding the heap, which is of size n -> O(n)
+    Calls heapify(i) which runs logn times -> O(logn)
+    Everything else is constant
+    The whole remove method will then be O(1)+O(n)+O(logn) = O(n)
+
+
+replaceKey(e,k):
+    Will traverse the array holding the heap, which is of size n -> O(n)
+    Calls heapify(i) which runs logn times - O(logn)
+    Everythign else is constant
+    The whole remove method will then be O(1)+O(n)+O(logn) = O(n)
+
+
+
+replaceValue(e,v): 
+    Follows the exact same logic as replaceKey, only it tries the find a specific value
+    As such it has the same performace -> O(n)

@@ -1,0 +1,106 @@
+//AFPQ Interface
+removeTop(): -------------------------------------------------------------------
+    out <- heap[0]
+    swap heap last and first positions
+    heap[size-1] <- null                        //removes the Entry previously at the Top
+    heapify(0)                                  //Fixed the heap from the root
+    return out
+
+
+insert(k,v):
+    location <- size
+    parent <- parent of location
+    if isMin:
+        while location > 0 and k < parent:
+            location <- parent
+            parent <- parent of new location
+    else:
+        while location > 0 and k > parent:
+            location <- parent
+            parent <- parent of new location
+    heap[locaiton] = new Entry(k,v)
+    size <- size + 1
+
+    if size is capacity-1:                      //Keeps a 1 position buffer before increasing heap size
+        increase heap size
+
+top():
+    if size is 0:   return null
+    else:           return value of heap[0]
+
+
+remove(e): -------------------------------------------------------------------
+
+
+
+replaceKey(e,k): 
+    found <- false                             //Assumes we wont find the key
+    for i <- 0, to size:
+        if key of heap[i] is e:
+            found <- true
+            break
+    if not found:   return null
+    else:   
+        out <- key of heap[i]                 //Makes copy to return
+        key of heap[i] <- k
+        return out
+
+
+replaceValue(e,v): 
+    found <- false                             //Assumes we wont find the key
+    for i <- 0, to size:
+        if key of heap[i] is e:
+            found <- true
+            break
+    if not found:   return null
+    else:   
+        out <- value of heap[i]                 //Makes copy to return
+        value of heap[i] <- v
+        return out
+
+
+toggle():
+    isMin <- not isMin                          //Flips the value of isMin
+    rebuild the heap
+
+
+state():
+    return true if the heap is organized as a MinPQ
+
+
+isEmpty():
+    return true if size is 0
+
+
+size():
+    return number of elements in the heap
+
+
+
+//Heap helpers
+heapify(index): 
+    current <- index
+    left <- left child of index
+    right <- right child of index
+
+    if isMin:
+        if left < size and key of heap[current] > heap[left]:
+            current <- left
+        if right < size and key of heap[current] > heap[left]:
+            current <- right
+    else:
+        if left < size and key of heap[current] < heap[left]:
+            current <- left
+        if right < size and key of heap[current] < heap[left]:
+            current <- right
+
+    if current is not index:
+        swap heap[index] and heap[current]
+        heapify(current)                                //Repeats with the new current index
+
+
+rebuild(): 
+    for i <- size/2 -1, to 0:                           //Goes backward from the last internal node
+        heapify(i)
+
+

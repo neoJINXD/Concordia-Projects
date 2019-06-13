@@ -1,0 +1,32 @@
+public class Entry<K extends Comparable<K>, V extends Comparable<V>>{
+
+    private V value;
+    private K key;
+    // private int index;
+
+    public Entry(K key, V val){
+        this.value = val;
+        this.key = key;
+        // this.index = index;
+    }
+
+    public V getValue(){
+        return this.value;
+    }
+
+    public void setValue(V val){
+        this.value = val;
+    }
+
+    public K getKey(){
+        return this.key;
+    }
+
+    public void setKey(K key){
+        this.key = key;
+    }
+
+    public String toString(){
+        return "{Key : " + this.key + ", Val: "+ this.value + "}";
+    }
+}
