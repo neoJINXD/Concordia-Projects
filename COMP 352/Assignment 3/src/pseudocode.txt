@@ -1,9 +1,13 @@
 //AFPQ Interface
-removeTop(): -------------------------------------------------------------------
+removeTop(): 
     out <- heap[0]
     swap heap last and first positions
-    heap[size-1] <- null                        //removes the Entry previously at the Top
-    heapify(0)                                  //Fixed the heap from the root
+    heap[size-1] <- null                            //removes the Entry previously at the Top
+    size <- size -1
+    heapify(0)                                      //Fixed the heap from the root
+    
+    if size == capacity/2: decrease heap size
+
     return out
 
 
@@ -21,46 +25,66 @@ insert(k,v):
     heap[locaiton] = new Entry(k,v)
     size <- size + 1
 
-    if size is capacity-1:                      //Keeps a 1 position buffer before increasing heap size
+    if size is capacity-1:                          //Keeps a 1 position buffer before increasing heap size
         increase heap size
+
 
 top():
     if size is 0:   return null
     else:           return value of heap[0]
 
 
-remove(e): -------------------------------------------------------------------
+remove(e): 
+    if heap is empty:       return null
+    if top of heap is 3:    return removeTop()
+    else:
+        found <- false                              //Assumes we wont find the key
+        for i <- 0, to size:
+            if key of heap[i] is e:
+                found <- true
+                break
+        if not found:       return null
+         
+        out <- heap[i]                              //Makes copy to return
+        heap[i] <- heap[size-1]                     //Puts last Entry in the position of the Entry being removed
+        heap[size-1] <- null
+        size <- size -1
 
+        heapify(i)
+
+        if size == capacity/2: decrease heap size
+
+        return out
 
 
 replaceKey(e,k): 
-    found <- false                             //Assumes we wont find the key
+    found <- false                                  //Assumes we wont find the key
     for i <- 0, to size:
         if key of heap[i] is e:
             found <- true
             break
     if not found:   return null
     else:   
-        out <- key of heap[i]                 //Makes copy to return
+        out <- key of heap[i]                       //Makes copy to return
         key of heap[i] <- k
         return out
 
 
 replaceValue(e,v): 
-    found <- false                             //Assumes we wont find the key
+    found <- false                                  //Assumes we wont find the key
     for i <- 0, to size:
         if key of heap[i] is e:
             found <- true
             break
     if not found:   return null
     else:   
-        out <- value of heap[i]                 //Makes copy to return
+        out <- value of heap[i]                     //Makes copy to return
         value of heap[i] <- v
         return out
 
 
 toggle():
-    isMin <- not isMin                          //Flips the value of isMin
+    isMin <- not isMin                              //Flips the value of isMin
     rebuild the heap
 
 
@@ -74,6 +98,7 @@ isEmpty():
 
 size():
     return number of elements in the heap
+
 
 
 
@@ -96,11 +121,11 @@ heapify(index):
 
     if current is not index:
         swap heap[index] and heap[current]
-        heapify(current)                                //Repeats with the new current index
+        heapify(current)                            //Repeats with the new current index
 
 
 rebuild(): 
-    for i <- size/2 -1, to 0:                           //Goes backward from the last internal node
+    for i <- size/2 -1, to 0:                       //Goes backward from the last internal node
         heapify(i)
 
 

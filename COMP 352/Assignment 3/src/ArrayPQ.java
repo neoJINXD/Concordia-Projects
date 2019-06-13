@@ -2,13 +2,10 @@ import java.util.Arrays;
 
 public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
 
-
     private Entry<K,V>[] heap;
     private boolean isMin;
     private int Qsize;
     private int capacity;
-
-    // private static int level = 1;
 
     public ArrayPQ(){
         this(3, false);
@@ -23,7 +20,6 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
     }
 
     public Entry<K,V> removeTop(){
-        //TODO CHECK DECREASE SIZE
         if(isEmpty()){
             return null;
         }
@@ -34,25 +30,24 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
 
         heapify(0);
 
+        if(this.Qsize == this.capacity/2){
+            decrease();
+        }
+
         return output;
     }
 
-    // @SuppressWarnings("unchecked")
     public void insert(K k, V v){
-        //TODO CHECK INCREASE SIZE
-
 
         int location = this.Qsize;
         int parent = parent(location);
         if(this.isMin){
-            //If Min Heap
             while(location > 0 && k.compareTo(this.heap[parent].getKey()) < 0){
                 this.heap[location] = this.heap[parent];
                 location = parent;
                 parent = parent(location);
             }
         } else {
-            //If Max Heap
             while(location > 0 && k.compareTo(this.heap[parent].getKey()) > 0){
                 this.heap[location] = this.heap[parent];
                 location = parent;
@@ -77,7 +72,6 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
     }
 
     public Entry<K,V> remove(K e){
-        //TODO CHECK DECREASE SIZE
         if(isEmpty()){
             return null;
         }
@@ -101,6 +95,11 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
             this.Qsize--;
 
             heapify(i);
+
+            if(this.Qsize == this.capacity/2){
+                decrease();
+            }
+
             return output;
         }
     }
@@ -140,7 +139,7 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
         this.heap[i].setValue(v);
         return out;
 
-    } // replace entry e’s value to v and return the old value.
+    }
 
     public void toggle(){
         this.isMin = !this.isMin;
@@ -215,14 +214,14 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
         int right = rightChild(index);
 
         if(this.isMin){
-            if(left < this.Qsize && this.heap[index].getKey().compareTo(this.heap[left].getKey()) > 0){
+            if(left < this.Qsize && this.heap[current].getKey().compareTo(this.heap[left].getKey()) > 0){
                 current = left;
             }
             if(right < this.Qsize && this.heap[current].getKey().compareTo(this.heap[right].getKey()) > 0){
                 current = right;
             }
         } else {
-            if(left < this.Qsize && this.heap[index].getKey().compareTo(this.heap[left].getKey()) < 0){
+            if(left < this.Qsize && this.heap[current].getKey().compareTo(this.heap[left].getKey()) < 0){
                 current = left;
             }
             if(right < this.Qsize && this.heap[current].getKey().compareTo(this.heap[right].getKey()) < 0){
@@ -233,11 +232,9 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
         if(current != index){
             //Do we need to change the ordering?
             swap(index, current);
-
             heapify(current);
         }
     }
-
 
     private void swap(int a, int b){
         Entry<K,V> temp = this.heap[a];
@@ -252,7 +249,6 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
 
     public static void main(String[] args){
         // TODO SETUP TEST CASES
-        // TODO WRITE PSEUDOCODE
         System.out.printf("IM ALIVE\n");
         ArrayPQ<Integer, String> pq = new ArrayPQ<>();
         pq.insert(4, "four");
