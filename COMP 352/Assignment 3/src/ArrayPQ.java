@@ -2,19 +2,19 @@ import java.util.Arrays;
 
 public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
 
-    private Entry<K,V>[] heap;
-    private boolean isMin;
-    private int Qsize;
-    private int capacity;
+    private Entry<K,V>[] heap;      //Array to store the Entries in the heap
+    private boolean isMin;          //Is this a MinHeap?
+    private int Qsize;              //Amount of elements in the PQ
+    private int capacity;           //Size of the array holding the heap
 
     public ArrayPQ(){
-        this(3, false);
+        this(3, true);
     }
 
     @SuppressWarnings("unchecked")
     public ArrayPQ(int size, boolean min){
         this.heap = (Entry<K,V>[]) new Entry[size];
-        this.isMin = true;
+        this.isMin = min;
         this.capacity = size;
         this.Qsize = 0;
     }
@@ -166,13 +166,17 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
         return this.Qsize;
     }
 
+    public int getCap(){
+        return this.capacity;
+    }
+
 
 
     //Dynamic Array size changers
     @SuppressWarnings("unchecked")
     private void increase(){
         //Holder's size becomes more than 2^(level+1) to keep a buffer
-        System.out.printf("OVERFLOW\n");
+        // System.out.printf("OVERFLOW\n");
         int newSize = this.capacity*2 +1;
         Entry<K,V>[] newHeap = (Entry<K,V>[]) new Entry[newSize];
         for(int i = 0; i<this.Qsize; i++){
@@ -185,7 +189,7 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
     @SuppressWarnings("unchecked")
     private void decrease(){
         //Holder's size becomes less than 2^(level-1) to keep a buffer
-        System.out.printf("UNDERFLOW\n");
+        // System.out.printf("UNDERFLOW\n");
         int newSize = this.capacity/2;
         Entry<K,V>[] newHeap = (Entry<K,V>[]) new Entry[newSize];
         for(int i = 0; i<this.Qsize; i++){
@@ -195,10 +199,14 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
         this.capacity = newSize;
     }
 
+
+
     //Indices for Heap
     private int leftChild(int index){ return (index*2)+1; }
     private int rightChild(int index){ return (index*2)+2; }
     private int parent(int index){ return index/2; }
+
+
 
 
     //Heap Helpers
@@ -245,35 +253,5 @@ public class ArrayPQ<K extends Comparable<K>, V extends Comparable<V>>{
     public String toString(){
         return Arrays.toString(this.heap);
     }
-
-
-    public static void main(String[] args){
-        // TODO SETUP TEST CASES
-        System.out.printf("IM ALIVE\n");
-        ArrayPQ<Integer, String> pq = new ArrayPQ<>();
-        pq.insert(4, "four");
-        pq.insert(1, "one");
-        pq.insert(7, "seven");
-        System.out.println(pq);
-        // pq.removeTop();
-        // pq.removeTop();
-        pq.toggle();
-
-        System.out.println(pq);
-        // pq.removeTop();
-        // pq.remove(7);
-        pq.replaceKey(7, 0);
-        pq.replaceValue(0, "NO");
-        // System.out.println(pq.remove(5));
-        System.out.println(pq);
-        pq.insert(3, "three");
-        pq.insert(15, "fifteen");
-        pq.insert(69, "sixtynine");
-        System.out.println(pq);
-        System.out.println(pq.capacity);
-    }
-
-
-
 
 }
