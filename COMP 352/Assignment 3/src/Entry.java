@@ -2,12 +2,10 @@ public class Entry<K extends Comparable<K>, V extends Comparable<V>>{
 
     private V value;
     private K key;
-    // private int index;
 
     public Entry(K key, V val){
         this.value = val;
         this.key = key;
-        // this.index = index;
     }
 
     public V getValue(){
