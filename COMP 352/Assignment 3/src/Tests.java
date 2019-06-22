@@ -83,10 +83,10 @@ public class Tests{
         System.out.printf("Testing insert with heap array dynamic sizing\n");
 
         System.out.printf("Initial PQ: \n%s\n\n", pq);
-        pq.insert(7, "seven");
-        pq.insert(10, "ten");
-        pq.insert(15, "fifteen");
-        pq.insert(1, "one");
+        pq.insert(3, "seven");
+        pq.insert(1, "ten");
+        pq.insert(2, "fifteen");
+        pq.insert(5, "one");
         if(pq.getCap() <= 3){
             System.out.printf("Failed to increase size\n");
         }
