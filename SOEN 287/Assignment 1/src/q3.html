@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Question 3</title>
+  </head>
+  <body>
+    <div>
+      <img
+        src="https://cdna.artstation.com/p/assets/images/images/014/022/902/large/aleksandr-sidelnikov-fgd.jpg?1542126197"
+        height="100"
+      />
+      <strong>Car Dealership</strong>
+    </div>
+    <br /><br />
+    <form action="">
+      <fieldset>
+        <legend>Customer Info</legend>
+
+        <label>Customer Name:</label><br />
+        <input type="text" placeholder="First Name" name="fname" />
+        <input type="text" placeholder="Last Name" name="lname" />
+        <br /><br />
+        <label>Customer Contact:</label>
+        <input type="tel" placeholder="xxx-xxx-xxxx" name="contact" />
+        <br /><br />
+        <label>Email: </label>
+        <input type="email" placeholder="email@address.com" name="email" />
+
+        <br /><br />
+      </fieldset>
+      <br /><br />
+      <fieldset>
+        <legend>Car Info</legend>
+
+        <label>Car Type:</label><br />
+        <input type="radio" name="type" value="coupe" checked />Coupe<br />
+        <input type="radio" name="type" value="sedan" />Sedan<br />
+        <input type="radio" name="type" value="suv" />SUV<br />
+        <br />
+        <label>Features:</label><br />
+        <input type="checkbox" name="feat" value="rear" checked />Rear View
+        Camera <input type="checkbox" name="feat" value="gps" />GPS
+        <input type="checkbox" name="feat" value="leather" />Leather Seats<br />
+        <br />
+        <label>Price Range:</label><br />
+        Minimum Price:
+        <input type="text" name="min" />
+        Maximum Price:
+        <input type="text" name="max" /><br />
+        <br />
+        <label>Car Colour:</label><br />
+        <input type="color" name="colour" /><br />
+        <br />
+        <label>Approximate Purchase Date:</label><br />
+        <input type="date" name="buyday" /><br />
+      </fieldset>
+
+      <p>Request a list of cars with quotes.</p>
+      <br />
+
+      <input type="submit" value="Search" />
+      <input type="reset" value="Start Over" />
+    </form>
+  </body>
+</html>

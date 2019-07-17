@@ -1,0 +1,106 @@
+body {
+  background-image: url("https://cdna.artstation.com/p/assets/images/images/002/055/210/original/liz-kirby-4square.gif?1550353867");
+}
+
+.header {
+  width: 20%;
+  margin: 150px;
+  padding: 15px;
+  border-style: solid;
+  border-width: 10px;
+  border-color: blue;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.header h1 {
+  font: normal bolder 20pt "Comic Sans MS", serif;
+}
+
+.listtable {
+  width: 24%;
+  margin: 150px;
+  padding: 20px;
+  border-style: solid double dashed dotted;
+  border-width: 15px;
+  border-color: crimson;
+  background-color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+.greek {
+  list-style-type: lower-greek;
+}
+
+.headers {
+  font: normal bold 12pt "Verdana", serif;
+  background-color: pink;
+  border-style: solid;
+  border-color: pink;
+  padding: 30px;
+  height: 35px;
+}
+
+#r2c1 {
+  font: normal normal 10pt "Verdana", serif;
+  padding: 10px;
+  background-color: cornflowerblue;
+  border: 5px solid salmon;
+}
+
+#r2c2 {
+  font: normal normal 10pt "Verdana", serif;
+  padding: 0;
+  background-color: brown;
+  border: 5px solid blue;
+}
+
+#r3c1 {
+  font: normal normal 10pt "Verdana", serif;
+  padding: 10px;
+  background-color: chartreuse;
+  border: 5px solid yellow;
+}
+
+#r3c2 {
+  font: normal normal 10pt "Verdana", serif;
+  padding: 0;
+  background-color: blueviolet;
+  border: 5px solid deeppink;
+}
+
+#ul1 {
+  list-style-image: url("/images/bullet1.png");
+  padding: 0 25px;
+}
+
+#ul2 {
+  color: blue;
+  padding: 0 25px;
+}
+
+#greek1 {
+  color: deeppink;
+  list-style-type: square;
+  padding: 0 25px;
+}
+
+#greek2 {
+  list-style-image: url("/images/bullet2.png");
+  padding: 0 25px;
+}
+
+.foot {
+  width: 15%;
+  border: 5px double white;
+  background-color: black;
+  color: whitesmoke;
+  padding: 15px;
+}
+
+#links a {
+  color: aqua;
+}
+
+#links :hover {
+  color: aliceblue;
+}
