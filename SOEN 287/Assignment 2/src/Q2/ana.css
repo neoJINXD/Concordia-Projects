@@ -1,0 +1,8 @@
+#statsOut {
+  font: normal normal 16pt "Comic Sans MS", serif;
+  border: 3px solid red;
+  margin: 0 auto;
+  padding: 0;
+  width: 50vh;
+  text-align: center;
+}
