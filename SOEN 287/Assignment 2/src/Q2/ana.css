@@ -6,3 +6,7 @@
   width: 50vh;
   text-align: center;
 }
+
+#statsOut span {
+  text-decoration: underline;
+}
