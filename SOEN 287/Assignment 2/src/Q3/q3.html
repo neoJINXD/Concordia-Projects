@@ -10,11 +10,29 @@
   </head>
   <body>
     <form action="">
-      <label>Input String:</label>
-      <input id="inString" type="text" /><br />
-      <label>Input Word:</label>
-      <input id="inChars" type="text" /><br />
-      <input type="button" onclick="generateGraph()" value="Plot Histogram" />
+      <table border="5">
+        <tr class="odd">
+          <td>
+            <label>Input String:</label>
+          </td>
+          <td><input id="inString" type="text" /><br /></td>
+        </tr>
+        <tr class="even">
+          <td>
+            <label>Input Word:</label>
+          </td>
+          <td><input id="inChars" type="text" /><br /></td>
+        </tr>
+        <tr class="odd">
+          <td colspan="2">
+            <input
+              type="button"
+              onclick="generateGraph()"
+              value="Plot Histogram"
+            />
+          </td>
+        </tr>
+      </table>
     </form>
     <div id="histogram"></div>
     <script src="./q3.js"></script>
