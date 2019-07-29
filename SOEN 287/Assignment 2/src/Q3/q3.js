@@ -1,5 +1,16 @@
-var inputString;
-var inputChars;
+var inputString = "";
+var inputChars = [];
+var charCounts = [];
+var graphExists = false;
+
+const layout = {
+  title: "Character Presence Histogram",
+  font: {
+    family: "Comic Sans MS, serif"
+  },
+  showlegend: false,
+  bargap: 0.05
+};
 
 const getInfo = () => {
   console.log("boutton");
@@ -9,25 +20,33 @@ const getInfo = () => {
   console.log(inputChars);
 };
 
-var data = [
-  {
-    x: ["a", "b", "c"],
-    y: [13, 5, 35],
-    type: "bar",
-    marker: {
-      color: "rgb(255,0,0)"
-    },
-    width: 0.05
+const countChars = () => {
+  for (let i in inputChars) {
+    let currentChar = inputChars[i];
+    let currentCount = (inputString.match(new RegExp(currentChar, "g")) || [])
+      .length;
+    charCounts.push(currentCount);
   }
-];
-
-var layout = {
-  title: "TITLE",
-  font: {
-    family: "Comic Sans MS, serif"
-  },
-  showlegend: false,
-  bargap: 0.05
 };
 
-Plotly.newPlot("histogram", data, layout, { showSendToCloud: true });
+const generateGraph = () => {
+  if (graphExists) {
+    Plotly.deleteTraces("histogram", 0);
+    graphExists = false;
+  }
+  getInfo();
+  countChars();
+  let data = [
+    {
+      x: inputChars,
+      y: charCounts,
+      type: "bar",
+      marker: {
+        color: "rgb(255,48,48)"
+      }
+    }
+  ];
+
+  Plotly.newPlot("histogram", data, layout);
+  graphExists = true;
+};
