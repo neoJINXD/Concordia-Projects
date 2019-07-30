@@ -1,16 +1,15 @@
-// var number;
+var number;
 
 function validateNumber() {
-  let number = document.getElementById("input-number").value;
+  number = document.getElementById("input-number").value;
   if (isNaN(number)) {
     alert("Please enter a numeric value!");
     number = null;
   }
-  return number;
 }
 
 function isPrimeNumber() {
-  let number = validateNumber();
+  validateNumber();
   if (!number) {
     //Checking if previous failed or not
     return;
@@ -22,14 +21,14 @@ function isPrimeNumber() {
     }
   }
   if (isPrime) {
-    let reverse = reverseNumber(number);
+    let reverse = reverseNumber();
     alert(`This is a Prime and the Reverse is: ${reverse}`);
   } else {
     alert("This is not a Prime!");
   }
 }
 
-function reverseNumber(number) {
+function reverseNumber() {
   let temp = number.toString();
   let reversed = [];
   for (let i = 0; i < temp.length; i++) {
