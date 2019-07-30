@@ -1,0 +1,24 @@
+.text-info {
+  font: normal bold 14pt "Comic Sans MS";
+}
+
+#output {
+  margin: 50px 10px;
+  padding: 10px;
+  font: normal bold 10pt "Comic Sans MS";
+  border: solid 1px black;
+  width: 50vh;
+}
+
+.output-text {
+  margin: 10px 0;
+}
+
+#inner-title {
+  text-decoration: underline;
+  font-size: 12pt;
+}
+
+#no-redact {
+  background-color: rgb(200, 200, 255);
+}

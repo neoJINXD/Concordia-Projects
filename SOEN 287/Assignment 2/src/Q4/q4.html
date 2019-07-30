@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Question 4</title>
+    <link type="text/css" rel="stylesheet" href="./q4.css" />
+    <script src="./buttonHandler.js"></script>
+  </head>
+  <body>
+    <form>
+      <label class="text-info">Enter a sentence:</label><br />
+      <input type="text" id="user-input" />
+      <input
+        type="button"
+        id="button-input"
+        value="REDACT?"
+        onclick="HideMe()"
+      />
+    </form>
+    <div id="output">
+      <span id="inner-title">Redacted(?) Texts:</span><br />
+      <span id="no-redact"></span>
+    </div>
+    <script src="./tester.js"></script>
+  </body>
+</html>
