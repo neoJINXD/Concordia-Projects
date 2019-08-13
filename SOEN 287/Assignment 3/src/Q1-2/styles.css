@@ -1,0 +1,18 @@
+* {
+  /* margin: 0; */
+  /* padding: 0; */
+}
+
+label {
+  margin: 20px;
+
+  font: normal normal 12pt "Comic Sans MS", serif;
+}
+
+.validation-error {
+  color: red;
+}
+
+#submit-btn {
+  visibility: visible;
+}
