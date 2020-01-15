@@ -23,7 +23,9 @@ window.onload = () => {
   };
 
   while (fails < 5) {
-    let tempInput = window.prompt("Enter 2 strings seperated by a space");
+    let tempInput = window.prompt(
+      "Enter 2 strings seperated by a space, -1 to stop"
+    );
     let tempInputArray = tempInput.split(" ");
     console.log(tempInputArray);
 

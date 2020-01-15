@@ -15,6 +15,7 @@
                 setcookie('counter', ++$_COOKIE['counter'], time()+60);
                 print("Welcome back friend :)!<br/> This is visit number ".$_COOKIE['counter']);
             } else {
+              
                 setcookie('counter', 1, time()+60);
                 print("Welcome first time user!");
             }

@@ -11,15 +11,24 @@ function validateNumber() {
 function isPrimeNumber() {
   validateNumber();
   if (!number) {
-    //Checking if previous failed or not
+    // Checking if previous failed or not
     return;
   }
   let isPrime = true;
+
+  // Checks for prime status
   for (let i = 2; i < number; i++) {
     if (number % i == 0) {
       isPrime = false;
     }
   }
+
+  // Exceptions
+  if (number == 2 || number == 1) {
+    isPrime = false;
+  }
+
+  // Prints alerts
   if (isPrime) {
     let reverse = reverseNumber();
     alert(`This is a Prime and the Reverse is: ${reverse}`);
