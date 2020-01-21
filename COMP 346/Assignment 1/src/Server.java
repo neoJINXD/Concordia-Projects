@@ -306,7 +306,16 @@ public class Server extends Thread {
         System.out
                 .println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
 
+        serverStartTime = System.currentTimeMillis();
         /* Implement the code for the run method */
+
+        // TODO
+        processTransactions(trans);
+        if ((!objNetwork.getInBufferStatus().equals("empty")) || (objNetwork.getOutBufferStatus().equals("full"))) {
+            Server.yield();
+        }
+
+        serverEndTime = System.currentTimeMillis();
 
         System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime)
                 + " milliseconds");

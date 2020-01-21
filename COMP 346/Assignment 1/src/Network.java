@@ -517,8 +517,17 @@ public class Network extends Thread {
     public void run() {
         System.out.println("\n DEBUG : Network.run() - starting network thread");
 
+        // Client and server need to be connected to the network
+        // using connect()
+        // Network has input and output buffers to receive transactions from client
+        // return updated to the client
+        // 10 elements per buffer
+
         while (true) {
             /* Implement the code for the run method */
+            while ((clientConnectionStatus.equals("connected")) || (serverConnectionStatus.equals("connected"))) {
+                Network.yield();
+            }
         }
     }
 }

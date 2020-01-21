@@ -201,5 +201,33 @@ public class Client extends Thread {
         long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
 
         /* Implement the code for the run method */
+        if (clientOperation.equals("sending")) {
+            sendClientStartTime = System.currentTimeMillis();
+
+            sendTransactions();
+
+            while (objNetwork.getInBufferStatus().equals("full")) {
+                Client.yield();
+            }
+
+            sendClientEndTime = System.currentTimeMillis();
+
+            System.out.println("\n Terminating client send thread - " + " Running time "
+                    + (sendClientEndTime - sendClientStartTime) + " milliseconds");
+        } else if (clientOperation.equals("sending")) {
+            receiveClientStartTime = System.currentTimeMillis();
+
+            receiveTransactions(transact);
+            while (objNetwork.getOutBufferStatus().equals("empty")) {
+                Client.yield();
+            }
+
+            receiveClientEndTime = System.currentTimeMillis();
+
+            System.out.println("\n Terminating client receive thread - " + " Running time "
+                    + (receiveClientEndTime - receiveClientStartTime) + " milliseconds");
+        }
+
+        // TODO
     }
 }
