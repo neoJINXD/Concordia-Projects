@@ -21,8 +21,12 @@ public class Network extends Thread {
     private static String clientIP; /* IP number of the client application */
     private static String serverIP; /* IP number of the server application */
     private static int portID; /* Port ID of the client application */
-    private static String clientConnectionStatus; /* Client connection status - connected, disconnected, idle */
-    private static String serverConnectionStatus; /* Server connection status - connected, disconnected, idle */
+    private static String clientConnectionStatus; /*
+                                                   * Client connection status - connected, disconnected, idle
+                                                   */
+    private static String serverConnectionStatus; /*
+                                                   * Server connection status - connected, disconnected, idle
+                                                   */
     private static Transactions inComingPacket[]; /* Incoming network buffer */
     private static Transactions outGoingPacket[]; /* Outgoing network buffer */
     private static String inBufferStatus,
@@ -483,6 +487,7 @@ public class Network extends Thread {
      * 
      */
     public boolean disconnect(String IP) {
+        System.out.println("Atmepting disconnect on " + IP);
         if (getNetworkStatus().equals("active")) {
             if (getClientIP().equals(IP)) {
                 setClientConnectionStatus("disconnected");
@@ -517,17 +522,19 @@ public class Network extends Thread {
     public void run() {
         System.out.println("\n DEBUG : Network.run() - starting network thread");
 
-        // Client and server need to be connected to the network
-        // using connect()
-        // Network has input and output buffers to receive transactions from client
-        // return updated to the client
-        // 10 elements per buffer
-
         while (true) {
             /* Implement the code for the run method */
-            while ((clientConnectionStatus.equals("connected")) || (serverConnectionStatus.equals("connected"))) {
-                Network.yield();
+            System.out.println(serverConnectionStatus);
+
+            if (clientConnectionStatus.equals("disconnected") && serverConnectionStatus.equals("disconnected")) {
+                System.out.println("breaks");
+                break;
+
             }
+            Network.yield();
+
         }
+
+        System.out.println("\n Terminating network thread - Client & Server diconnected");
     }
 }

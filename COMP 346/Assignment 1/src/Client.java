@@ -142,8 +142,12 @@ public class Client extends Thread {
         int i = 0; /* index of transaction array */
 
         while (i < getNumberOfTransactions()) {
-            // while( objNetwork.getInBufferStatus().equals("full") ); /* Alternatively,
-            // busy-wait until the network input buffer is available */
+            while (objNetwork.getInBufferStatus().equals("full")) {
+                Client.yield();
+            }
+            /*
+             * Alternatively, // busy-wait until the network input buffer is available
+             */
 
             transaction[i].setTransactionStatus("sent"); /* Set current transaction status */
 
@@ -166,8 +170,13 @@ public class Client extends Thread {
         int i = 0; /* Index of transaction array */
 
         while (i < getNumberOfTransactions()) {
-            // while( objNetwork.getOutBufferStatus().equals("empty")); /* Alternatively,
-            // busy-wait until the network output buffer is available */
+            while (objNetwork.getOutBufferStatus().equals("empty")) {
+                Client.yield();
+            }
+
+            /*
+             * Alternatively, // busy-wait until the network output buffer is available
+             */
 
             objNetwork.receive(transact); /* Receive updated transaction from the network buffer */
 
@@ -202,32 +211,43 @@ public class Client extends Thread {
 
         /* Implement the code for the run method */
         if (clientOperation.equals("sending")) {
+            System.out.println("\n DEBUG : Client.run() - starting client sending thread connected");
             sendClientStartTime = System.currentTimeMillis();
 
+            // while (true) { // TODO condition
+
+            // if (objNetwork.getInBufferStatus().equals("full")) {
+            // Client.yield();
+            // }
             sendTransactions();
 
-            while (objNetwork.getInBufferStatus().equals("full")) {
-                Client.yield();
-            }
+            // }
 
             sendClientEndTime = System.currentTimeMillis();
 
             System.out.println("\n Terminating client send thread - " + " Running time "
                     + (sendClientEndTime - sendClientStartTime) + " milliseconds");
-        } else if (clientOperation.equals("sending")) {
+
+        } else if (clientOperation.equals("receiving")) {
+            System.out.println("\n DEBUG : Client.run() - starting client receiving thread connected");
+
             receiveClientStartTime = System.currentTimeMillis();
 
+            // while (true) { // TODO condition
+
+            // if (objNetwork.getOutBufferStatus().equals("empty")) {
+            // Client.yield();
+            // }
             receiveTransactions(transact);
-            while (objNetwork.getOutBufferStatus().equals("empty")) {
-                Client.yield();
-            }
+
+            // }
 
             receiveClientEndTime = System.currentTimeMillis();
+            objNetwork.disconnect(objNetwork.getClientIP());
 
             System.out.println("\n Terminating client receive thread - " + " Running time "
                     + (receiveClientEndTime - receiveClientStartTime) + " milliseconds");
         }
 
-        // TODO
     }
 }
