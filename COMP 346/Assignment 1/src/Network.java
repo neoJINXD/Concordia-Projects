@@ -487,7 +487,6 @@ public class Network extends Thread {
      * 
      */
     public boolean disconnect(String IP) {
-        System.out.println("Atmepting disconnect on " + IP);
         if (getNetworkStatus().equals("active")) {
             if (getClientIP().equals(IP)) {
                 setClientConnectionStatus("disconnected");
@@ -524,7 +523,7 @@ public class Network extends Thread {
 
         while (true) {
             /* Implement the code for the run method */
-            System.out.println(serverConnectionStatus);
+            // System.out.println(serverConnectionStatus);
 
             if (clientConnectionStatus.equals("disconnected") && serverConnectionStatus.equals("disconnected")) {
                 System.out.println("breaks");
