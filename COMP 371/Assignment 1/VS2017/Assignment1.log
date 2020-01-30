@@ -1,0 +1,4 @@
+﻿  lab02.cpp
+C:\Users\anik_\Documents\Coding_shit\Concordia-Projects\COMP 371\Assignment 1\VS2017\src\lab02.cpp(228,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\anik_\Documents\Coding_shit\Concordia-Projects\COMP 371\Assignment 1\VS2017\src\lab02.cpp(373,9): warning C4101: 'ptr': unreferenced local variable
+  Assignment1.vcxproj -> C:\Users\anik_\Documents\Coding_shit\Concordia-Projects\COMP 371\Assignment 1\VS2017\/../Bin/Assignment1-Debug.exe
