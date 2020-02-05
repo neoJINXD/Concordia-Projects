@@ -19,6 +19,8 @@
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp> // include this to create transformation matrices
 
+void wasdMovement(GLFWwindow* win, float* speed, float deltaTime, glm::vec3* camEye, glm::vec3* camCenter, glm::vec3* camUp);
+
 const char* getVertexShaderSource()
 {
     // For now, you use a string for your shader code, in the assignment, shaders will be stored in .glsl files
@@ -208,19 +210,40 @@ int run()
 
     //glEnable(GL_CULL_FACE);
 
-    float speed = 1.0f;
+    float sped = 1.0f;
+    float* speed = &sped;
+    
     //glm::mat4 defaultStart = glm::mat4(1.0f);
-    glm::vec3 camEye = glm::vec3(0.0f, 0.0f, 3.0f);
+
+
+    glm::vec3 Eye = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::vec3 camDefaultTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-    //glm::vec3 camCenter = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 camCenter = glm::normalize(camEye - camDefaultTarget);
-    glm::vec3 camUp = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 camRight = glm::normalize(glm::cross(camUp, camCenter));
+    glm::vec3 Center = glm::vec3(0.0f, 0.0f, -1.0f);
+    //glm::vec3 Center = glm::normalize(Eye - camDefaultTarget);
+    glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
+    //glm::vec3 camRight = glm::normalize(glm::cross(Up, Center));
+
+    /*
+            *camEye = glm::vec3(0.0f, 0.0f, 0.0f);
+            *camCenter = glm::vec3(0.0f, 0.0f, -1.0f);
+            *camUp = glm::vec3(0.0f, 1.0f, 0.0f);
+            */
+
+    glm::vec3* camEye = &Eye;
+    glm::vec3* camCenter = &Center;
+    glm::vec3* camUp = &Up;
+
+
+    std::cout << "We heading into Perspective" << std::endl;
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f),  // field of view in degrees
+        800.0f / 600.0f,      // aspect ratio
+        0.01f, 100.0f);       // near and far (near > 0)
 
 
     // Entering Main Loop
     while(!glfwWindowShouldClose(window))
     {
+        
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_COLOR_BUFFER_BIT);
         
@@ -262,108 +285,18 @@ int run()
         glfwPollEvents();
         
         // Handle inputs
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, true);
+        wasdMovement(window, speed, dt, camEye, camCenter, camUp);
+
 
         // View Transform
-        // by default, camera is centered at the origin and look towards negative z-axis
-        if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-        {
-            std::cout << "Resetting position" << std::endl;
-
-            camEye = glm::vec3(0.0f, 0.0f, 0.0f);
-            camCenter = glm::vec3(0.0f, 0.0f, -1.0f);
-            camUp = glm::vec3(0.0f, 1.0f, 0.0f);
-
-            //glm::mat4 viewMatrix = glm::mat4(1.0f);
-            glm::mat4 viewMatrix = glm::lookAt(camEye, camCenter, camUp);
-
-            GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-            glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-        }
-
+        GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
+        glm::mat4 viewMatrix = glm::lookAt(*camEye, *camEye + *camCenter, *camUp);
+        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
         // Projection Transform
-        if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-        {
-            std::cout << "We heading into Perspective" << std::endl;
-            glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f),  // field of view in degrees
-                800.0f / 600.0f,      // aspect ratio
-                0.01f, 100.0f);       // near and far (near > 0)
-
-            GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
-            glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
-        {
-            std::cout << "We heading into Orthographic" << std::endl;
-            glm::mat4 projectionMatrix = glm::ortho(-4.0f, 4.0f,    // left/right
-                -3.0f, 3.0f,    // bottom/top
-                -100.0f, 100.0f);  // near/far (near == 0 is ok for ortho)
-
-            GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
-            glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-            float yesSpeed = speed * dt;
-
-            GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-
-            camEye += camCenter * yesSpeed;
-            glm::mat4 viewMatrix = glm::lookAt(camEye, camEye + camCenter, camUp);
-
-            glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-        }
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-            float yesSpeed = speed * dt;
-
-            GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-
-            camEye -= camCenter * yesSpeed;
-            glm::mat4 viewMatrix = glm::lookAt(camEye, camEye + camCenter, camUp);
-
-            glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-            float yesSpeed = speed * dt;
-
-            GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-
-            glm::vec3 movement = glm::normalize(glm::cross(camUp, camCenter)) * yesSpeed;
-            camEye += movement;
-            //camCenter += movement;
-            glm::mat4 viewMatrix = glm::lookAt(camEye, camEye + camCenter, camUp);
-
-            glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-            float yesSpeed = speed * dt;
-
-            GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-
-            glm::vec3 movement = glm::normalize(glm::cross(camCenter, camUp)) * yesSpeed;
-            camEye += movement;
-            //camCenter += movement;
-            glm::mat4 viewMatrix = glm::lookAt(camEye, camEye + camCenter, camUp);
-
-            glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-            // Speeds up
-            std::cout << "SPEEDING UP!!" << std::endl;
-            speed = 10.0f;
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) {
-            // Returns to default speed
-            std::cout << "Returning to normal" << std::endl;
-            speed = 1.0f;
-        }
+        GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
+        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
+        
     }
     
     // Shutdown GLFW
@@ -375,13 +308,13 @@ int run()
 void wasdMovement(GLFWwindow* win, float* speed, float deltaTime, glm::vec3* camEye, glm::vec3* camCenter, glm::vec3* camUp) { // TODO should probably pass pointers to the cam variables?
     // Calcualting a speed normalized based on how much time has passed,
     // speed is no longer affected by fps
-    float normalizedSpeed = *speed * deltaTime;
+    if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(win, true);
+    }
 
+    float normalizedSpeed = *speed * deltaTime;
     if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
-        //GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
         *camEye += *camCenter * normalizedSpeed;
-        //glm::mat4 viewMatrix = glm::lookAt(*camEye, *camEye + *camCenter, *camUp);
-        //glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
     }
     if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
         *camEye -= *camCenter * normalizedSpeed;
@@ -401,5 +334,15 @@ void wasdMovement(GLFWwindow* win, float* speed, float deltaTime, glm::vec3* cam
     if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) {
         // Returning to normal speed
         *speed = 1.0f;
+    }
+
+    // by default, camera is centered at the origin and look towards negative z-axis
+    if (glfwGetKey(win, GLFW_KEY_1) == GLFW_PRESS)
+    {
+        std::cout << "Resetting position" << std::endl;
+
+        *camEye = glm::vec3(0.0f, 0.0f, 0.0f);
+        *camCenter = glm::vec3(0.0f, 0.0f, -1.0f);
+        *camUp = glm::vec3(0.0f, 1.0f, 0.0f);
     }
 };
