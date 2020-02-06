@@ -146,7 +146,7 @@ int main() {
 	float spd = 1.0f;
 	float* speed = &spd;
 	
-	glm::vec3 Eye = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 Eye = glm::vec3(0.0f, 0.0f, 10.0f);
 	glm::vec3 camDefaultTarget = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 Center = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
