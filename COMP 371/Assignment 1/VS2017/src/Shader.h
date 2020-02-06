@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include <GL/glew.h>
+//#include <GL/glew.h>
 
 using std::string;
 
@@ -10,17 +10,16 @@ using std::string;
 class Shader
 {
 public:
-	Shader();
+	Shader(string vertFilePath, string fragFilePath);
 	~Shader();
-	void printV();
-	void printF();
+	int shaderProgram;
+	
 private:
 	string vertShader;
 	string fragShader;
-	static string readShaderFile(const char* filePath);
-	GLuint compileShader();
-	GLuint buildShader();
-
-
+	int vertShaderID;
+	int fragShaderID;
+	string readShaderFile(const char* filePath);
+	void compileShader();
+	void linkShader();
 };
-
