@@ -2,3 +2,5 @@ Bin/
 Build/
 ThirdParty/
 .vs/
+
+*.log
