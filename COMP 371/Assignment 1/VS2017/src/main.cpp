@@ -151,6 +151,11 @@ int main() {
 		glfwSwapBuffers(win);
 		// check/call events
 		glfwPollEvents();
+
+		// escape to close window
+		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+			glfwSetWindowShouldClose(win, true);
+		}
 	
 	}
 

@@ -37,10 +37,6 @@ Camera::~Camera() {
 }
 
 void Camera::processMovement(GLFWwindow* win, float deltaTime) {
-	// escape to close window
-	if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		glfwSetWindowShouldClose(win, true);
-	}
 
 	// Calcualting a speed normalized based on how much time has passed,
 	// speed is no longer affected by fps
