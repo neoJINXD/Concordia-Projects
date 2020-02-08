@@ -1,5 +1,6 @@
 #include "Camera.h"
 
+//#include <iostream>
 
 //#include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -7,7 +8,7 @@
 
 
 
-Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, ProjectionType Type) {
+Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, ProjectionType Type, GLFWwindow* win) {
 	/*glm::vec3 Eye(0.0f, 0.0f, 10.0f);
 	glm::vec3 Center(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up(0.0f, 1.0f, 0.0f);*/
@@ -27,6 +28,7 @@ Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, 
 
 	}
 
+	glfwGetCursorPos(win, &mousePosX, &mousePosY);
 }
 
 Camera::~Camera() {
@@ -73,9 +75,36 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 		*camCenter = glm::vec3(0.0f, 0.0f, -1.0f);
 		*camUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	}
+
+	// mouse movement handling
+	float dx = mousePosX - oldMousePosX;
+	float dy = mousePosY - oldMousePosY;
+	if (dx != 0 || dy != 0) {
+
+		if (dx < 0) {
+			//std::cout << "Left" << std::endl;
+		}
+		else {
+			//std::cout << "Right" << std::endl;
+		}
+		if (dy < 0) {
+			//std::cout << "Up" << std::endl;
+		}
+		else {
+			//std::cout << "Down" << std::endl;
+		}
+	}
 }
 
-void Camera::updateView(Shader sh) {
+void Camera::updateView(Shader sh, GLFWwindow* win) {
+	oldMousePosX = mousePosX;
+	oldMousePosY = mousePosY;
+
+	glfwGetCursorPos(win, &mousePosX, &mousePosY);
+
+	
+
+
 	// View Transform - from camera movement
 	GLuint viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
 	viewMatrix = glm::lookAt(*camEye, *camEye + *camCenter, *camUp);

@@ -23,20 +23,23 @@ class Camera
 {
 
 public:
-	Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, ProjectionType Type);
+	Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, ProjectionType Type, GLFWwindow* win);
 	~Camera();
 	void processMovement(GLFWwindow* win, float deltaTime);
 
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
 
-	void updateView(Shader sh);
+	void updateView(Shader sh, GLFWwindow* win);
 
 private:
 	float* speed;
 	glm::vec3* camEye; // position of the cam
 	glm::vec3* camCenter; // where looking
 	glm::vec3* camUp; // where up is
+	double oldMousePosX, oldMousePosY;
+	double mousePosX, mousePosY;
+
 
 
 };

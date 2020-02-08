@@ -106,10 +106,13 @@ int main() {
 	glm::vec3 Center = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	Camera cam(&Eye, &Center, &Up, &spd, PERSPECTIVE);
+	Camera cam(&Eye, &Center, &Up, &spd, PERSPECTIVE, win);
 
 	
 	float lastFrameTime = glfwGetTime();
+	//double oldMousePosX, oldMousePosY;
+	//glfwGetCursorPos(win, &oldMousePosX, &oldMousePosY);
+
 	
 	while (!glfwWindowShouldClose(win))
 	{
@@ -145,7 +148,7 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		// performing view and projection transformations
-		cam.updateView(sh);
+		cam.updateView(sh, win);
 
 		// swap buffers
 		glfwSwapBuffers(win);
