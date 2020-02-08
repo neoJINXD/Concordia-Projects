@@ -73,7 +73,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Creating GLFW window
-	GLFWwindow* win = glfwCreateWindow(1280, 720, "COMP371 - Assignment 1", NULL, NULL);
+	GLFWwindow* win = glfwCreateWindow(1024, 768, "COMP371 - Assignment 1", NULL, NULL);
 	if (win == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
