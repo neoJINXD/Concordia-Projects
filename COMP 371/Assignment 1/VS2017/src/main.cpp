@@ -136,7 +136,7 @@ int main() {
 	float lastFrameTime = glfwGetTime();
 	//double oldMousePosX, oldMousePosY;
 	//glfwGetCursorPos(win, &oldMousePosX, &oldMousePosY);
-
+	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	while (!glfwWindowShouldClose(win))
 	{

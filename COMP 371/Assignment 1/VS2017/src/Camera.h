@@ -39,8 +39,10 @@ private:
 	glm::vec3* camUp; // where up is
 	double oldMousePosX, oldMousePosY;
 	double mousePosX, mousePosY;
-	float cameraHorizontalAngle;
-	float cameraVerticalAngle;
+	/*float cameraHorizontalAngle;
+	float cameraVerticalAngle;*/
+
+	float yaw, pitch;
 
 
 

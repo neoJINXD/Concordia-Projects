@@ -30,11 +30,11 @@ Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, 
 
 	}
 
-	cameraHorizontalAngle = 90.0f;
-	cameraVerticalAngle = 0.0f;
 
-	glfwGetCursorPos(win, &mousePosX, &mousePosY);
 	glfwGetCursorPos(win, &oldMousePosX, &oldMousePosY);
+
+	yaw = -90.0f;
+	pitch = 0.0f;
 
 }
 
@@ -84,38 +84,33 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 	}
 
 	// mouse movement handling
-	float dx = mousePosX - oldMousePosX;
-	float dy = mousePosY - oldMousePosY;
-	if (dx != 0 || dy != 0) {
+	//float dx = mousePosX - oldMousePosX;
+	//float dy = mousePosY - oldMousePosY;
+	//if (dx != 0 || dy != 0) {
 
-		if (dx < 0) {
-			//std::cout << "Left" << std::endl;
-		}
-		else {
-			//std::cout << "Right" << std::endl;
-		}
-		if (dy < 0) {
-			//std::cout << "Up" << std::endl;
-		}
-		else {
-			//std::cout << "Down" << std::endl;
-		}
-	}
-
-	
-
-	
+	//	if (dx < 0) {
+	//		//std::cout << "Left" << std::endl;
+	//	}
+	//	else {
+	//		//std::cout << "Right" << std::endl;
+	//	}
+	//	if (dy < 0) {
+	//		//std::cout << "Up" << std::endl;
+	//	}
+	//	else {
+	//		//std::cout << "Down" << std::endl;
+	//	}
+	//}
 
 }
 
 void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 
+	/*double mousePosX, mousePosY;
 	glfwGetCursorPos(win, &mousePosX, &mousePosY);
 
-
-
-	float dx = mousePosX - oldMousePosX;
-	float dy = mousePosY - oldMousePosY;
+	double dx = mousePosX - oldMousePosX;
+	double dy = mousePosY - oldMousePosY;
 
 	oldMousePosX = mousePosX;
 	oldMousePosY = mousePosY;
@@ -131,12 +126,31 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 	float theta = glm::radians(cameraHorizontalAngle);
 	float phi = glm::radians(cameraVerticalAngle);
 
-	*camCenter = glm::vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));
-	//glm::vec3 cameraSideVector = glm::cross(*camCenter, glm::vec3(0.0f, 1.0f, 0.0f));
+	*camCenter = glm::vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));*/
+	
+	double mousePosX, mousePosY;
+	glfwGetCursorPos(win, &mousePosX, &mousePosY);
 
-	//glm::normalize(cameraSideVector);
+	double dx = mousePosX - oldMousePosX;
+	double dy = mousePosY - oldMousePosY;
 
+	oldMousePosX = mousePosX;
+	oldMousePosY = mousePosY;
 
+	float sensitivity = 0.1f;
+	dx *= sensitivity;
+	dy *= -sensitivity;
+
+	yaw += dx;
+	pitch += dy;
+
+	pitch = std::max(-89.0f, std::min(89.0f, pitch));
+
+	*camCenter = glm::normalize(glm::vec3(
+		cosf(glm::radians(yaw)) * cosf(glm::radians(pitch)), 
+		sinf(glm::radians(pitch)), 
+		sin(glm::radians(yaw)) * cos(glm::radians(pitch))
+	));
 
 	// View Transform - from camera movement
 	GLuint viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
