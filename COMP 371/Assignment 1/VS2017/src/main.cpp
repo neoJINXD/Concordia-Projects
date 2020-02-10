@@ -7,16 +7,38 @@
 #define GLEW_STATIC 1
 #endif
 
-
+//TODO replace all GLuint to unsigned int
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+struct coloredVertex {
+	coloredVertex(glm::vec3 _position, glm::vec3 _color)
+		: position(_position), color(_color) {}
 
+	glm::vec3 position;
+	glm::vec3 color;
+};
 
-// TODO Split to other file
+int createVBOVertex() { // making the squares
+	coloredVertex vertexArray[] = {
+		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
+		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
+		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
+
+		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
+		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
+		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f))
+	};
+
+	unsigned int vbo;
+
+	return vbo;
+}
+
+// TODO Split to other file, setup as vertex structs
 int createVertexBufferObject()
 {
 	// A vertex is a point on a polygon, it contains positions and other data (eg: colors)
@@ -39,24 +61,24 @@ int createVertexBufferObject()
 	GLuint vertexBufferObject;
 	glGenBuffers(1, &vertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexArray), vertexArray, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(glm::vec3), vertexArray, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0,                   // attribute 0 matches aPos in Vertex Shader
-		3,                   // size
-		GL_FLOAT,            // type
-		GL_FALSE,            // normalized?
-		2 * sizeof(glm::vec3), // stride - each vertex contain 2 vec3 (position, color)
-		(void*)0             // array buffer offset
+	glVertexAttribPointer(0,                    // attribute 0 matches aPos in Vertex Shader
+		3,										// size, dimmenssion of vector
+		GL_FLOAT,								// type
+		GL_FALSE,								// normalized? - floats are already normalized - eg colour going from 1-255 to 0-1
+		2 * sizeof(glm::vec3),					// stride - each vertex contain 2 vec3 (position, color) - amount of bytes between each vertex
+		(void*)0								// array buffer offset - offset for starting point
 	);
 	glEnableVertexAttribArray(0);
 
 
-	glVertexAttribPointer(1,                            // attribute 1 matches aColor in Vertex Shader
+	glVertexAttribPointer(1,                    // attribute 1 matches aColor in Vertex Shader
 		3,
 		GL_FLOAT,
 		GL_FALSE,
 		2 * sizeof(glm::vec3),
-		(void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
+		(void*)sizeof(glm::vec3)				// color is offseted a vec3 (comes after position)
 	);
 	glEnableVertexAttribArray(1);
 
@@ -68,9 +90,9 @@ int main() {
 	std::cout << "yes" << std::endl;
 
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	/*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
 
 	// Creating GLFW window
 	GLFWwindow* win = glfwCreateWindow(1024, 768, "COMP371 - Assignment 1", NULL, NULL);
@@ -91,11 +113,13 @@ int main() {
 		return -1;
 	}
 
+	//std::cout << glGetString(GL_VERSION) << std::endl;
+
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
 
 	int vbo = createVertexBufferObject();
 
-	glClearColor(0.2f,0.1f,0.4f,0.5f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	
 	// set up Camera class with starting point
@@ -148,7 +172,7 @@ int main() {
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		// performing view and projection transformations
-		cam.updateView(sh, win);
+		cam.updateView(sh, win, dt);
 
 		// swap buffers
 		glfwSwapBuffers(win);
@@ -161,6 +185,8 @@ int main() {
 		}
 	
 	}
+
+	glDeleteProgram(sh.shaderProgram);
 
 	glfwTerminate();
 

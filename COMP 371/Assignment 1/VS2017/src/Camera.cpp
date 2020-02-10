@@ -1,10 +1,12 @@
 #include "Camera.h"
 
-//#include <iostream>
+#include <iostream>
 
 //#include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+
+#include <algorithm>
 
 
 
@@ -28,7 +30,12 @@ Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, 
 
 	}
 
+	cameraHorizontalAngle = 90.0f;
+	cameraVerticalAngle = 0.0f;
+
 	glfwGetCursorPos(win, &mousePosX, &mousePosY);
+	glfwGetCursorPos(win, &oldMousePosX, &oldMousePosY);
+
 }
 
 Camera::~Camera() {
@@ -69,7 +76,7 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 	// by default, camera is centered at the origin and look towards negative z-axis
 	if (glfwGetKey(win, GLFW_KEY_1) == GLFW_PRESS)
 	{
-		//std::cout << "Resetting position" << std::endl;
+		std::cout << "Resetting position" << std::endl;
 
 		*camEye = glm::vec3(0.0f, 0.0f, 10.0f);
 		*camCenter = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -94,15 +101,41 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 			//std::cout << "Down" << std::endl;
 		}
 	}
+
+	
+
+	
+
 }
 
-void Camera::updateView(Shader sh, GLFWwindow* win) {
-	oldMousePosX = mousePosX;
-	oldMousePosY = mousePosY;
+void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 
 	glfwGetCursorPos(win, &mousePosX, &mousePosY);
 
-	
+
+
+	float dx = mousePosX - oldMousePosX;
+	float dy = mousePosY - oldMousePosY;
+
+	oldMousePosX = mousePosX;
+	oldMousePosY = mousePosY;
+
+	// Convert to spherical coordinates
+	const float cameraAngularSpeed = 60.0f;
+	cameraHorizontalAngle -= dx * cameraAngularSpeed * deltaTime;
+	cameraVerticalAngle -= dy * cameraAngularSpeed * deltaTime;
+
+	// Clamp vertical angle to [-85, 85] degrees
+	cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
+
+	float theta = glm::radians(cameraHorizontalAngle);
+	float phi = glm::radians(cameraVerticalAngle);
+
+	*camCenter = glm::vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));
+	//glm::vec3 cameraSideVector = glm::cross(*camCenter, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	//glm::normalize(cameraSideVector);
+
 
 
 	// View Transform - from camera movement

@@ -30,7 +30,7 @@ public:
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
 
-	void updateView(Shader sh, GLFWwindow* win);
+	void updateView(Shader sh, GLFWwindow* win, float deltaTime);
 
 private:
 	float* speed;
@@ -39,6 +39,8 @@ private:
 	glm::vec3* camUp; // where up is
 	double oldMousePosX, oldMousePosY;
 	double mousePosX, mousePosY;
+	float cameraHorizontalAngle;
+	float cameraVerticalAngle;
 
 
 
