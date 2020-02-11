@@ -22,8 +22,8 @@ struct coloredVertex {
 	glm::vec3 color;
 };
 
-int createVBOVertex() { // making the squares
-	coloredVertex vertexArray[] = {
+int createLine() { // making the squares
+	/*coloredVertex vertexArray[] = {
 		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
 		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
 		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
@@ -31,11 +31,42 @@ int createVBOVertex() { // making the squares
 		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
 		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
 		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f))
+	};*/
+
+	coloredVertex line[] = {
+		coloredVertex(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
 	};
 
-	unsigned int vbo;
+	unsigned int vaoLine;
+	glGenVertexArrays(1, &vaoLine);
+	glBindVertexArray(vaoLine);
 
-	return vbo;
+	unsigned int vboLine;
+	glGenBuffers(1, &vboLine);
+	glBindBuffer(GL_ARRAY_BUFFER, vboLine);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(line), line, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(coloredVertex),
+		(void*)0
+	);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(coloredVertex),
+		(void*)sizeof(glm::vec3)
+	);
+	glEnableVertexAttribArray(1);
+
+
+	return vboLine;
 }
 
 // TODO Split to other file, setup as vertex structs
@@ -117,7 +148,7 @@ int main() {
 
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
 
-	int vbo = createVertexBufferObject();
+	int vbo = createLine();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -126,7 +157,7 @@ int main() {
 	
 	float spd = 1.0f;
 	
-	glm::vec3 Eye = glm::vec3(0.0f, 0.0f, 10.0f);
+	glm::vec3 Eye = glm::vec3(0.0f, 10.0f, 10.0f);
 	glm::vec3 Center = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -154,22 +185,32 @@ int main() {
 
 		GLuint worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
 		// add 2 triangles
-		// Top right triangle - translate by (0.5, 0.5, 0.5)
-		// Scaling model by 0.25, notice negative value to flip Y axis
-		glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f, -0.250f, 0.25f));
-		glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.0f));
+		// Top right triangle - translate by (0.5, 0.5, -0.5)
+		// Scaling model by 20, notice negative value to flip Y axis
+		glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 100.0f, 100.0f));
+		glm::mat4 translationMatrix;
+		glm::mat4 worldMatrix;
 
-		glm::mat4 worldMatrix = translationMatrix * scalingMatrix;
+		for (int i = -50; i <= 50; i++) {
+			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, i * 1.0f));
+			worldMatrix = translationMatrix * scalingMatrix;
+			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+			glDrawArrays(GL_LINES, 0, 3);
 
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		}
+
+		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		// Top left triangle - translate by (-0.5, 0.5, 0.5)
-		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, 0.5f, 0.0f));
-		worldMatrix = translationMatrix * scalingMatrix;
+		for (int i = -50; i <= 50; i++) {
+			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(i * 1.0f, 0.0f, 0.0f));
+			worldMatrix = translationMatrix * rotation * scalingMatrix;
 
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+			glm::vec3 id = glm::vec3(1.0f);
+
+			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+			glDrawArrays(GL_LINES, 0, 3);
+		}
 
 		// performing view and projection transformations
 		cam.updateView(sh, win, dt);
