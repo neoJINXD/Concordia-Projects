@@ -129,6 +129,10 @@ int createCube() {
 		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 	};
 
+	coloredVertex* ptr = cube;
+
+	//std::cout << sizeof(ptr) << " yes " << sizeof(cube) << std::endl;
+
 	unsigned int vaoCube;
 	glGenVertexArrays(1, &vaoCube);
 	glBindVertexArray(vaoCube);
@@ -136,7 +140,7 @@ int createCube() {
 	unsigned int vboCube;
 	glGenBuffers(1, &vboCube);
 	glBindBuffer(GL_ARRAY_BUFFER, vboCube);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cube), cube, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cube), ptr, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0,
 		3,
@@ -299,8 +303,11 @@ int main() {
 		coloredVertex(glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 	};
 
-	Model _line(line, glm::vec3(0.0f));
-	Model _cube(cube, glm::vec3(0.0f));
+	//std::cout << *(&cube->position.z + sizeof(coloredVertex)) << std::endl;
+
+	
+	Model _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
+	Model _cube(cube, sizeof(cube), glm::vec3(1.0f, 1.0f, 1.0f)); // WARNING SIZE
 
 	int vbo = createLine();
 	//int cube = createCube();
@@ -326,16 +333,9 @@ int main() {
 	float lastFrameTime = glfwGetTime();
 	
 	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	//glUseProgram(sh.shaderProgram);
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-
-	//int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
-	//glUniform4f(colorInfo, 0.0f, 1.0f, 0.0f, 1.0f);
-	int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
-
-	//_cube.Bind();
 	
 	while (!glfwWindowShouldClose(win))
 	{
@@ -357,26 +357,15 @@ int main() {
 		glm::mat4 translationMatrix;
 		glm::mat4 worldMatrix;
 		GLuint worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
-		vbo = createLine();
-		
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-		
-
-		// Rendering the grid
-		int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
-		glUniform4f(colorInfo, 1.0f, 1.0f, 0.0f, 0.5f);
+		//Grid Lines
+		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 1.0f));
 
 		//Z-axis Lines
-		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 1.0f));
-		//glm::mat4 translationMatrix;
-		//glm::mat4 worldMatrix;
-
 		for (int i = -50; i <= 50; i++) {
 			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, i * 1.0f));
 			worldMatrix = translationMatrix * scalingMatrix;
-			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-			glDrawArrays(GL_LINES, 0, 3);
+			_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
 
 		}
 
@@ -386,65 +375,36 @@ int main() {
 		for (int i = -50; i <= 50; i++) {
 			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(i * 1.0f, 0.0f, 0.0f));
 			worldMatrix = translationMatrix * rotation * scalingMatrix;
-			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-			glDrawArrays(GL_LINES, 0, 3);
+			_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
 		}
 		
 
 		//Coordinate Axis Lines
-
-		//X
-		glUniform4f(colorInfo, 1.0f, 0.0f, 0.0f, 1.0f);
 		int scale = 5;
-
+		
+		//X
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale * 1.0f, 1.1f, 1.1f));
 		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(scale * 0.5f, 0.01f, 0.0f));
 		worldMatrix = translationMatrix * scalingMatrix;
-
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-		glDrawArrays(GL_LINES, 0, 3);
-
+		_line.draw(sh, GL_LINES, 0, 3, worldMatrix, glm::vec3(1.0f, 0.0f, 0.0f));
 
 		//Y
-		glUniform4f(colorInfo, 0.0f, 1.0f, 0.0f, 1.0f);
 		rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, scale * 0.5f, 0.0f));
 		worldMatrix = translationMatrix * rotation * scalingMatrix;
-		
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-		glDrawArrays(GL_LINES, 0, 3);
+		_line.draw(sh, GL_LINES, 0, 3, worldMatrix, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		//Z
-		glUniform4f(colorInfo, 0.0f, 0.0f, 1.0f, 1.0f);
 		rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.01f, scale * 0.5f));
 		worldMatrix = translationMatrix * rotation * scalingMatrix;
+		_line.draw(sh, GL_LINES, 0, 3, worldMatrix, glm::vec3(0.0f, 0.0f, 1.0f));
 		
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-		glDrawArrays(GL_LINES, 0, 3);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		
-
-		vbo = createCube();
-
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-		//_cube.Bind();
-		glUniform4f(colorInfo, 1.0f, 1.0f, 1.0f, 0.1f);
+		//Drawing cube at origin
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f, 4.0f, 4.0f));
 		worldMatrix = scalingMatrix;
-		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+		_cube.draw(sh, GL_TRIANGLES, 0, 36, worldMatrix);
 		
-		
-		//_cube.draw(sh, GL_TRIANGLES, 0, 36);
-		glDrawArrays(GL_TRIANGLES, 0, 12*3);
-		
-		
-		//_cube.Unbind();
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
 		// swap buffers
 		glfwSwapBuffers(win);
 		// check/call events
