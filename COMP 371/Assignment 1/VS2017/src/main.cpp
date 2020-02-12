@@ -23,17 +23,7 @@ struct coloredVertex {
 	glm::vec3 color;
 };
 
-int createLine() { // making the squares
-	/*coloredVertex vertexArray[] = {
-		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
-		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
-		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
-
-		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
-		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f)),
-		coloredVertex(glm::vec3(), glm::vec3(0.0f, 0.0f, 0.0f))
-	};*/
-
+int createLine() { // making the line
 	coloredVertex line[] = {
 		coloredVertex(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
 		coloredVertex(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
