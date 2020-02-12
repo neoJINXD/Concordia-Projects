@@ -21,7 +21,7 @@ Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float _pitch, f
 
 	if (Type == PERSPECTIVE) {
 		// projection matrix to have camera in perspective
-		projectionMatrix = glm::perspective(glm::radians(120.0f),  // field of view in degrees
+		projectionMatrix = glm::perspective(glm::radians(45.0f),  // field of view in degrees
 			1280.0f / 720.0f,      // aspect ratio
 			0.01f, 200.0f);       // near and far (near > 0)
 	}
