@@ -155,16 +155,16 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 
 	// View Transform - from camera movement
 	GLuint viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
-	viewMatrix = glm::lookAt(
+	/*viewMatrix = glm::lookAt(
 		*camEye,
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		*camUp
-	);
-	/*viewMatrix = glm::lookAt(
+	);*/
+	viewMatrix = glm::lookAt(
 		*camEye,
 		*camEye + *camCenter,
 		*camUp
-	);*/
+	);
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
 	// Projection Transform

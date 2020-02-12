@@ -15,6 +15,29 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+
+// fragshader backup
+//vec4(vertexColor.r, vertexColor.g, vertexColor.b, 1.0f)
+
+
+//For error checking for error checking
+#define ASSERT(x) if (!(x)) __debugbreak();
+#define GLCall(x) GlClearError();\
+	x;\
+	ASSERT(glError(#x, __FILE__, __LINE__))
+
+static void GlClearError() {
+	while (glGetError() != 0);
+}
+
+static bool glError(const char* funct, const char* file, int line) {
+	while (GLenum err = glGetError()) {
+		std::cout << "[OpenGL Error]: " << err << funct << " " << file << " : " << line << ";" << std::endl;
+		return false;
+	}
+	return true;
+}
+
 struct coloredVertex {
 	coloredVertex(glm::vec3 _position, glm::vec3 _color)
 		: position(_position), color(_color) {}
@@ -127,7 +150,7 @@ int createCube() {
 		sizeof(coloredVertex),
 		(void*)0
 	);
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(2);
 
 	glVertexAttribPointer(1,
 		3,
@@ -136,7 +159,7 @@ int createCube() {
 		sizeof(coloredVertex),
 		(void*)sizeof(glm::vec3)
 	);
-	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(3);
 
 
 	return vboCube;
@@ -195,9 +218,9 @@ int main() {
 	std::cout << "yes" << std::endl;
 
 	glfwInit();
-	/*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Creating GLFW window
 	GLFWwindow* win = glfwCreateWindow(1024, 768, "COMP371 - Assignment 1", NULL, NULL);
@@ -208,6 +231,9 @@ int main() {
 		return -1;
 	}
 	glfwMakeContextCurrent(win);
+	
+	//VSYNC
+	glfwSwapInterval(1);
 
 	// Initialize GLEW
 	//glewExperimental = true; // TODO what this?
@@ -238,35 +264,43 @@ int main() {
 
 	float pitch = acos(glm::dot(Center - Eye, glm::vec3(0.0f, 1.0f, 0.0f)) / (glm::length(Center - Eye) * glm::length(glm::vec3(0.0f, 1.0f, 0.0f))));
 
-	std::cout << "Pitch: " << pitch << std::endl;
+	//std::cout << "Pitch: " << pitch << std::endl;
 
 	Camera cam(&Eye, &Center, &Up, -pitch, &spd, PERSPECTIVE, win);
 
 	
 	float lastFrameTime = glfwGetTime();
-	//double oldMousePosX, oldMousePosY;
-	//glfwGetCursorPos(win, &oldMousePosX, &oldMousePosY);
+	
 	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glUseProgram(sh.shaderProgram);
+
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
+	//int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
+	//glUniform4f(colorInfo, 0.0f, 1.0f, 0.0f, 1.0f);
 	
 	while (!glfwWindowShouldClose(win))
 	{
 		float dt = glfwGetTime() - lastFrameTime;
 		lastFrameTime += dt;
 
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// input processing
 		cam.processMovement(win, dt);
 
 		// rendering
-		glUseProgram(sh.shaderProgram);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 		GLuint worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
-		// add 2 triangles
-		// Top right triangle - translate by (0.5, 0.5, -0.5)
-		// Scaling model by 20, notice negative value to flip Y axis
-		glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 100.0f, 100.0f));
+
+		// Rendering the grid
+		int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
+		glUniform4f(colorInfo, 1.0f, 1.0f, 0.0f, 0.5f);
+
+		//Z-axis Lines
+		glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 1.0f));
 		glm::mat4 translationMatrix;
 		glm::mat4 worldMatrix;
 
@@ -278,18 +312,48 @@ int main() {
 
 		}
 
+		//X-axis Lines
 		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-		// Top left triangle - translate by (-0.5, 0.5, 0.5)
 		for (int i = -50; i <= 50; i++) {
 			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(i * 1.0f, 0.0f, 0.0f));
 			worldMatrix = translationMatrix * rotation * scalingMatrix;
-
-			glm::vec3 id = glm::vec3(1.0f);
-
 			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 			glDrawArrays(GL_LINES, 0, 3);
 		}
+
+		//Coordinate Axis Lines
+
+		//X
+		glUniform4f(colorInfo, 1.0f, 0.0f, 0.0f, 1.0f);
+		int scale = 5;
+
+		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale * 1.0f, 1.1f, 1.1f));
+		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(scale * 0.5f, 0.01f, 0.0f));
+		worldMatrix = translationMatrix * scalingMatrix;
+
+		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+		glDrawArrays(GL_LINES, 0, 3);
+
+
+		//Y
+		glUniform4f(colorInfo, 0.0f, 1.0f, 0.0f, 1.0f);
+		rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, scale * 0.5f, 0.0f));
+		worldMatrix = translationMatrix * rotation * scalingMatrix;
+		
+		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+		glDrawArrays(GL_LINES, 0, 3);
+
+		//Z
+		glUniform4f(colorInfo, 0.0f, 0.0f, 1.0f, 1.0f);
+		rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.01f, scale * 0.5f));
+		worldMatrix = translationMatrix * rotation * scalingMatrix;
+		
+		glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+		glDrawArrays(GL_LINES, 0, 3);
+
 
 
 		//glBindBuffer(GL_ARRAY_BUFFER, cube);
