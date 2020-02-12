@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #include "Shader.h"
 #include "Camera.h"
@@ -67,6 +68,89 @@ int createLine() { // making the squares
 
 
 	return vboLine;
+}
+
+int createCube() {
+	coloredVertex cube[] = {
+		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//left
+		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//top
+		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//right
+		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//bottom
+		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//back
+		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//front
+		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		
+		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+	};
+
+	unsigned int vaoCube;
+	glGenVertexArrays(1, &vaoCube);
+	glBindVertexArray(vaoCube);
+
+	unsigned int vboCube;
+	glGenBuffers(1, &vboCube);
+	glBindBuffer(GL_ARRAY_BUFFER, vboCube);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cube), cube, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(coloredVertex),
+		(void*)0
+	);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(coloredVertex),
+		(void*)sizeof(glm::vec3)
+	);
+	glEnableVertexAttribArray(1);
+
+
+	return vboCube;
+
 }
 
 // TODO Split to other file, setup as vertex structs
@@ -149,6 +233,7 @@ int main() {
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
 
 	int vbo = createLine();
+	//int cube = createCube();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -158,10 +243,14 @@ int main() {
 	float spd = 1.0f;
 	
 	glm::vec3 Eye = glm::vec3(0.0f, 10.0f, 10.0f);
-	glm::vec3 Center = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 Center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	Camera cam(&Eye, &Center, &Up, &spd, PERSPECTIVE, win);
+	float pitch = acos(glm::dot(Center - Eye, glm::vec3(0.0f, 1.0f, 0.0f)) / (glm::length(Center - Eye) * glm::length(glm::vec3(0.0f, 1.0f, 0.0f))));
+
+	std::cout << "Pitch: " << pitch << std::endl;
+
+	Camera cam(&Eye, &Center, &Up, -pitch, &spd, PERSPECTIVE, win);
 
 	
 	float lastFrameTime = glfwGetTime();
@@ -211,6 +300,14 @@ int main() {
 			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 			glDrawArrays(GL_LINES, 0, 3);
 		}
+
+
+		//glBindBuffer(GL_ARRAY_BUFFER, cube);
+		//worldMatrix = glm::mat4(1.0f);
+		//glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+		
+
 
 		// performing view and projection transformations
 		cam.updateView(sh, win, dt);

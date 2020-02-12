@@ -23,7 +23,7 @@ class Camera
 {
 
 public:
-	Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, ProjectionType Type, GLFWwindow* win);
+	Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float _pitch, float* _speed, ProjectionType Type, GLFWwindow* win);
 	~Camera();
 	void processMovement(GLFWwindow* win, float deltaTime);
 

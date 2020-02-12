@@ -10,7 +10,7 @@
 
 
 
-Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, ProjectionType Type, GLFWwindow* win) {
+Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float _pitch, float* _speed, ProjectionType Type, GLFWwindow* win) {
 	/*glm::vec3 Eye(0.0f, 0.0f, 10.0f);
 	glm::vec3 Center(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up(0.0f, 1.0f, 0.0f);*/
@@ -21,7 +21,7 @@ Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, 
 
 	if (Type == PERSPECTIVE) {
 		// projection matrix to have camera in perspective
-		projectionMatrix = glm::perspective(glm::radians(45.0f),  // field of view in degrees
+		projectionMatrix = glm::perspective(glm::radians(120.0f),  // field of view in degrees
 			1280.0f / 720.0f,      // aspect ratio
 			0.01f, 200.0f);       // near and far (near > 0)
 	}
@@ -34,8 +34,8 @@ Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, 
 	glfwGetCursorPos(win, &oldMousePosX, &oldMousePosY);
 
 	yaw = -90.0f;
-	pitch = 0.0f;
-
+	//pitch = 0.0f;
+	pitch = _pitch;
 }
 
 Camera::~Camera() {
@@ -52,6 +52,7 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 	float normalizedSpeed = *speed * deltaTime;
 	if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
 		*camEye += *camCenter * normalizedSpeed;
+		std::cout << camEye->y << std::endl;
 	}
 	if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
 		*camEye -= *camCenter * normalizedSpeed;
@@ -154,7 +155,16 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 
 	// View Transform - from camera movement
 	GLuint viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
-	viewMatrix = glm::lookAt(*camEye, *camEye + *camCenter, *camUp);
+	viewMatrix = glm::lookAt(
+		*camEye,
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		*camUp
+	);
+	/*viewMatrix = glm::lookAt(
+		*camEye,
+		*camEye + *camCenter,
+		*camUp
+	);*/
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
 	// Projection Transform
