@@ -10,16 +10,11 @@
 #define GLEW_STATIC 1
 #endif
 
-//TODO replace all GLuint to unsigned int
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
-
-// fragshader backup
-//vec4(vertexColor.r, vertexColor.g, vertexColor.b, 1.0f)
 
 
 //For error checking for error checking
@@ -41,181 +36,7 @@ static bool glError(const char* funct, const char* file, int line) {
 }
 
 
-int createLine() { // making the line
-	coloredVertex line[] = {
-		coloredVertex(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
-	};
-
-	unsigned int vaoLine;
-	glGenVertexArrays(1, &vaoLine);
-	glBindVertexArray(vaoLine);
-
-	unsigned int vboLine;
-	glGenBuffers(1, &vboLine);
-	glBindBuffer(GL_ARRAY_BUFFER, vboLine);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(line), line, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(coloredVertex),
-		(void*)0
-	);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(coloredVertex),
-		(void*)sizeof(glm::vec3)
-	);
-	glEnableVertexAttribArray(1);
-
-
-	return vboLine;
-}
-
-int createCube() {
-	coloredVertex cube[] = {
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//left
-		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//top
-		coloredVertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-								 	    	 	 
-		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//right
-		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//bottom
-		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//back
-		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//front
-		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-							
-		coloredVertex(glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-	};
-
-	coloredVertex* ptr = cube;
-
-	//std::cout << sizeof(ptr) << " yes " << sizeof(cube) << std::endl;
-
-	unsigned int vaoCube;
-	glGenVertexArrays(1, &vaoCube);
-	glBindVertexArray(vaoCube);
-
-	unsigned int vboCube;
-	glGenBuffers(1, &vboCube);
-	glBindBuffer(GL_ARRAY_BUFFER, vboCube);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cube), ptr, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(coloredVertex),
-		(void*)0
-	);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1,
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		sizeof(coloredVertex),
-		(void*)sizeof(glm::vec3)
-	);
-	glEnableVertexAttribArray(1);
-
-
-	return vboCube;
-
-}
-
-// TODO Split to other file, setup as vertex structs
-int createVertexBufferObject()
-{
-	// A vertex is a point on a polygon, it contains positions and other data (eg: colors)
-	glm::vec3 vertexArray[] = {
-		glm::vec3(0.0f,  0.5f, 0.03f),  // top center position
-		glm::vec3(1.0f,  0.0f, 0.0f),  // top center color (red)
-		glm::vec3(0.5f, -0.5f, 0.03f),  // bottom right
-		glm::vec3(0.0f,  1.0f, 0.0f),  // bottom right color (green)
-		glm::vec3(-0.5f, -0.5f, 0.03f),  // bottom left
-		glm::vec3(0.0f,  0.0f, 1.0f),  // bottom left color (blue)
-	};
-
-	// Create a vertex array
-	GLuint vertexArrayObject;
-	glGenVertexArrays(1, &vertexArrayObject);
-	glBindVertexArray(vertexArrayObject);
-
-
-	// Upload Vertex Buffer to the GPU, keep a reference to it (vertexBufferObject)
-	GLuint vertexBufferObject;
-	glGenBuffers(1, &vertexBufferObject);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(glm::vec3), vertexArray, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0,                    // attribute 0 matches aPos in Vertex Shader
-		3,										// size, dimmenssion of vector
-		GL_FLOAT,								// type
-		GL_FALSE,								// normalized? - floats are already normalized - eg colour going from 1-255 to 0-1
-		2 * sizeof(glm::vec3),					// stride - each vertex contain 2 vec3 (position, color) - amount of bytes between each vertex
-		(void*)0								// array buffer offset - offset for starting point
-	);
-	glEnableVertexAttribArray(0);
-
-
-	glVertexAttribPointer(1,                    // attribute 1 matches aColor in Vertex Shader
-		3,
-		GL_FLOAT,
-		GL_FALSE,
-		2 * sizeof(glm::vec3),
-		(void*)sizeof(glm::vec3)				// color is offseted a vec3 (comes after position)
-	);
-	glEnableVertexAttribArray(1);
-
-
-	return vertexBufferObject;
-}
-
 int main() {
-	//std::cout <<  << std::endl;
-
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -231,23 +52,23 @@ int main() {
 	}
 	glfwMakeContextCurrent(win);
 	
-	//VSYNC
+	// VSYNC - Sync framerate with screen refresh rate - 60Hz
 	glfwSwapInterval(1);
 
 	// Initialize GLEW
-	//glewExperimental = true; // TODO what this?
-
 	if (glewInit() != GLEW_OK) {
 		std::cerr << "Failed to create GLEW" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
 
+	// OpenGL Version Check
 	//std::cout << glGetString(GL_VERSION) << std::endl;
 
+	// Shader Creation
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
 
-
+	// Arrays for the shapes used in rendering
 	coloredVertex line[] = {
 		coloredVertex(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
 		coloredVertex(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
@@ -303,19 +124,15 @@ int main() {
 		coloredVertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 	};
 
-	//std::cout << *(&cube->position.z + sizeof(coloredVertex)) << std::endl;
-
-	
+	// Creating meshes
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
-	Mesh _cube(cube, sizeof(cube), glm::vec3(1.0f, 1.0f, 1.0f)); // WARNING SIZE
+	Mesh _cube(cube, sizeof(cube), glm::vec3(1.0f, 1.0f, 1.0f)); 
 
-	int vbo = createLine();
-	//int cube = createCube();
-
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	// Background Color
+	glClearColor(0.11f, 0.64f, 0.78f, 1.0f);
 
 	
-	// set up Camera class with starting point
+	// Setting up Camera with starting point
 	
 	float spd = 1.0f;
 	
@@ -323,20 +140,19 @@ int main() {
 	glm::vec3 Center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
+	//Eventually removed, since no mouse movement for camera
 	float pitch = acos(glm::dot(Center - Eye, glm::vec3(0.0f, 1.0f, 0.0f)) / (glm::length(Center - Eye) * glm::length(glm::vec3(0.0f, 1.0f, 0.0f))));
-
-	//std::cout << "Pitch: " << pitch << std::endl;
 
 	Camera cam(&Eye, &Center, &Up, -pitch, &spd, PERSPECTIVE, win);
 
 	
 	float lastFrameTime = glfwGetTime();
 	
+	// Disabling mouse cursor
 	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINES);
 	
 	while (!glfwWindowShouldClose(win))
 	{
@@ -347,44 +163,42 @@ int main() {
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// input processing
+		// Input processing
 		cam.processMovement(win, dt);
 
-		// performing view and projection transformations
+		// Performing view and projection transformations for camera
 		cam.updateView(sh, win, dt);
 
-		// rendering
+		// Rendering
 		glm::mat4 scalingMatrix;
 		glm::mat4 translationMatrix;
 		glm::mat4 worldMatrix;
-		GLuint worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
+		unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
 
-		//Grid Lines
+		// Grid Lines
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 1.0f));
 
 		glLineWidth(1);
 
-		//Z-axis Lines
+		// Z-axis Lines
 		for (int i = -50; i <= 50; i++) {
 			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, i * 1.0f));
 			worldMatrix = translationMatrix * scalingMatrix;
 			_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
-
 		}
 
-		//X-axis Lines
+		// X-axis Lines
 		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
 		for (int i = -50; i <= 50; i++) {
 			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(i * 1.0f, 0.0f, 0.0f));
 			worldMatrix = translationMatrix * rotation * scalingMatrix;
 			_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
 		}
 		
-
-		//Coordinate Axis Lines
+		// Coordinate Axis Lines
 		int scale = 5;
 		glLineWidth(5);
+
 		//X
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale * 1.0f, 1.1f, 1.1f));
 		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(scale * 0.5f, 0.0f, 0.0f));
@@ -403,8 +217,11 @@ int main() {
 		worldMatrix = translationMatrix * rotation * scalingMatrix;
 		_line.draw(sh, GL_LINES, 0, 3, worldMatrix, glm::vec3(0.0f, 0.0f, 1.0f));
 		
-		glLineWidth(1);
+
 		//Drawing cube at origin
+		// TODO set up Snowman Model
+		// TODO set key input to handle changing draw's type
+		glLineWidth(1);
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f, 4.0f, 4.0f));
 		worldMatrix = scalingMatrix;
 		_cube.draw(sh, GL_LINE_LOOP, 0, 36, worldMatrix);
@@ -412,24 +229,22 @@ int main() {
 		//Wireframe with GL_LINE_LOOP
 		//Shape with GL_TRIANGLES
 		
-		// swap buffers
+		// Swap buffers
 		glfwSwapBuffers(win);
-		// check/call events
+		// Check/call events
 		glfwPollEvents();
 
-		// escape to close window
+		// Escape to close window
 		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			glfwSetWindowShouldClose(win, true);
 		}
 
 		glUseProgram(0);
-	
 	}
 
+	// Cleanup
 	glDeleteProgram(sh.shaderProgram);
-
 	glfwTerminate();
-
 
 	return 0;
 }

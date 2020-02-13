@@ -1,22 +1,14 @@
 #include "Camera.h"
 
 #include <iostream>
-
-//#include <GL/glew.h>
-#include <glm/gtc/matrix_transform.hpp>
-
-
 #include <algorithm>
 
-
+#include <glm/gtc/matrix_transform.hpp>
 
 Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float _pitch, float* _speed, ProjectionType Type, GLFWwindow* win) {
-	/*glm::vec3 Eye(0.0f, 0.0f, 10.0f);
-	glm::vec3 Center(0.0f, 0.0f, -1.0f);
-	glm::vec3 Up(0.0f, 1.0f, 0.0f);*/
-	camEye = Eye;
-	camCenter = Center;
-	camUp = Up;
+	camEye = Eye;			// Position
+	camCenter = Center;		// Looking At Point
+	camUp = Up;				// Up
 	speed = _speed;
 
 	if (Type == PERSPECTIVE) {
@@ -42,7 +34,7 @@ Camera::~Camera() {
 	camEye = nullptr;
 	camCenter = nullptr;
 	camUp = nullptr;
-
+	speed = nullptr;
 }
 
 void Camera::processMovement(GLFWwindow* win, float deltaTime) {
@@ -106,28 +98,6 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 }
 
 void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
-
-	/*double mousePosX, mousePosY;
-	glfwGetCursorPos(win, &mousePosX, &mousePosY);
-
-	double dx = mousePosX - oldMousePosX;
-	double dy = mousePosY - oldMousePosY;
-
-	oldMousePosX = mousePosX;
-	oldMousePosY = mousePosY;
-
-	// Convert to spherical coordinates
-	const float cameraAngularSpeed = 60.0f;
-	cameraHorizontalAngle -= dx * cameraAngularSpeed * deltaTime;
-	cameraVerticalAngle -= dy * cameraAngularSpeed * deltaTime;
-
-	// Clamp vertical angle to [-85, 85] degrees
-	cameraVerticalAngle = std::max(-85.0f, std::min(85.0f, cameraVerticalAngle));
-
-	float theta = glm::radians(cameraHorizontalAngle);
-	float phi = glm::radians(cameraVerticalAngle);
-
-	*camCenter = glm::vec3(cosf(phi) * cosf(theta), sinf(phi), -cosf(phi) * sinf(theta));*/
 	
 	double mousePosX, mousePosY;
 	glfwGetCursorPos(win, &mousePosX, &mousePosY);
@@ -154,7 +124,8 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 	));
 
 	// View Transform - from camera movement
-	GLuint viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
+	// TODO fix cam to look at 0,0,0 and rotate world
+	unsigned int viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
 	/*viewMatrix = glm::lookAt(
 		*camEye,
 		glm::vec3(0.0f, 0.0f, 0.0f),
@@ -168,6 +139,6 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
 	// Projection Transform
-	GLuint projectionMatrixLocation = glGetUniformLocation(sh.shaderProgram, "projectionMatrix");
+	unsigned int projectionMatrixLocation = glGetUniformLocation(sh.shaderProgram, "projectionMatrix");
 	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 }

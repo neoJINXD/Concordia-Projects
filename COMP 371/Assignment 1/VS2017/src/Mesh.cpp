@@ -13,6 +13,7 @@ Mesh::Mesh(coloredVertex* _shape, int _size, glm::vec3 _color)
 
 Mesh::~Mesh()
 {
+	shape = nullptr;
 }
 
 void Mesh::Bind()
@@ -37,7 +38,7 @@ void Mesh::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MV
 
 	this->Bind();
 
-	GLuint worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
+	unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
 
 	//draw
 	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &MVP[0][0]);
@@ -56,7 +57,7 @@ void Mesh::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MV
 
 	this->Bind();
 
-	GLuint worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
+	unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
 
 	//draw
 	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &MVP[0][0]);
