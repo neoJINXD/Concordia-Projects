@@ -254,53 +254,53 @@ int main() {
 	};
 
 	coloredVertex cube[] = {
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//left
-		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//left
+		coloredVertex(glm::vec3(-0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//top
-		coloredVertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//back
+		coloredVertex(glm::vec3(-0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//right
-		coloredVertex(glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//bottom
+		coloredVertex(glm::vec3(-0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//bottom
-		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//front
+		coloredVertex(glm::vec3(-0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//back
-		coloredVertex(glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//right
+		coloredVertex(glm::vec3( 0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//front
-		coloredVertex(glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//top
+		coloredVertex(glm::vec3( 0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 
-		coloredVertex(glm::vec3(0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
-		coloredVertex(glm::vec3(0.5f, -0.5f,  0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3( 0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+		coloredVertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 	};
 
 	//std::cout << *(&cube->position.z + sizeof(coloredVertex)) << std::endl;
@@ -336,6 +336,7 @@ int main() {
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINES);
 	
 	while (!glfwWindowShouldClose(win))
 	{
@@ -361,6 +362,8 @@ int main() {
 		//Grid Lines
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 1.0f));
 
+		glLineWidth(1);
+
 		//Z-axis Lines
 		for (int i = -50; i <= 50; i++) {
 			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, i * 1.0f));
@@ -381,10 +384,10 @@ int main() {
 
 		//Coordinate Axis Lines
 		int scale = 5;
-		
+		glLineWidth(5);
 		//X
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale * 1.0f, 1.1f, 1.1f));
-		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(scale * 0.5f, 0.01f, 0.0f));
+		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(scale * 0.5f, 0.0f, 0.0f));
 		worldMatrix = translationMatrix * scalingMatrix;
 		_line.draw(sh, GL_LINES, 0, 3, worldMatrix, glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -396,14 +399,18 @@ int main() {
 
 		//Z
 		rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.01f, scale * 0.5f));
+		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, scale * 0.5f));
 		worldMatrix = translationMatrix * rotation * scalingMatrix;
 		_line.draw(sh, GL_LINES, 0, 3, worldMatrix, glm::vec3(0.0f, 0.0f, 1.0f));
 		
+		glLineWidth(1);
 		//Drawing cube at origin
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f, 4.0f, 4.0f));
 		worldMatrix = scalingMatrix;
-		_cube.draw(sh, GL_TRIANGLES, 0, 36, worldMatrix);
+		_cube.draw(sh, GL_LINE_LOOP, 0, 36, worldMatrix);
+
+		//Wireframe with GL_LINE_LOOP
+		//Shape with GL_TRIANGLES
 		
 		// swap buffers
 		glfwSwapBuffers(win);
