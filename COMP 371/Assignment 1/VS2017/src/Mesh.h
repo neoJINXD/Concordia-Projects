@@ -6,11 +6,11 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-class Model
+class Mesh
 {
 public:
-	Model(coloredVertex* _shape, int nbOfVrtx, glm::vec3 _color);
-	~Model();
+	Mesh(coloredVertex* _shape, int nbOfVrtx, glm::vec3 _color);
+	~Mesh();
 
 	void draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MVP);
 	void draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MVP, glm::vec3 colorOverride);

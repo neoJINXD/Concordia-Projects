@@ -1,8 +1,8 @@
-#include "Model.h"
+#include "Mesh.h"
 #include <GL/glew.h>
 
 
-Model::Model(coloredVertex* _shape, int _size, glm::vec3 _color)
+Mesh::Mesh(coloredVertex* _shape, int _size, glm::vec3 _color)
 {
 	shape = _shape;
 	size = _size;
@@ -11,24 +11,24 @@ Model::Model(coloredVertex* _shape, int _size, glm::vec3 _color)
 	initVAO();
 }
 
-Model::~Model()
+Mesh::~Mesh()
 {
 }
 
-void Model::Bind()
+void Mesh::Bind()
 {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 }
 
-void Model::Unbind()
+void Mesh::Unbind()
 {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
 
-void Model::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MVP)
+void Mesh::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MVP)
 {
 	glUseProgram(sh.shaderProgram);
 
@@ -47,7 +47,7 @@ void Model::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 M
 	this->Unbind();
 }
 
-void Model::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MVP, glm::vec3 colorOverride)
+void Mesh::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MVP, glm::vec3 colorOverride)
 {
 	glUseProgram(sh.shaderProgram);
 
@@ -66,7 +66,7 @@ void Model::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 M
 	this->Unbind();
 }
 
-void Model::initVAO()
+void Mesh::initVAO()
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);

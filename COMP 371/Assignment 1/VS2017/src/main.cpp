@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "ColoredVertex.h"
-#include "Model.h"
+#include "Mesh.h"
 
 #ifndef GLEW_STATIC
 #define GLEW_STATIC 1
@@ -306,8 +306,8 @@ int main() {
 	//std::cout << *(&cube->position.z + sizeof(coloredVertex)) << std::endl;
 
 	
-	Model _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
-	Model _cube(cube, sizeof(cube), glm::vec3(1.0f, 1.0f, 1.0f)); // WARNING SIZE
+	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
+	Mesh _cube(cube, sizeof(cube), glm::vec3(1.0f, 1.0f, 1.0f)); // WARNING SIZE
 
 	int vbo = createLine();
 	//int cube = createCube();

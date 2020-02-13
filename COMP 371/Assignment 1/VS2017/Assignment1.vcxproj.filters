@@ -32,7 +32,7 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model.cpp">
+    <ClCompile Include="src\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -46,7 +46,7 @@
     <ClInclude Include="src\ColoredVertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fragShader.glsl">
