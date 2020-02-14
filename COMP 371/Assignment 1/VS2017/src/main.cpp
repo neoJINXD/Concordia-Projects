@@ -197,7 +197,7 @@ int main() {
 		
 		// Coordinate Axis Lines
 		int scale = 5;
-		glLineWidth(5);
+		glLineWidth(15);
 
 		//X
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale * 1.0f, 1.1f, 1.1f));
@@ -224,7 +224,7 @@ int main() {
 		glLineWidth(1);
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f, 4.0f, 4.0f));
 		worldMatrix = scalingMatrix;
-		_cube.draw(sh, GL_LINE_LOOP, 0, 36, worldMatrix);
+		_cube.draw(sh, GL_TRIANGLES, 0, 36, worldMatrix);
 
 		//Wireframe with GL_LINE_LOOP
 		//Shape with GL_TRIANGLES
@@ -237,6 +237,9 @@ int main() {
 		// Escape to close window
 		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			glfwSetWindowShouldClose(win, true);
+		}
+		if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+			std::cout << " IPressed right arrow" << std::endl;
 		}
 
 		glUseProgram(0);

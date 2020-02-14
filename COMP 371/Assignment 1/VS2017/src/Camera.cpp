@@ -44,7 +44,6 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 	float normalizedSpeed = *speed * deltaTime;
 	if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
 		*camEye += *camCenter * normalizedSpeed;
-		std::cout << camEye->y << std::endl;
 	}
 	if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
 		*camEye -= *camCenter * normalizedSpeed;
@@ -72,7 +71,7 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 		std::cout << "Resetting position" << std::endl;
 
 		*camEye = glm::vec3(0.0f, 0.0f, 10.0f);
-		*camCenter = glm::vec3(0.0f, 0.0f, -1.0f);
+		*camCenter = glm::vec3(0.0f, 0.0f, 0.0f);
 		*camUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 
