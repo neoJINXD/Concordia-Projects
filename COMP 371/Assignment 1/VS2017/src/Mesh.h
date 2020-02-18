@@ -36,7 +36,7 @@ public:
 	std::vector<coloredVertex> vertices;
 	std::vector<unsigned int> indices;
 
-	void Draw(Shader sh, glm::mat4 MVP);
+	void Draw(Shader sh, glm::mat4 Model, glm::vec3 color = glm::vec3(1.f, 1.f, 1.f));
 	void changeType(unsigned int newType);
 private:
 	unsigned int VBO;

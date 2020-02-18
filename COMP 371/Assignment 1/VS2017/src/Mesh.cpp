@@ -96,6 +96,12 @@ void Mesh::initVAO()
 
 }
 
+
+
+
+
+
+
 Mesh2::Mesh2(std::vector<coloredVertex> _vertices, std::vector<unsigned int> _indices)
 {
 	vertices = _vertices;
@@ -109,16 +115,19 @@ Mesh2::~Mesh2()
 {
 }
 
-void Mesh2::Draw(Shader sh, glm::mat4 MVP)
+void Mesh2::Draw(Shader sh, glm::mat4 Model, glm::vec3 color)
 {
 	glUseProgram(sh.shaderProgram);
+
+	int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
+	glUniform4f(colorInfo, color.x, color.y, color.z, 1.0f);
 
 	this->Bind();
 
 	unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
 
 	//draw
-	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &MVP[0][0]);
+	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &Model[0][0]);
 	glDrawElements(type, indices.size(), GL_UNSIGNED_INT, 0);
 
 
