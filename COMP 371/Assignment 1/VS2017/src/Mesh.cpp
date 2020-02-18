@@ -102,7 +102,7 @@ void Mesh::initVAO()
 
 
 
-Mesh2::Mesh2(std::vector<coloredVertex> _vertices, std::vector<unsigned int> _indices)
+MeshEBO::MeshEBO(std::vector<coloredVertex> _vertices, std::vector<unsigned int> _indices)
 {
 	vertices = _vertices;
 	indices = _indices;
@@ -111,20 +111,20 @@ Mesh2::Mesh2(std::vector<coloredVertex> _vertices, std::vector<unsigned int> _in
 	initVAO();
 }
 
-Mesh2::~Mesh2()
+MeshEBO::~MeshEBO()
 {
 }
 
-void Mesh2::Draw(Shader sh, glm::mat4 Model, glm::vec3 color)
+void MeshEBO::Draw(Shader* sh, glm::mat4 Model, glm::vec3 color)
 {
-	glUseProgram(sh.shaderProgram);
+	glUseProgram(sh->shaderProgram);
 
-	int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
+	int colorInfo = glGetUniformLocation(sh->shaderProgram, "uColor");
 	glUniform4f(colorInfo, color.x, color.y, color.z, 1.0f);
 
 	this->Bind();
 
-	unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
+	unsigned int worldMatrixLocation = glGetUniformLocation(sh->shaderProgram, "worldMatrix");
 
 	//draw
 	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &Model[0][0]);
@@ -136,13 +136,13 @@ void Mesh2::Draw(Shader sh, glm::mat4 Model, glm::vec3 color)
 
 }
 
-void Mesh2::changeType(unsigned int newType)
+void MeshEBO::changeType(unsigned int newType)
 {
 	type = newType;
 
 }
 
-void Mesh2::initVAO()
+void MeshEBO::initVAO()
 {
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -181,13 +181,13 @@ void Mesh2::initVAO()
 
 }
 
-void Mesh2::Bind()
+void MeshEBO::Bind()
 {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 }
 
-void Mesh2::Unbind()
+void MeshEBO::Unbind()
 {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

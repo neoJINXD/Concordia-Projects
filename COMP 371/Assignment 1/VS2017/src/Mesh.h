@@ -27,16 +27,16 @@ private:
 	void Unbind();
 };
 
-class Mesh2 
+class MeshEBO 
 {
 public:
-	Mesh2(std::vector<coloredVertex> _vertices, std::vector<unsigned int> _indices);
-	~Mesh2();
+	MeshEBO(std::vector<coloredVertex> _vertices, std::vector<unsigned int> _indices);
+	~MeshEBO();
 
 	std::vector<coloredVertex> vertices;
 	std::vector<unsigned int> indices;
 
-	void Draw(Shader sh, glm::mat4 Model, glm::vec3 color = glm::vec3(1.f, 1.f, 1.f));
+	void Draw(Shader* sh, glm::mat4 Model, glm::vec3 color = glm::vec3(1.f, 1.f, 1.f));
 	void changeType(unsigned int newType);
 private:
 	unsigned int VBO;

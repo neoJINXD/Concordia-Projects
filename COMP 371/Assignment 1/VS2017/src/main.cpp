@@ -107,7 +107,7 @@ int main() {
 		0, 4, 5, 
 	};
 
-	Mesh2 cuber(eboCube, eboCubeIndices);
+	MeshEBO cuber(eboCube, eboCubeIndices);
 
 	// Creating meshes
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
@@ -210,7 +210,7 @@ int main() {
 		scalingMatrix = glm::scale(glm::mat4(1.f), glm::vec3(5.f));
 		translationMatrix = glm::translate(glm::mat4(1.f), glm::vec3(0.f, 10.f, 0.f));
 		worldMatrix = translationMatrix;
-		cuber.Draw(sh, worldMatrix);
+		cuber.Draw(&sh, worldMatrix);
 
 		//Wireframe with GL_LINE_LOOP
 		//Shape with GL_TRIANGLES
