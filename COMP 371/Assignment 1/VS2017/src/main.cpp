@@ -74,7 +74,7 @@ int main() {
 		coloredVertex(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
 	};
 
-	coloredVertex cube[] = {
+	/*coloredVertex cube[] = {
 		coloredVertex(glm::vec3(-0.5f,-0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),//left
 		coloredVertex(glm::vec3(-0.5f,-0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 		coloredVertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
@@ -122,11 +122,56 @@ int main() {
 		coloredVertex(glm::vec3( 0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 		coloredVertex(glm::vec3(-0.5f, 0.5f,-0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
 		coloredVertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f)),
+	};*/
+
+	/*std::vector<coloredVertex> test{
+		coloredVertex(glm::vec3(-0.5f, -0.5f, 0.f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3( 0.5f, -0.5f, 0.f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f, 0.f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3(-0.5f,  0.5f, 0.f), glm::vec3(1.f))		
 	};
+	std::vector<unsigned int> indices{
+		0, 1, 2,
+		0, 2, 3
+	};*/
+
+	std::vector<coloredVertex> eboCube{
+		coloredVertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3( 0.5f, -0.5f, 0.5f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f, 0.5f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3(-0.5f,  0.5f, 0.5f), glm::vec3(1.f)),
+
+		coloredVertex(glm::vec3(-0.5f, -0.5f,-0.5f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3( 0.5f, -0.5f,-0.5f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3( 0.5f,  0.5f,-0.5f), glm::vec3(1.f)),
+		coloredVertex(glm::vec3(-0.5f,  0.5f,-0.5f), glm::vec3(1.f))
+	};
+	std::vector<unsigned int> eboCubeIndices{
+		0, 1, 2,
+		0, 2, 3,
+
+		1, 5, 6,
+		1, 6, 2,
+
+		5, 4, 7,
+		5, 7, 6,
+
+		4, 0, 3,
+		4, 3, 7,
+
+		3, 2, 6,
+		3, 6, 7,
+
+		0, 5, 1,
+		0, 4, 5, 
+	};
+
+	//Mesh2 _test(test, indices);
+	Mesh2 cuber(eboCube, eboCubeIndices);
 
 	// Creating meshes
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
-	Mesh _cube(cube, sizeof(cube), glm::vec3(1.0f, 1.0f, 1.0f)); 
+	//Mesh _cube(cube, sizeof(cube), glm::vec3(1.0f, 1.0f, 1.0f)); 
 
 	// Background Color
 	glClearColor(0.11f, 0.64f, 0.78f, 1.0f);
@@ -196,7 +241,7 @@ int main() {
 		}
 		
 		// Coordinate Axis Lines
-		int scale = 5;
+		int scale = 5; // 5 Unit length
 		glLineWidth(15);
 
 		//X
@@ -220,11 +265,17 @@ int main() {
 
 		//Drawing cube at origin
 		// TODO set up Snowman Model
-		// TODO set key input to handle changing draw's type
+		// TODO set key input to handle changing draw's type - CHANGETYPE METHOD
 		glLineWidth(1);
-		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f, 4.0f, 4.0f));
-		worldMatrix = scalingMatrix;
-		_cube.draw(sh, GL_TRIANGLES, 0, 36, worldMatrix);
+		//scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f, 4.0f, 4.0f));
+		//worldMatrix = scalingMatrix;
+		//_cube.draw(sh, GL_TRIANGLES, 0, 36, worldMatrix);
+
+		//TODO has no color info
+		scalingMatrix = glm::scale(glm::mat4(1.f), glm::vec3(5.f));
+		translationMatrix = glm::translate(glm::mat4(1.f), glm::vec3(0.f, 10.f, 0.f));
+		worldMatrix = translationMatrix;
+		cuber.Draw(sh, worldMatrix);
 
 		//Wireframe with GL_LINE_LOOP
 		//Shape with GL_TRIANGLES
@@ -235,11 +286,17 @@ int main() {
 		glfwPollEvents();
 
 		// Escape to close window
+		//TODO setup as callback
 		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			glfwSetWindowShouldClose(win, true);
 		}
 		if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			std::cout << " IPressed right arrow" << std::endl;
+			cuber.changeType(GL_LINE_LOOP);
+		}
+		if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS) {
+			std::cout << " IPressed left arrow" << std::endl;
+			cuber.changeType(GL_TRIANGLES);
 		}
 
 		glUseProgram(0);

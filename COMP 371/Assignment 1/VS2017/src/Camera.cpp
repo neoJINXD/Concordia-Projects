@@ -122,6 +122,9 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 		sin(glm::radians(yaw)) * cos(glm::radians(pitch))
 	));
 
+	// Projection Transform
+	unsigned int projectionMatrixLocation = glGetUniformLocation(sh.shaderProgram, "projectionMatrix");
+	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 	// View Transform - from camera movement
 	// TODO fix cam to look at 0,0,0 and rotate world
 	unsigned int viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
@@ -137,7 +140,4 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 	);
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
-	// Projection Transform
-	unsigned int projectionMatrixLocation = glGetUniformLocation(sh.shaderProgram, "projectionMatrix");
-	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 }

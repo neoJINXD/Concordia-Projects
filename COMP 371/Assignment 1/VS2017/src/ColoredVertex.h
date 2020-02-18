@@ -3,9 +3,9 @@
 #include <glm/glm.hpp>
 
 struct coloredVertex {
-	coloredVertex(glm::vec3 _position, glm::vec3 _color)
-		: position(_position), color(_color) {}
+	coloredVertex(glm::vec3 _position, glm::vec3 _normal)
+		: position(_position), normal(_normal) {}
 
 	glm::vec3 position;
-	glm::vec3 color;
+	glm::vec3 normal;
 };

@@ -95,3 +95,92 @@ void Mesh::initVAO()
 	glEnableVertexAttribArray(1);
 
 }
+
+Mesh2::Mesh2(std::vector<coloredVertex> _vertices, std::vector<unsigned int> _indices)
+{
+	vertices = _vertices;
+	indices = _indices;
+	type = GL_TRIANGLES;
+
+	initVAO();
+}
+
+Mesh2::~Mesh2()
+{
+}
+
+void Mesh2::Draw(Shader sh, glm::mat4 MVP)
+{
+	glUseProgram(sh.shaderProgram);
+
+	this->Bind();
+
+	unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
+
+	//draw
+	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &MVP[0][0]);
+	glDrawElements(type, indices.size(), GL_UNSIGNED_INT, 0);
+
+
+	//clean
+	this->Unbind();
+
+}
+
+void Mesh2::changeType(unsigned int newType)
+{
+	type = newType;
+
+}
+
+void Mesh2::initVAO()
+{
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(coloredVertex), &vertices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+	// vertices
+	glVertexAttribPointer(0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(coloredVertex),
+		(void*)0
+	);
+	glEnableVertexAttribArray(0);
+
+	// normals
+	glVertexAttribPointer(1,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(coloredVertex),
+		(void*)sizeof(glm::vec3)
+	);
+	glEnableVertexAttribArray(1);
+
+	// unbind the mesh by default
+	glBindVertexArray(0);
+
+}
+
+void Mesh2::Bind()
+{
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+}
+
+void Mesh2::Unbind()
+{
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+}
