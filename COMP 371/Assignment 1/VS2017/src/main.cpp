@@ -113,7 +113,7 @@ int main() {
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
 
 	// Background Color
-	glClearColor(0.11f, 0.64f, 0.78f, 1.0f);
+	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
 
 	
 	// Setting up Camera with starting point
