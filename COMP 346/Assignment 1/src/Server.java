@@ -178,7 +178,10 @@ public class Server extends Thread {
 
         /* Process the accounts until the client disconnects */
         while ((!objNetwork.getClientConnectionStatus().equals("disconnected"))) {
-            // while ((objNetwork.getInBufferStatus().equals("empty"));
+            while ((objNetwork.getInBufferStatus().equals("empty"))
+                    && (!objNetwork.getClientConnectionStatus().equals("disconnected"))) {
+                Server.yield();
+            }
             /* Alternatively, busy-wait until the network input buffer is available */
             if (!objNetwork.getInBufferStatus().equals("empty")) {
                 // System.out.println("\n DEBUG : Server.processTransactions() - transferring in
@@ -318,9 +321,9 @@ public class Server extends Thread {
 
         serverStartTime = System.currentTimeMillis();
 
-        while ((objNetwork.getInBufferStatus().equals("empty"))) {
-            Server.yield();
-        }
+        // while ((objNetwork.getInBufferStatus().equals("empty"))) {
+        // Server.yield();
+        // }
 
         processTransactions(trans);
 
