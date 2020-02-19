@@ -107,7 +107,8 @@ int main() {
 		0, 4, 5, 
 	};
 
-	MeshEBO cuber(eboCube, eboCubeIndices);
+	MeshEBO cuber(eboCube, eboCubeIndices, nullptr, glm::vec3(0.f, 3.f, 0.f), glm::vec3(45.f,0.f,0.f), glm::vec3(2.f));
+	MeshEBO buber(eboCube, eboCubeIndices, &cuber, glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(2.f,0.f,0.f));
 
 	// Creating meshes
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
@@ -136,6 +137,8 @@ int main() {
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+
+	glm::vec3 rot(1.f);
 	
 	while (!glfwWindowShouldClose(win))
 	{
@@ -208,9 +211,11 @@ int main() {
 
 
 		scalingMatrix = glm::scale(glm::mat4(1.f), glm::vec3(5.f));
+		rotation = glm::rotate(glm::mat4(1.f), glm::radians(rot.x), glm::vec3(1.f,0.f,0.f));
 		translationMatrix = glm::translate(glm::mat4(1.f), glm::vec3(0.f, 10.f, 0.f));
-		worldMatrix = translationMatrix;
+		worldMatrix = translationMatrix * rotation;
 		cuber.Draw(&sh, worldMatrix);
+		buber.Draw(&sh, worldMatrix);
 
 		//Wireframe with GL_LINE_LOOP
 		//Shape with GL_TRIANGLES
@@ -232,6 +237,11 @@ int main() {
 		if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			std::cout << " IPressed left arrow" << std::endl;
 			cuber.changeType(GL_TRIANGLES);
+		}
+		if (glfwGetKey(win, GLFW_KEY_F) == GLFW_PRESS) {
+			cuber.rotate(0.f, 1.f, 0.f);
+			buber.rotate(0.f, 1.f, 0.f);
+			rot.x += 10;
 		}
 
 		glUseProgram(0);
