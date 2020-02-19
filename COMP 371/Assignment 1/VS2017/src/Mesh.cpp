@@ -147,7 +147,7 @@ MeshEBO::~MeshEBO()
 	}
 }
 
-void MeshEBO::Draw(Shader* sh, glm::mat4 Model, glm::vec3 color)
+void MeshEBO::Draw(Shader* sh, glm::vec3 color)
 {
 
 	//if (!parent){
@@ -278,4 +278,17 @@ void MeshEBO::rotate(float x, float y, float z) {
 	rotation.x += x;
 	rotation.y += y;
 	rotation.z += z;
+}
+
+void MeshEBO::scaleUp(float x, float y, float z) {
+	scale.x += x;
+	scale.y += y;
+	scale.z += z;
+	//needs to fix position of childs
+}
+
+void MeshEBO::moveBy(float x, float y, float z) {
+	position.x += x;
+	position.y += y;
+	position.z += z;
 }

@@ -41,16 +41,16 @@ public:
 			glm::vec3 _rotation = glm::vec3(0.f), 
 			glm::vec3 _scale = glm::vec3(1.f),
 			glm::vec3 _conection = glm::vec3(0.f)
-			);//should maybe add position, scale, rotation and offset?
+			);
 	~MeshEBO();
 
 
-	void Draw(Shader* sh, glm::mat4 Model, glm::vec3 color = glm::vec3(1.f, 1.f, 1.f)); // TODO set up color 
+	void Draw(Shader* sh, glm::vec3 color = glm::vec3(1.f, 1.f, 1.f)); // TODO set up color 
 	void changeType(unsigned int newType);
 	void rotate(float x, float y, float z);
 	void randomizePos();
-	void moveTo(glm::vec3 newPos);
-	void scaleUp();
+	void moveBy(float x, float y, float z);
+	void scaleUp(float x, float y, float z);
 	void scaleDown();
 
 private:
@@ -69,7 +69,7 @@ private:
 
 	glm::vec3 color;//TODO use this
 
-	glm::vec3 conection; // where the current mesh is connected to parent
+	glm::vec3 conection;// where the current mesh is connected to parent
 	glm::vec3 position; // Translate by how much
 	glm::vec3 rotation; // Rotate by how much based on each axis
 	glm::vec3 scale;    // Scale by how much per axis
@@ -80,7 +80,7 @@ private:
 	void Bind();
 	void Unbind();
 	void updateModelMatrix(); // TODO
-	void transform(); //Applies model matrix?, or should i just apply it in draw
+	//void transform(); //Applies model matrix?, or should i just apply it in draw
 
 };
 

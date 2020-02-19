@@ -138,7 +138,7 @@ int main() {
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 
-	glm::vec3 rot(1.f);
+	//glm::vec3 rot(1.f);
 	
 	while (!glfwWindowShouldClose(win))
 	{
@@ -210,12 +210,12 @@ int main() {
 		glLineWidth(1);
 
 
-		scalingMatrix = glm::scale(glm::mat4(1.f), glm::vec3(5.f));
-		rotation = glm::rotate(glm::mat4(1.f), glm::radians(rot.x), glm::vec3(1.f,0.f,0.f));
-		translationMatrix = glm::translate(glm::mat4(1.f), glm::vec3(0.f, 10.f, 0.f));
-		worldMatrix = translationMatrix * rotation;
-		cuber.Draw(&sh, worldMatrix);
-		buber.Draw(&sh, worldMatrix);
+		//scalingMatrix = glm::scale(glm::mat4(1.f), glm::vec3(5.f));
+		//rotation = glm::rotate(glm::mat4(1.f), glm::radians(rot.x), glm::vec3(1.f,0.f,0.f));
+		//translationMatrix = glm::translate(glm::mat4(1.f), glm::vec3(0.f, 10.f, 0.f));
+		//worldMatrix = translationMatrix * rotation;
+		cuber.Draw(&sh);
+		buber.Draw(&sh, glm::vec3(1.f, 0.f, 0.f));
 
 		//Wireframe with GL_LINE_LOOP
 		//Shape with GL_TRIANGLES
@@ -241,7 +241,23 @@ int main() {
 		if (glfwGetKey(win, GLFW_KEY_F) == GLFW_PRESS) {
 			cuber.rotate(0.f, 1.f, 0.f);
 			buber.rotate(0.f, 1.f, 0.f);
-			rot.x += 10;
+			//rot.x += 10;
+		}
+		if (glfwGetKey(win, GLFW_KEY_K) == GLFW_PRESS) {
+			cuber.moveBy(.1f, .0f, .0f);
+			buber.moveBy(.1f, .0f, .0f);
+		}
+		if (glfwGetKey(win, GLFW_KEY_H) == GLFW_PRESS) {
+			cuber.moveBy(-.1f, .0f, .0f);
+			buber.moveBy(-.1f, .0f, .0f);
+		}
+		if (glfwGetKey(win, GLFW_KEY_U) == GLFW_PRESS) {
+			cuber.moveBy(.0f, .0f, -.1f);
+			buber.moveBy(.0f, .0f, -.1f);
+		}
+		if (glfwGetKey(win, GLFW_KEY_J) == GLFW_PRESS) {
+			cuber.moveBy(.0f, .0f, .1f);
+			buber.moveBy(.0f, .0f, .1f);
 		}
 
 		glUseProgram(0);
