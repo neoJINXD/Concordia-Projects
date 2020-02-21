@@ -34,6 +34,8 @@ public:
 
 private:
 	float* speed;
+	float radius;
+	float position;
 	glm::vec3* camEye; // position of the cam
 	glm::vec3* camCenter; // where looking
 	glm::vec3* camUp; // where up is

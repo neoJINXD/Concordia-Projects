@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include <iostream>
+#include <algorithm>
 
 Mesh::Mesh(coloredVertex* _shape, int _size, glm::vec3 _color)
 {
@@ -144,9 +145,9 @@ void MeshEBO::Draw(Shader* sh)
 	glUniform4f(colorInfo, color.x, color.y, color.z, 1.0f);
 
 	updateModelMatrix();
+	unsigned int worldMatrixLocation = glGetUniformLocation(sh->shaderProgram, "worldMatrix");
 	this->Bind();
 
-	unsigned int worldMatrixLocation = glGetUniformLocation(sh->shaderProgram, "worldMatrix");
 
 	//draw
 	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &ModelMatrix[0][0]);
@@ -246,7 +247,10 @@ void MeshEBO::rotate(float x, float y, float z) {
 	rotation.y += y;
 	rotation.z += z;
 	for (auto* i : children) {
+		//i->oldOrigin = i->origin;
+		//i->origin = this->origin - i->position;
 		i->rotate(x, y, z);
+		//i->origin = i->oldOrigin;
 	}
 
 }
@@ -255,17 +259,30 @@ void MeshEBO::scaleUpDown(float x) {
 	scale.x += x;
 	scale.y += x;
 	scale.z += x;
+	if (scale.x < 0.f) {
+		scale.x = 0.f;
+	}
+	if (scale.y < 0.f) {
+		scale.y = 0.f;
+	}
+	if (scale.z < 0.f) {
+		scale.z = 0.f;
+	}
 	for (auto* i : children) {
 		i->scaleUpDown(x);
-		//TODO get the sign of all the positions
+		glm::vec3 normalized = glm::normalize(i->position);
+		i->moveBy(x * normalized.x, x * normalized.y, x * normalized.z);
 	}
-	//needs to fix position of childs
+	
 }
+
 
 void MeshEBO::moveBy(float x, float y, float z) {
 	position.x += x;
 	position.y += y;
 	position.z += z;
+
+	
 	//parents position is the rotation point
 	origin = position;
 	for (auto* i : children) {
@@ -277,4 +294,29 @@ void MeshEBO::moveBy(float x, float y, float z) {
 void MeshEBO::addChild(MeshEBO* child) {
 	child->origin = this->position;
 	children.push_back(child);
+	//child->parent = this;
+}
+
+void MeshEBO::randomizePos() {
+	float newX = 0;
+	do
+	{
+		newX = (std::rand() % 100) - 50;
+	} while (position.x + newX > 50 || position.x + newX < -50);
+	
+	float newZ = 0;
+	do
+	{
+		newZ = (std::rand() % 100) - 50;
+	} while (position.z + newZ > 50 || position.z + newZ < -50);
+
+	//std::cout << "new x: " << newX << " new z: " << newZ << std::endl;
+	moveBy(newX, position.y, newZ);
+}
+
+glm::vec3 MeshEBO::getRotation() {
+	return rotation;
+}
+glm::vec3 MeshEBO::getPosition() {
+	return position;
 }

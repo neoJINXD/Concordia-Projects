@@ -117,10 +117,14 @@ int main() {
 	// creating the snowman
 	MeshEBO torso(eboCube, eboCubeIndices, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f));
 	MeshEBO right(eboCube, eboCubeIndices, glm::vec3(1.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(0.f), glm::vec3(1.f, 0.f, 0.f));
+	MeshEBO rightright(eboCube, eboCubeIndices, glm::vec3(2.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(0.f), glm::vec3(1.f, 0.f, 1.f));
 	MeshEBO left(eboCube, eboCubeIndices, glm::vec3(-1.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
 	// creates the hierarchy
 	torso.addChild(&right);
 	torso.addChild(&left);
+	right.addChild(&rightright);
+
+	MeshEBO edge(eboCube, eboCubeIndices, glm::vec3(50.f, 0.f, 50.f), glm::vec3(0.f), glm::vec3(1.f));
 
 	// Background Color
 	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
@@ -146,6 +150,8 @@ int main() {
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+
+	bool hasRandomized = false;
 
 	while (!glfwWindowShouldClose(win))
 	{
@@ -214,11 +220,11 @@ int main() {
 
 		//Drawing snowman at origin
 		glLineWidth(1);
+		glPointSize(10);
 
 		torso.Draw(&sh);
+		edge.Draw(&sh);
 		
-		//Wireframe with GL_LINE_LOOP
-		//Shape with GL_TRIANGLES
 		
 		// Swap buffers
 		glfwSwapBuffers(win);
@@ -230,13 +236,20 @@ int main() {
 		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			glfwSetWindowShouldClose(win, true);
 		}
-		if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-			std::cout << " IPressed right arrow" << std::endl;
+		if (glfwGetKey(win, GLFW_KEY_L) == GLFW_PRESS) {
+			// Wireframe with GL_LINE_LOOP
+			//std::cout << " IPressed right arrow" << std::endl;
 			torso.changeType(GL_LINE_LOOP);
 		}
-		if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS) {
-			std::cout << " IPressed left arrow" << std::endl;
+		if (glfwGetKey(win, GLFW_KEY_T) == GLFW_PRESS) {
+			// Shape with GL_TRIANGLES
+			//std::cout << " IPressed left arrow" << std::endl;
 			torso.changeType(GL_TRIANGLES);
+		}
+		if (glfwGetKey(win, GLFW_KEY_P) == GLFW_PRESS) {
+			// Shape with GL_TRIANGLES
+			//std::cout << " IPressed left arrow" << std::endl;
+			torso.changeType(GL_POINTS);
 		}
 		if (glfwGetKey(win, GLFW_KEY_F) == GLFW_PRESS) {
 			torso.rotate(0.f, 1.f, 0.f);
@@ -261,6 +274,21 @@ int main() {
 		}
 		if (glfwGetKey(win, GLFW_KEY_O) == GLFW_PRESS){
 			torso.scaleUpDown(-.1f);
+		}
+		if (glfwGetKey(win, GLFW_KEY_HOME) == GLFW_PRESS) {
+			glm::vec3 currentPosition = torso.getPosition();
+			glm::vec3 currentRotation = torso.getRotation();
+			torso.moveBy(-currentPosition.x, -currentPosition.y, -currentPosition.z);
+			torso.rotate(-currentRotation.x, -currentRotation.y, -currentRotation.z);
+		}
+		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS){
+			if (!hasRandomized) {
+				hasRandomized = true;
+				torso.randomizePos();
+			}
+		}
+		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_RELEASE) {
+			hasRandomized = false;
 		}
 
 		glUseProgram(0);
