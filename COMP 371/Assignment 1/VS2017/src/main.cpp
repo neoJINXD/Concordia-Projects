@@ -231,48 +231,47 @@ int main() {
 		// Check/call events
 		glfwPollEvents();
 
-		// Escape to close window
 		//TODO setup as callback
 		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+			// Escape to close window
 			glfwSetWindowShouldClose(win, true);
 		}
 		if (glfwGetKey(win, GLFW_KEY_L) == GLFW_PRESS) {
 			// Wireframe with GL_LINE_LOOP
-			//std::cout << " IPressed right arrow" << std::endl;
 			torso.changeType(GL_LINE_LOOP);
 		}
 		if (glfwGetKey(win, GLFW_KEY_T) == GLFW_PRESS) {
 			// Shape with GL_TRIANGLES
-			//std::cout << " IPressed left arrow" << std::endl;
 			torso.changeType(GL_TRIANGLES);
 		}
 		if (glfwGetKey(win, GLFW_KEY_P) == GLFW_PRESS) {
-			// Shape with GL_TRIANGLES
-			//std::cout << " IPressed left arrow" << std::endl;
+			// Points with GL_POINTS
 			torso.changeType(GL_POINTS);
 		}
-		if (glfwGetKey(win, GLFW_KEY_F) == GLFW_PRESS) {
-			torso.rotate(0.f, 1.f, 0.f);
+		if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
+			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+				torso.moveBy(.1f, .0f, .0f);
+			else
+				torso.rotate(0.f, -1.f, 0.f);
 		}
-		if (glfwGetKey(win, GLFW_KEY_G) == GLFW_PRESS) {
-			torso.rotate(0.f, -1.f, 0.f);
+		if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
+			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+				torso.moveBy(-.1f, .0f, .0f);
+			else 
+				torso.rotate(0.f, 1.f, 0.f);
 		}
-		if (glfwGetKey(win, GLFW_KEY_K) == GLFW_PRESS) {
-			torso.moveBy(.1f, .0f, .0f);
+		if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
+			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+				torso.moveBy(.0f, .0f, -.1f);
 		}
-		if (glfwGetKey(win, GLFW_KEY_H) == GLFW_PRESS) {
-			torso.moveBy(-.1f, .0f, .0f);
+		if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
+			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+				torso.moveBy(.0f, .0f, .1f);
 		}
-		if (glfwGetKey(win, GLFW_KEY_U) == GLFW_PRESS) {
-			torso.moveBy(.0f, .0f, -.1f);
-		}
-		if (glfwGetKey(win, GLFW_KEY_J) == GLFW_PRESS) {
-			torso.moveBy(.0f, .0f, .1f);
-		}
-		if (glfwGetKey(win, GLFW_KEY_P) == GLFW_PRESS){
+		if (glfwGetKey(win, GLFW_KEY_U) == GLFW_PRESS){
 			torso.scaleUpDown(.1f);
 		}
-		if (glfwGetKey(win, GLFW_KEY_O) == GLFW_PRESS){
+		if (glfwGetKey(win, GLFW_KEY_J) == GLFW_PRESS){
 			torso.scaleUpDown(-.1f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_HOME) == GLFW_PRESS) {
