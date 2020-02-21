@@ -4,6 +4,14 @@
 #include "Shader.h"
 
 #include <vector>
+
+#ifndef GLEW_STATIC
+#define GLEW_STATIC 1
+#endif
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -36,30 +44,29 @@ class MeshEBO
 public:
 	MeshEBO(std::vector<coloredVertex> _vertices, 
 			std::vector<unsigned int> _indices, 
-			MeshEBO* _parent = nullptr,
 			glm::vec3 _position = glm::vec3(0.f), 
 			glm::vec3 _rotation = glm::vec3(0.f), 
 			glm::vec3 _scale = glm::vec3(1.f),
-			glm::vec3 _conection = glm::vec3(0.f)
+			glm::vec3 _origin = glm::vec3(0.f),
+			glm::vec3 _color = glm::vec3(1.f)
 			);
 	~MeshEBO();
 
 
-	void Draw(Shader* sh, glm::vec3 color = glm::vec3(1.f, 1.f, 1.f)); // TODO set up color 
+	void Draw(Shader* sh);
 	void changeType(unsigned int newType);
 	void rotate(float x, float y, float z);
 	void randomizePos();
 	void moveBy(float x, float y, float z);
-	void scaleUp(float x, float y, float z);
-	void scaleDown();
+	void scaleUpDown(float x);
+
+	void addChild(MeshEBO* child);
 
 private:
-	MeshEBO* parent;//TODO setup parent
+	std::vector<MeshEBO*> children;
 
 	std::vector<coloredVertex> vertices;
 	std::vector<unsigned int> indices;
-	//unsigned int nbVertices;//? dont think i need these 2
-	//unsigned int nbIndices;//?
 
 	unsigned int VBO;
 	unsigned int VAO;
@@ -67,9 +74,9 @@ private:
 
 	unsigned int type;
 
-	glm::vec3 color;//TODO use this
+	glm::vec3 color;
 
-	glm::vec3 conection;// where the current mesh is connected to parent
+	glm::vec3 origin;	// where the current mesh is connected to parent
 	glm::vec3 position; // Translate by how much
 	glm::vec3 rotation; // Rotate by how much based on each axis
 	glm::vec3 scale;    // Scale by how much per axis
@@ -79,8 +86,6 @@ private:
 	void initVAO();
 	void Bind();
 	void Unbind();
-	void updateModelMatrix(); // TODO
-	//void transform(); //Applies model matrix?, or should i just apply it in draw
-
+	void updateModelMatrix();
 };
 

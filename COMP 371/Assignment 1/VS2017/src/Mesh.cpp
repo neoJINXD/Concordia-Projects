@@ -1,5 +1,4 @@
 #include "Mesh.h"
-#include <GL/glew.h>
 #include <iostream>
 
 Mesh::Mesh(coloredVertex* _shape, int _size, glm::vec3 _color)
@@ -98,12 +97,15 @@ void Mesh::initVAO()
 
 
 
-//TODO maybe have model matrix be made in here
-
-
-//should pass nb of vertices and indices to create local copy
-// or set it up as pointer
-MeshEBO::MeshEBO(std::vector<coloredVertex> _vertices, std::vector<unsigned int> _indices, MeshEBO* _parent, glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale, glm::vec3 _conection)
+MeshEBO::MeshEBO(
+	std::vector<coloredVertex> _vertices,
+	std::vector<unsigned int> _indices,
+	glm::vec3 _position,
+	glm::vec3 _rotation,
+	glm::vec3 _scale,
+	glm::vec3 _origin,
+	glm::vec3 _color
+)
 {
 	for (size_t i = 0; i < _vertices.size(); i++) {
 		vertices.push_back(_vertices[i]);
@@ -113,27 +115,16 @@ MeshEBO::MeshEBO(std::vector<coloredVertex> _vertices, std::vector<unsigned int>
 		indices.push_back(_indices[i]);
 	}
 
-	//vertices = _vertices;
-	//indices = _indices;
 	type = GL_TRIANGLES;
 
-	parent = _parent;
 	position = _position;
 	rotation = _rotation;
 	scale = _scale;
+	origin = _origin;
+	color = _color;
 
-	//if root, there is no offset
-	if (!parent) {
-		conection = glm::vec3(0.f);
-	}
-	else {
-		position = parent->position;
-		conection = _conection;
-		position += conection;
-	}
 
 	initVAO();
-	//updateModelMatrix();
 }
 
 MeshEBO::~MeshEBO()
@@ -141,18 +132,11 @@ MeshEBO::~MeshEBO()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-	if (!parent) {
-		delete parent;
-		parent = nullptr;
-	}
+	
 }
 
-void MeshEBO::Draw(Shader* sh, glm::vec3 color)
+void MeshEBO::Draw(Shader* sh)
 {
-
-	//if (!parent){
-	//	apply, movement from root
-	//}
 
 	glUseProgram(sh->shaderProgram);
 
@@ -168,16 +152,20 @@ void MeshEBO::Draw(Shader* sh, glm::vec3 color)
 	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &ModelMatrix[0][0]);
 	glDrawElements(type, indices.size(), GL_UNSIGNED_INT, 0);
 
-
 	//clean
 	this->Unbind();
 
+	for (auto* i : children) {
+		i->Draw(sh);
+	}
 }
 
 void MeshEBO::changeType(unsigned int newType)
 {
 	type = newType;
-
+	for (auto* i : children) {
+		i->changeType(newType);
+	}
 }
 
 void MeshEBO::initVAO()
@@ -232,45 +220,24 @@ void MeshEBO::Unbind()
 	glUseProgram(0);
 }
 
+
 void MeshEBO::updateModelMatrix() {
 	//resetting the model matrix
 	ModelMatrix = glm::mat4(1.f);
-	//apply offset for where to rotate from, doesnt do anything if the mesh is the root
-	glm::mat4 OffsetMatrix = glm::translate(glm::mat4(1.f), conection);
-	//std::cout << conection.x << std::endl;
 
-	//rotate on all the axis
-	glm::mat4 RotationXMatrix = glm::rotate(glm::mat4(1.f), glm::radians(rotation.x), glm::vec3(1.f, 0.f, 0.f));
-	glm::mat4 RotationYMatrix = glm::rotate(glm::mat4(1.f), glm::radians(rotation.y), glm::vec3(0.f, 1.f, 0.f));
-	glm::mat4 RotationZMatrix = glm::rotate(glm::mat4(1.f), glm::radians(rotation.z), glm::vec3(0.f, 0.f, 1.f));
+	//applying offset for where to rotate from
+	ModelMatrix = glm::translate(ModelMatrix, origin);
 
-	//apply translation for position of the mesh
-	glm::mat4 TranslateMatrix = glm::translate(glm::mat4(1.f), position-conection);
+	//applying the rotations
+	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.x), glm::vec3(1.f, 0.f, 0.f));
+	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.y), glm::vec3(0.f, 1.f, 0.f));
+	ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.z), glm::vec3(0.f, 0.f, 1.f));
 
-	//apply scale transformations
-	glm::mat4 ScaleMatrix = glm::scale(glm::mat4(1.f), scale);
+	//translating the mesh
+	ModelMatrix = glm::translate(ModelMatrix, position - origin);
 
-	ModelMatrix = TranslateMatrix * RotationZMatrix * RotationYMatrix * RotationXMatrix * OffsetMatrix * ScaleMatrix;
-
-
-	////resetting the model matrix
-	//ModelMatrix = glm::mat4(1.f);
-
-	////apply offset for where to rotate from, doesnt do anything if the mesh is the root
-	//ModelMatrix = glm::translate(ModelMatrix, conection);
-
-	////rotate on all the axis
-	//ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.x), glm::vec3(1.f, 0.f, 0.f));
-	//ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.y), glm::vec3(0.f, 1.f, 0.f));
-	//ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.z), glm::vec3(0.f, 0.f, 1.f));
-
-	////apply translation for position of the mesh
-	//ModelMatrix = glm::translate(ModelMatrix, position);
-
-	////apply scale transformations
-	//ModelMatrix = glm::scale(ModelMatrix, scale);
-
-
+	//scaling the mesh
+	ModelMatrix = glm::scale(ModelMatrix, scale);
 }
 
 
@@ -278,12 +245,20 @@ void MeshEBO::rotate(float x, float y, float z) {
 	rotation.x += x;
 	rotation.y += y;
 	rotation.z += z;
+	for (auto* i : children) {
+		i->rotate(x, y, z);
+	}
+
 }
 
-void MeshEBO::scaleUp(float x, float y, float z) {
+void MeshEBO::scaleUpDown(float x) {
 	scale.x += x;
-	scale.y += y;
-	scale.z += z;
+	scale.y += x;
+	scale.z += x;
+	for (auto* i : children) {
+		i->scaleUpDown(x);
+		//TODO get the sign of all the positions
+	}
 	//needs to fix position of childs
 }
 
@@ -291,4 +266,15 @@ void MeshEBO::moveBy(float x, float y, float z) {
 	position.x += x;
 	position.y += y;
 	position.z += z;
+	//parents position is the rotation point
+	origin = position;
+	for (auto* i : children) {
+		i->moveBy(x, y, z);
+		i->origin = this->position;
+	}
+}
+
+void MeshEBO::addChild(MeshEBO* child) {
+	child->origin = this->position;
+	children.push_back(child);
 }

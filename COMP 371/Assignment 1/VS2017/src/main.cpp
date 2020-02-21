@@ -68,12 +68,13 @@ int main() {
 	// Shader Creation
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
 
+
+
 	// Arrays for the shapes used in rendering
 	coloredVertex line[] = {
 		coloredVertex(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
 		coloredVertex(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
 	};
-
 
 	std::vector<coloredVertex> eboCube{
 		coloredVertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.f)),
@@ -107,11 +108,19 @@ int main() {
 		0, 4, 5, 
 	};
 
-	MeshEBO cuber(eboCube, eboCubeIndices, nullptr, glm::vec3(0.f, 3.f, 0.f), glm::vec3(45.f,0.f,0.f), glm::vec3(2.f));
-	MeshEBO buber(eboCube, eboCubeIndices, &cuber, glm::vec3(0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(2.f,0.f,0.f));
+
 
 	// Creating meshes
+	// creating line
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
+
+	// creating the snowman
+	MeshEBO torso(eboCube, eboCubeIndices, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f));
+	MeshEBO right(eboCube, eboCubeIndices, glm::vec3(1.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(0.f), glm::vec3(1.f, 0.f, 0.f));
+	MeshEBO left(eboCube, eboCubeIndices, glm::vec3(-1.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
+	// creates the hierarchy
+	torso.addChild(&right);
+	torso.addChild(&left);
 
 	// Background Color
 	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
@@ -131,25 +140,24 @@ int main() {
 
 	
 	float lastFrameTime = glfwGetTime();
-	
+
 	// Disabling mouse cursor
 	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 
-	//glm::vec3 rot(1.f);
-	
 	while (!glfwWindowShouldClose(win))
 	{
 		glUseProgram(sh.shaderProgram);
 
+		// calculating deltatime
 		float dt = glfwGetTime() - lastFrameTime;
 		lastFrameTime += dt;
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Input processing
+		// camera's input processing
 		cam.processMovement(win, dt);
 
 		// Performing view and projection transformations for camera
@@ -204,19 +212,11 @@ int main() {
 		_line.draw(sh, GL_LINES, 0, 3, worldMatrix, glm::vec3(0.0f, 0.0f, 1.0f));
 		
 
-		//Drawing cube at origin
-		// TODO set up Snowman Model
-		// TODO set key input to handle changing draw's type - CHANGETYPE METHOD
+		//Drawing snowman at origin
 		glLineWidth(1);
 
-
-		//scalingMatrix = glm::scale(glm::mat4(1.f), glm::vec3(5.f));
-		//rotation = glm::rotate(glm::mat4(1.f), glm::radians(rot.x), glm::vec3(1.f,0.f,0.f));
-		//translationMatrix = glm::translate(glm::mat4(1.f), glm::vec3(0.f, 10.f, 0.f));
-		//worldMatrix = translationMatrix * rotation;
-		cuber.Draw(&sh);
-		buber.Draw(&sh, glm::vec3(1.f, 0.f, 0.f));
-
+		torso.Draw(&sh);
+		
 		//Wireframe with GL_LINE_LOOP
 		//Shape with GL_TRIANGLES
 		
@@ -232,32 +232,35 @@ int main() {
 		}
 		if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			std::cout << " IPressed right arrow" << std::endl;
-			cuber.changeType(GL_LINE_LOOP);
+			torso.changeType(GL_LINE_LOOP);
 		}
 		if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			std::cout << " IPressed left arrow" << std::endl;
-			cuber.changeType(GL_TRIANGLES);
+			torso.changeType(GL_TRIANGLES);
 		}
 		if (glfwGetKey(win, GLFW_KEY_F) == GLFW_PRESS) {
-			cuber.rotate(0.f, 1.f, 0.f);
-			buber.rotate(0.f, 1.f, 0.f);
-			//rot.x += 10;
+			torso.rotate(0.f, 1.f, 0.f);
+		}
+		if (glfwGetKey(win, GLFW_KEY_G) == GLFW_PRESS) {
+			torso.rotate(0.f, -1.f, 0.f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_K) == GLFW_PRESS) {
-			cuber.moveBy(.1f, .0f, .0f);
-			buber.moveBy(.1f, .0f, .0f);
+			torso.moveBy(.1f, .0f, .0f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_H) == GLFW_PRESS) {
-			cuber.moveBy(-.1f, .0f, .0f);
-			buber.moveBy(-.1f, .0f, .0f);
+			torso.moveBy(-.1f, .0f, .0f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_U) == GLFW_PRESS) {
-			cuber.moveBy(.0f, .0f, -.1f);
-			buber.moveBy(.0f, .0f, -.1f);
+			torso.moveBy(.0f, .0f, -.1f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_J) == GLFW_PRESS) {
-			cuber.moveBy(.0f, .0f, .1f);
-			buber.moveBy(.0f, .0f, .1f);
+			torso.moveBy(.0f, .0f, .1f);
+		}
+		if (glfwGetKey(win, GLFW_KEY_P) == GLFW_PRESS){
+			torso.scaleUpDown(.1f);
+		}
+		if (glfwGetKey(win, GLFW_KEY_O) == GLFW_PRESS){
+			torso.scaleUpDown(-.1f);
 		}
 
 		glUseProgram(0);
