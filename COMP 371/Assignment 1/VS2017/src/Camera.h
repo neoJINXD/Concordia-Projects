@@ -41,7 +41,7 @@ private:
 	glm::vec3* camCenter; // where looking
 	glm::vec3* camUp; // where up is
 	double oldMousePosX, oldMousePosY;
-	double mousePosX, mousePosY;
+	//double mousePosX, mousePosY;
 	float yaw, pitch;
 };
 
