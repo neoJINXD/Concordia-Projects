@@ -115,16 +115,50 @@ int main() {
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
 
 	// creating the snowman
-	MeshEBO torso(eboCube, eboCubeIndices, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f));
-	MeshEBO right(eboCube, eboCubeIndices, glm::vec3(1.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(0.f), glm::vec3(1.f, 0.f, 0.f));
-	MeshEBO rightright(eboCube, eboCubeIndices, glm::vec3(2.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(0.f), glm::vec3(1.f, 0.f, 1.f));
-	MeshEBO left(eboCube, eboCubeIndices, glm::vec3(-1.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
-	// creates the hierarchy
-	torso.addChild(&right);
-	torso.addChild(&left);
-	right.addChild(&rightright);
+	MeshEBO footLeft(eboCube, eboCubeIndices, glm::vec3(.5f, 0.25f, 0.f), glm::vec3(0.f), glm::vec3(.2f, .5f, .2f), glm::vec3(0.f), glm::vec3(0.f));
+	MeshEBO footRight(eboCube, eboCubeIndices, glm::vec3(-.5f, 0.25f, 0.f), glm::vec3(0.f), glm::vec3(.2f, .5f, .2f), glm::vec3(0.f), glm::vec3(0.f));
+	
+	MeshEBO legLeft(eboCube, eboCubeIndices, glm::vec3(.5f, 0.75f, 0.f), glm::vec3(0.f), glm::vec3(.4f, 1.f, .4f), glm::vec3(0.f), glm::vec3(0.5f));
+	MeshEBO legRight(eboCube, eboCubeIndices, glm::vec3(-.5f, 0.75f, 0.f), glm::vec3(0.f), glm::vec3(.4f, 1.f, .4f), glm::vec3(0.f), glm::vec3(0.5f));
 
-	MeshEBO edge(eboCube, eboCubeIndices, glm::vec3(50.f, 0.f, 50.f), glm::vec3(0.f), glm::vec3(1.f));
+	MeshEBO torso(eboCube, eboCubeIndices, glm::vec3(0.f, 2.f, 0.f), glm::vec3(0.f), glm::vec3(2.f, 2.f, 1.f));
+	MeshEBO button1(eboCube, eboCubeIndices, glm::vec3(0.f, 2.5f, .2f), glm::vec3(0.f), glm::vec3(.2f, .2f, .8f), glm::vec3(0.f), glm::vec3(0.f));
+	MeshEBO button2(eboCube, eboCubeIndices, glm::vec3(0.f, 1.5f, .2f), glm::vec3(0.f), glm::vec3(.2f, .2f, .8f), glm::vec3(0.f), glm::vec3(0.f));
+
+	MeshEBO armLeft(eboCube, eboCubeIndices, glm::vec3(1.5f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(3.f, .2f, .2f), glm::vec3(0.f), glm::vec3(.5f, .37f, .2f));
+	MeshEBO armRight(eboCube, eboCubeIndices, glm::vec3(-1.5f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(3.f, .2f, .2f), glm::vec3(0.f), glm::vec3(.5f, .37f, .2f));
+
+	MeshEBO handLeft(eboCube, eboCubeIndices, glm::vec3(3.f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(.5f), glm::vec3(0.f));
+	MeshEBO handRight(eboCube, eboCubeIndices, glm::vec3(-3.f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(.5f), glm::vec3(0.f));
+
+
+	MeshEBO head(eboCube, eboCubeIndices, glm::vec3(0.f, 3.5f, 0.f), glm::vec3(0.f), glm::vec3(1.f, 2.f, 1.f));
+	MeshEBO eye(eboCube, eboCubeIndices, glm::vec3(0.f, 4.f, 0.2f), glm::vec3(0.f), glm::vec3(.6f, 0.2f, .8f), glm::vec3(0.f), glm::vec3(0.f));
+	MeshEBO hatBottom(eboCube, eboCubeIndices, glm::vec3(0.f, 4.5f, 0.f), glm::vec3(0.f), glm::vec3(1.5f, 0.2f, 1.1f), glm::vec3(0.f), glm::vec3(.91f, .55f, .12f));
+	MeshEBO hatTop(eboCube, eboCubeIndices, glm::vec3(0.f, 4.6f, 0.f), glm::vec3(0.f), glm::vec3(.8f, 1.f, .8f), glm::vec3(0.f), glm::vec3(1.f, .88f, .42f));
+	MeshEBO topper(eboCube, eboCubeIndices, glm::vec3(0.f, 5.f, 0.f), glm::vec3(0.f), glm::vec3(.3f, 2.f, .3f), glm::vec3(0.f), glm::vec3(0.f));
+
+
+	// creates the hierarchy
+	//torso.addChild(&right);
+	//torso.addChild(&left);
+	//right.addChild(&rightright);
+	torso.addChild(&footLeft);
+	torso.addChild(&footRight);
+	torso.addChild(&legLeft);
+	torso.addChild(&legRight);
+	torso.addChild(&button1);
+	torso.addChild(&button2);
+	torso.addChild(&armLeft);
+	torso.addChild(&armRight);
+	torso.addChild(&handLeft);
+	torso.addChild(&handRight);
+	torso.addChild(&head);
+	torso.addChild(&eye);
+	torso.addChild(&hatBottom);
+	torso.addChild(&hatTop);
+	torso.addChild(&topper);
+
 
 	// Background Color
 	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
@@ -140,7 +174,7 @@ int main() {
 	//Eventually removed, since no mouse movement for camera
 	float pitch = acos(glm::dot(Center - Eye, glm::vec3(0.0f, 1.0f, 0.0f)) / (glm::length(Center - Eye) * glm::length(glm::vec3(0.0f, 1.0f, 0.0f))));
 
-	Camera cam(&Eye, &Center, &Up, -pitch, &spd, PERSPECTIVE, win);
+	Camera cam(&Eye, &Center, &Up, &spd, PERSPECTIVE, win);
 
 	
 	float lastFrameTime = glfwGetTime();
@@ -197,7 +231,7 @@ int main() {
 		
 		// Coordinate Axis Lines
 		int scale = 5; // 5 Unit length
-		glLineWidth(15);
+		glLineWidth(5);
 
 		//X
 		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(scale * 1.0f, 1.1f, 1.1f));
@@ -223,7 +257,21 @@ int main() {
 		glPointSize(10);
 
 		torso.Draw(&sh);
-		edge.Draw(&sh);
+		/*footRight.Draw(&sh);
+		footLeft.Draw(&sh);
+		legLeft.Draw(&sh);
+		legRight.Draw(&sh);
+		button1.Draw(&sh);
+		button2.Draw(&sh);
+		armLeft.Draw(&sh);
+		armRight.Draw(&sh);
+		handLeft.Draw(&sh);
+		handRight.Draw(&sh);
+		head.Draw(&sh);
+		eye.Draw(&sh);
+		hatBottom.Draw(&sh);
+		hatTop.Draw(&sh);
+		topper.Draw(&sh);*/
 		
 		
 		// Swap buffers

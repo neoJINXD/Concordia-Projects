@@ -80,7 +80,7 @@ private:
 	glm::vec3 color;
 
 	glm::vec3 origin;	// where the current mesh is connected to parent
-	glm::vec3 offset = glm::vec3(0.f);
+	//glm::vec3 offset = glm::vec3(0.f);
 	glm::vec3 position; // Translate by how much
 	glm::vec3 rotation; // Rotate by how much based on each axis
 	glm::vec3 scale;    // Scale by how much per axis

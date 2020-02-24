@@ -5,7 +5,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float _pitch, float* _speed, ProjectionType Type, GLFWwindow* win) {
+Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, ProjectionType Type, GLFWwindow* win) {
 	camEye = Eye;			// Position
 	//camCenter = Center;		// Looking At Point
 	camCenter = new glm::vec3(0.f);
@@ -31,7 +31,6 @@ Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float _pitch, f
 
 	yaw = -90.0f;
 	pitch = -45.0f;
-	//pitch = _pitch;
 }
 
 Camera::~Camera() {
