@@ -3,6 +3,10 @@ by Anik Patel 40091908
 
 Controls are the same as defined in the assignemnt handout:
 
+Source code (.cpp and .h) are in VS2017/src
+and the shaders source files are in VS2017/assets/shaders
+
+
 Spacebar - Randomize Olaf's position
 U / J - Scale Olaf up and down respectively
 a / d - Rotates Olaf
