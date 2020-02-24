@@ -4,3 +4,6 @@ ThirdParty/
 .vs/
 
 *.log
+
+*.zip
+*.rar
