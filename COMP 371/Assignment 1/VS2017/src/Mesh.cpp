@@ -259,7 +259,7 @@ void MeshEBO::scaleUpDown(float x) {
 	scale.x += x;
 	scale.y += x;
 	scale.z += x;
-	if (scale.x < 0.f) {
+	/*if (scale.x < 0.f) {
 		scale.x = 0.f;
 	}
 	if (scale.y < 0.f) {
@@ -267,15 +267,21 @@ void MeshEBO::scaleUpDown(float x) {
 	}
 	if (scale.z < 0.f) {
 		scale.z = 0.f;
-	}
+	}*/
 	for (auto* i : children) {
 		i->scaleUpDown(x);
 		glm::vec3 normalized = glm::normalize(i->position);
-		i->moveBy(x * normalized.x, x * normalized.y, x * normalized.z);
+		i->absMoveBy(2 * x * normalized.x, 2 * x * normalized.y, 2 * x * normalized.z);
 	}
 	
 }
 
+void MeshEBO::absMoveBy(float x, float y, float z) {
+	position.x += x;
+	position.y += y;
+	position.z += z;
+
+}
 
 void MeshEBO::moveBy(float x, float y, float z) {
 	position.x += x;

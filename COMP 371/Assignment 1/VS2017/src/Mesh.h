@@ -58,6 +58,7 @@ public:
 	void rotate(float x, float y, float z);
 	void randomizePos();
 	void moveBy(float x, float y, float z);
+	void absMoveBy(float x, float y, float z);
 	void scaleUpDown(float x);
 
 	glm::vec3 getRotation();
