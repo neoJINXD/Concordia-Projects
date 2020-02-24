@@ -43,30 +43,6 @@ Camera::~Camera() {
 
 void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 
-	/*double mousePosX, mousePosY;
-	glfwGetCursorPos(win, &mousePosX, &mousePosY);
-
-	double dx = mousePosX - oldMousePosX;
-	double dy = mousePosY - oldMousePosY;
-
-	oldMousePosX = mousePosX;
-	oldMousePosY = mousePosY;
-
-	float sensitivity = 0.1f;
-	dx *= sensitivity;
-	dy *= -sensitivity;
-
-	yaw += dx;
-	pitch += dy;
-
-	pitch = std::max(-89.0f, std::min(89.0f, pitch));
-
-	*camCenter = glm::normalize(glm::vec3(
-		cosf(glm::radians(yaw)) * cosf(glm::radians(pitch)),
-		sinf(glm::radians(pitch)),
-		sin(glm::radians(yaw)) * cos(glm::radians(pitch))
-	));*/
-
 	double mousePosX, mousePosY;
 	glfwGetCursorPos(win, &mousePosX, &mousePosY);
 
@@ -80,12 +56,11 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 	dx *= sensitivity;
 	dy *= -sensitivity;
 
-	std::cout << "dx " << camEye->x << " dz " << camEye->z << std::endl;
-	std::cout << "pitch " << pitch << " yaw " << yaw << std::endl;
 
 	// Calcualting a speed normalized based on how much time has passed,
 	// speed is no longer affected by fps
-	float normalizedSpeed = *speed * deltaTime;
+	//float normalizedSpeed = *speed * deltaTime;
+
 	//if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
 	//	*camEye += *camCenter * normalizedSpeed;
 	//}
@@ -95,18 +70,11 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 	if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS) {
 		position -= .1f;
 		yaw += 5.73f;
-		//*camCenter = glm::vec3(0.f);
-		//yaw += 10.1f;
-		//glm::vec3 movement = glm::normalize(glm::cross(*camCenter, *camUp)) * normalizedSpeed;
-		//*camEye -= movement;
+
 	}
 	if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		position += .1f;
 		yaw -= 5.73f;
-		//yaw -= 10.1f;
-		//yaw = radius * atan(camEye->x / camEye->z);
-		//glm::vec3 movement = glm::normalize(glm::cross(*camCenter, *camUp)) * normalizedSpeed;
-		//*camEye += movement;
 	}
 	if (glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
 		//zoom in and out, up-down
@@ -135,32 +103,6 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 
 void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 
-	/*double mousePosX, mousePosY;
-	glfwGetCursorPos(win, &mousePosX, &mousePosY);
-
-	double dx = mousePosX - oldMousePosX;
-	double dy = mousePosY - oldMousePosY;
-
-	oldMousePosX = mousePosX;
-	oldMousePosY = mousePosY;
-
-	float sensitivity = 0.1f;
-	dx *= sensitivity;
-	dy *= -sensitivity;
-
-	yaw += dx;
-	pitch += dy;
-
-	pitch = std::max(-89.0f, std::min(89.0f, pitch));
-
-	*camCenter = glm::normalize(glm::vec3(
-		cosf(glm::radians(yaw)) * cosf(glm::radians(pitch)),
-		sinf(glm::radians(pitch)),
-		sin(glm::radians(yaw)) * cos(glm::radians(pitch))
-	));*/
-
-
-
 	// Projection Transform
 	unsigned int projectionMatrixLocation = glGetUniformLocation(sh.shaderProgram, "projectionMatrix");
 	projectionMatrix = glm::perspective(glm::radians(angle),  // field of view in degrees
@@ -172,9 +114,6 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 
 	float camX = sin(position) * radius;
 	float camZ = cos(position) * radius;
-
-	//change yaw with position
-	//yaw += position;
 
 	*camCenter = glm::normalize(glm::vec3(
 		cosf(glm::radians(yaw)) * cosf(glm::radians(pitch)),
@@ -189,11 +128,7 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 		*camEye + *camCenter,
 		*camUp
 	);
-	/*viewMatrix = glm::lookAt(
-		*camEye,
-		*camEye + *camCenter,
-		*camUp
-	);*/
+
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
 }
