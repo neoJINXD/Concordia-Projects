@@ -80,7 +80,7 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 	dx *= sensitivity;
 	dy *= -sensitivity;
 
-	std::cout << "dx " << dx << " dy " << dy << std::endl;
+	std::cout << "dx " << camEye->x << " dz " << camEye->z << std::endl;
 	std::cout << "pitch " << pitch << " yaw " << yaw << std::endl;
 
 	// Calcualting a speed normalized based on how much time has passed,
@@ -93,15 +93,18 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 	//	*camEye -= *camCenter * normalizedSpeed;
 	//}
 	if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		//position -= .1f;
+		position -= .1f;
+		yaw += 5.73f;
+		//*camCenter = glm::vec3(0.f);
 		//yaw += 10.1f;
 		//glm::vec3 movement = glm::normalize(glm::cross(*camCenter, *camUp)) * normalizedSpeed;
 		//*camEye -= movement;
 	}
 	if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		//position += .1f;
+		position += .1f;
+		yaw -= 5.73f;
 		//yaw -= 10.1f;
-		//yaw = atan(camEye->x / camEye->z);
+		//yaw = radius * atan(camEye->x / camEye->z);
 		//glm::vec3 movement = glm::normalize(glm::cross(*camCenter, *camUp)) * normalizedSpeed;
 		//*camEye += movement;
 	}
