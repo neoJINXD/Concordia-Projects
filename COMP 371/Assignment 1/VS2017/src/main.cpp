@@ -131,18 +131,13 @@ int main() {
 	MeshEBO handLeft(eboCube, eboCubeIndices, glm::vec3(3.f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(.5f), glm::vec3(0.f));
 	MeshEBO handRight(eboCube, eboCubeIndices, glm::vec3(-3.f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(.5f), glm::vec3(0.f));
 
-
 	MeshEBO head(eboCube, eboCubeIndices, glm::vec3(0.f, 3.5f, 0.f), glm::vec3(0.f), glm::vec3(1.f, 2.f, 1.f));
 	MeshEBO eye(eboCube, eboCubeIndices, glm::vec3(0.f, 4.f, 0.2f), glm::vec3(0.f), glm::vec3(.6f, 0.2f, .8f), glm::vec3(0.f), glm::vec3(0.f));
 	MeshEBO hatBottom(eboCube, eboCubeIndices, glm::vec3(0.f, 4.5f, 0.f), glm::vec3(0.f), glm::vec3(1.5f, 0.2f, 1.1f), glm::vec3(0.f), glm::vec3(.91f, .55f, .12f));
 	MeshEBO hatTop(eboCube, eboCubeIndices, glm::vec3(0.f, 4.6f, 0.f), glm::vec3(0.f), glm::vec3(.8f, 1.f, .8f), glm::vec3(0.f), glm::vec3(1.f, .88f, .42f));
 	MeshEBO topper(eboCube, eboCubeIndices, glm::vec3(0.f, 5.f, 0.f), glm::vec3(0.f), glm::vec3(.3f, 2.f, .3f), glm::vec3(0.f), glm::vec3(0.f));
 
-
 	// creates the hierarchy
-	//torso.addChild(&right);
-	//torso.addChild(&left);
-	//right.addChild(&rightright);
 	torso.addChild(&footLeft);
 	torso.addChild(&footRight);
 	torso.addChild(&legLeft);
@@ -162,7 +157,6 @@ int main() {
 
 	// Background Color
 	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
-
 	
 	// Setting up Camera with starting point
 	float spd = 1.0f;
@@ -327,6 +321,7 @@ int main() {
 			glm::vec3 currentRotation = torso.getRotation();
 			torso.moveBy(-currentPosition.x, -currentPosition.y, -currentPosition.z);
 			torso.rotate(-currentRotation.x, -currentRotation.y, -currentRotation.z);
+			cam.reset();
 		}
 		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS){
 			if (!hasRandomized) {

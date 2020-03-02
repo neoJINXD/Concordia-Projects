@@ -131,3 +131,9 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 
 }
+
+void Camera::reset() {
+	yaw = -90.0f;
+	pitch = -45.0f;
+	position = 0.f;
+}

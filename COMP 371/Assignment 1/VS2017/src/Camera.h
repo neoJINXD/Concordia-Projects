@@ -31,6 +31,7 @@ public:
 	glm::mat4 viewMatrix;
 
 	void updateView(Shader sh, GLFWwindow* win, float deltaTime);
+	void reset();
 
 private:
 	float* speed;
