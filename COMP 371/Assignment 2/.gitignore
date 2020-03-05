@@ -1,0 +1,9 @@
+Bin/
+Build/
+ThirdParty/
+.vs/
+
+*.log
+
+*.zip
+*.rar
