@@ -348,10 +348,7 @@ public class Server extends Thread {
 
             double curBalance; /* Current account balance */
 
-            // synchronized (this) {
-
             curBalance = account[i].getBalance(); /* Get current account balance */
-            // }
 
             /*
              * NEW : A server thread is blocked before updating the 10th , 20th, ... 70th
@@ -370,10 +367,7 @@ public class Server extends Thread {
             // System.out.printf(" Thread1: %s", getServerThreadRunningStatus1());
             // System.out.printf(" Thread2: %s", getServerThreadRunningStatus2());
 
-            // synchronized (this) {
-
             account[i].setBalance(curBalance + amount); /* Deposit amount in the account */
-            // }
             return account[i].getBalance(); /* Return updated account balance */
         }
     }
@@ -390,18 +384,14 @@ public class Server extends Thread {
 
             double curBalance; /* Current account balance */
 
-            // synchronized (this) {
             curBalance = account[i].getBalance(); /* Get current account balance */
-            // }
 
             System.out.println("\n DEBUG : Server.withdraw - " + "i " + i + " Current balance " + curBalance
                     + " Amount " + amount + " " + getServerThreadId());
             // System.out.printf(" Thread1: %s", getServerThreadRunningStatus1());
             // System.out.printf(" Thread2: %s", getServerThreadRunningStatus2());
 
-            // synchronized (this) {
             account[i].setBalance(curBalance - amount); /* Withdraw amount in the account */
-            // }
 
             return account[i].getBalance(); /* Return updated account balance */
         }
@@ -420,9 +410,7 @@ public class Server extends Thread {
 
             double curBalance; /* Current account balance */
 
-            // synchronized (this) {
             curBalance = account[i].getBalance(); /* Get current account balance */
-            // }
 
             System.out.println("\n DEBUG : Server.query - " + "i " + i + " Current balance " + curBalance + " "
                     + getServerThreadId());
