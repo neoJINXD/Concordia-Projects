@@ -31,6 +31,9 @@ public class Network extends Thread {
             outBufferStatus; /* Current status of the network buffers - normal, full, empty */
     private static String networkStatus; /* Network status - active, inactive */
 
+    private static Semaphore in;
+    private static Semaphore out;
+
     /**
      * Constructor of the Network class
      * 
@@ -61,6 +64,9 @@ public class Network extends Thread {
         outputIndexClient = 0;
 
         networkStatus = "active";
+
+        in = new Semaphore(10);
+        out = new Semaphore(10);
     }
 
     /**
@@ -333,12 +339,19 @@ public class Network extends Thread {
      */
     public static boolean send(Transactions inPacket) {
 
-        inComingPacket[inputIndexClient].setAccountNumber(inPacket.getAccountNumber());
-        inComingPacket[inputIndexClient].setOperationType(inPacket.getOperationType());
-        inComingPacket[inputIndexClient].setTransactionAmount(inPacket.getTransactionAmount());
-        inComingPacket[inputIndexClient].setTransactionBalance(inPacket.getTransactionBalance());
-        inComingPacket[inputIndexClient].setTransactionError(inPacket.getTransactionError());
-        inComingPacket[inputIndexClient].setTransactionStatus("transferred");
+        try {
+            in.acquire();
+            inComingPacket[inputIndexClient].setAccountNumber(inPacket.getAccountNumber());
+            inComingPacket[inputIndexClient].setOperationType(inPacket.getOperationType());
+            inComingPacket[inputIndexClient].setTransactionAmount(inPacket.getTransactionAmount());
+            inComingPacket[inputIndexClient].setTransactionBalance(inPacket.getTransactionBalance());
+            inComingPacket[inputIndexClient].setTransactionError(inPacket.getTransactionError());
+            inComingPacket[inputIndexClient].setTransactionStatus("transferred");
+        } catch (InterruptedException e) {
+
+        }
+
+        in.release();
 
         /*
          * System.out.println("\n DEBUG : Network.send() - index inputIndexClient " +
@@ -376,12 +389,19 @@ public class Network extends Thread {
      */
     public static boolean receive(Transactions outPacket) {
 
-        outPacket.setAccountNumber(outGoingPacket[outputIndexClient].getAccountNumber());
-        outPacket.setOperationType(outGoingPacket[outputIndexClient].getOperationType());
-        outPacket.setTransactionAmount(outGoingPacket[outputIndexClient].getTransactionAmount());
-        outPacket.setTransactionBalance(outGoingPacket[outputIndexClient].getTransactionBalance());
-        outPacket.setTransactionError(outGoingPacket[outputIndexClient].getTransactionError());
-        outPacket.setTransactionStatus("done");
+        try {
+            out.acquire();
+            outPacket.setAccountNumber(outGoingPacket[outputIndexClient].getAccountNumber());
+            outPacket.setOperationType(outGoingPacket[outputIndexClient].getOperationType());
+            outPacket.setTransactionAmount(outGoingPacket[outputIndexClient].getTransactionAmount());
+            outPacket.setTransactionBalance(outGoingPacket[outputIndexClient].getTransactionBalance());
+            outPacket.setTransactionError(outGoingPacket[outputIndexClient].getTransactionError());
+            outPacket.setTransactionStatus("done");
+        } catch (InterruptedException e) {
+
+        }
+
+        out.release();
 
         /*
          * System.out.println("\n DEBUG : Network.receive() - index outputIndexClient "
@@ -419,12 +439,19 @@ public class Network extends Thread {
      */
     public static boolean transferOut(Transactions outPacket) {
 
-        outGoingPacket[inputIndexServer].setAccountNumber(outPacket.getAccountNumber());
-        outGoingPacket[inputIndexServer].setOperationType(outPacket.getOperationType());
-        outGoingPacket[inputIndexServer].setTransactionAmount(outPacket.getTransactionAmount());
-        outGoingPacket[inputIndexServer].setTransactionBalance(outPacket.getTransactionBalance());
-        outGoingPacket[inputIndexServer].setTransactionError(outPacket.getTransactionError());
-        outGoingPacket[inputIndexServer].setTransactionStatus("transferred");
+        try {
+            out.acquire();
+            outGoingPacket[inputIndexServer].setAccountNumber(outPacket.getAccountNumber());
+            outGoingPacket[inputIndexServer].setOperationType(outPacket.getOperationType());
+            outGoingPacket[inputIndexServer].setTransactionAmount(outPacket.getTransactionAmount());
+            outGoingPacket[inputIndexServer].setTransactionBalance(outPacket.getTransactionBalance());
+            outGoingPacket[inputIndexServer].setTransactionError(outPacket.getTransactionError());
+            outGoingPacket[inputIndexServer].setTransactionStatus("transferred");
+        } catch (InterruptedException e) {
+
+        }
+
+        out.release();
 
         /*
          * System.out.
@@ -463,12 +490,18 @@ public class Network extends Thread {
      */
     public static boolean transferIn(Transactions inPacket) {
 
-        inPacket.setAccountNumber(inComingPacket[outputIndexServer].getAccountNumber());
-        inPacket.setOperationType(inComingPacket[outputIndexServer].getOperationType());
-        inPacket.setTransactionAmount(inComingPacket[outputIndexServer].getTransactionAmount());
-        inPacket.setTransactionBalance(inComingPacket[outputIndexServer].getTransactionBalance());
-        inPacket.setTransactionError(inComingPacket[outputIndexServer].getTransactionError());
-        inPacket.setTransactionStatus("received");
+        try {
+            in.acquire();
+            inPacket.setAccountNumber(inComingPacket[outputIndexServer].getAccountNumber());
+            inPacket.setOperationType(inComingPacket[outputIndexServer].getOperationType());
+            inPacket.setTransactionAmount(inComingPacket[outputIndexServer].getTransactionAmount());
+            inPacket.setTransactionBalance(inComingPacket[outputIndexServer].getTransactionBalance());
+            inPacket.setTransactionError(inComingPacket[outputIndexServer].getTransactionError());
+            inPacket.setTransactionStatus("received");
+        } catch (InterruptedException e) {
+
+        }
+        in.release();
 
         /*
          * System.out.
