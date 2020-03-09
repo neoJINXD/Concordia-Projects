@@ -31,7 +31,7 @@ public class Server extends Thread {
     private String serverThreadId; /* Identification of the two server threads - Thread1, Thread2 */
     private static String serverThreadRunningStatus1; /* Running status of thread 1 - idle, running, terminated */
     private static String serverThreadRunningStatus2; /* Running status of thread 2 - idle, running, terminated */
-    private static Object o;
+    private static Object lock;
 
     /**
      * Constructor method of Client class
@@ -59,7 +59,7 @@ public class Server extends Thread {
             serverThreadId = stid; /* unshared variable so each thread has its own copy */
             serverThreadRunningStatus2 = "idle";
         }
-        o = new Object();
+        lock = new Object();
     }
 
     /**
@@ -344,7 +344,7 @@ public class Server extends Thread {
      */
 
     public double deposit(int i, double amount) {
-        synchronized (o) {
+        synchronized (lock) {
 
             double curBalance; /* Current account balance */
 
@@ -380,7 +380,7 @@ public class Server extends Thread {
      */
 
     public synchronized double withdraw(int i, double amount) {
-        synchronized (o) {
+        synchronized (lock) {
 
             double curBalance; /* Current account balance */
 
@@ -406,7 +406,7 @@ public class Server extends Thread {
      */
 
     public synchronized double query(int i) {
-        synchronized (o) {
+        synchronized (lock) {
 
             double curBalance; /* Current account balance */
 
