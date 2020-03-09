@@ -261,8 +261,9 @@ public class Server extends Thread {
             // while (!Network.getClientConnectionStatus().equals("disconnected")) {
             // Thread.yield(); /* Yield the cpu if the network input buffer is empty */
             // }
+            if (Network.full.availablePermits() != 0) {
+                // if ((!Network.getInBufferStatus().equals("empty"))){
 
-            if (!Network.getInBufferStatus().equals("empty")) {
                 /*
                  * System.out.
                  * println("\n DEBUG : Server.processTransactions() - transferring in account "

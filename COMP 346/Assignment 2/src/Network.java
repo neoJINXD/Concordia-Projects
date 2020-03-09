@@ -31,10 +31,10 @@ public class Network extends Thread {
             outBufferStatus; /* Current status of the network buffers - normal, full, empty */
     private static String networkStatus; /* Network status - active, inactive */
 
-    private static Semaphore empty;
-    private static Semaphore full;
-    private static Semaphore empty2;
-    private static Semaphore full2;
+    protected static Semaphore empty;
+    protected static Semaphore full;
+    protected static Semaphore empty2;
+    protected static Semaphore full2;
 
     private static Semaphore mutex;
     private static Semaphore mutex2;
