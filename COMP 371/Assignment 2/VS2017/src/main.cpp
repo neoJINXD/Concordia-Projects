@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "ColoredVertex.h"
 #include "Mesh.h"
+#include "objModel.h"
 
 #ifndef GLEW_STATIC
 #define GLEW_STATIC 1
@@ -154,6 +155,7 @@ int main() {
 	torso.addChild(&hatTop);
 	torso.addChild(&topper);
 
+	objModel sphere("assets/models/sphere.obj");
 
 	// Background Color
 	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
@@ -267,6 +269,7 @@ int main() {
 		hatTop.Draw(&sh);
 		topper.Draw(&sh);*/
 		
+		sphere.draw(&sh, GL_TRIANGLES);
 		
 		// Swap buffers
 		glfwSwapBuffers(win);

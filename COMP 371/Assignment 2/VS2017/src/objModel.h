@@ -23,20 +23,31 @@
 class objModel
 {
 private:
-	void loadObj();
+	void loadObj(const char* path);
 
-
-	void draw(Shader sh, unsigned int type);
-public:
-	objModel();
-	~objModel();
-
+	std::vector<glm::vec3> out_vertices;
+	std::vector<glm::vec3> out_normals;
+	std::vector<glm::vec2> out_uvs;
 
 	unsigned int VAO;
-	unsigned int VBO;
+	unsigned int vertices_VBO;
+	unsigned int normals_VBO;
+	unsigned int uvs_VBO;
+
+	int vertexCount;
+
+	glm::vec3 color;
 
 	void Bind();
 	void Unbind();
+	void init();
+
+public:
+	objModel(string path, glm::vec3 _color = glm::vec3(1.f));
+	~objModel();
+
+
+	void draw(Shader* sh, unsigned int type);
 
 };
 
