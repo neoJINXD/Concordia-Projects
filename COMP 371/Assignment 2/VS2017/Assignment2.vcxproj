@@ -99,6 +99,7 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\objModel.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -106,9 +107,11 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\objModel.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\ColoredVertex.h" />
+    <ClInclude Include="src\objLoader.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Camera.h" />
   </ItemGroup>
