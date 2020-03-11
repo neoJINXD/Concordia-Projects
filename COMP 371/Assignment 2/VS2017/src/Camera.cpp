@@ -13,7 +13,7 @@ Camera::Camera(glm::vec3* Eye, glm::vec3* Center, glm::vec3* Up, float* _speed, 
 	speed = _speed;
 	radius = 10.f;
 	position = 0.f;
-	angle = 40.f;
+	angle = 70.f;
 
 	if (Type == PERSPECTIVE) {
 		// projection matrix to have camera in perspective
