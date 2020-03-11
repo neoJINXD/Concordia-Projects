@@ -17,3 +17,4 @@ P / L / T - Changes render mode to Points, Lines, and Triangles respectively
 Right Click X movement - Camera pan
 Middle Click Y movement - Camera tilt
 Left Click Y movement - Camera zoom
+Up / Down Arrows - Enable / Disable Textures
