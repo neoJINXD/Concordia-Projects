@@ -1,9 +1,11 @@
+#define STB_IMAGE_IMPLEMENTATION
+
 #include "Texture.h"
 #include <iostream>
 
 Texture::Texture(std::string file, unsigned int _type)
 {
-	type = _type;
+	//type = _type;
 
 	unsigned char* data = stbi_load(file.c_str(), &width, &height, &colorChannels, 0);
 
@@ -23,12 +25,13 @@ Texture::~Texture()
 
 void Texture::Bind()
 {
-	//glActiveTexture()
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, id);
 }
 
 void Texture::Unbind()
 {
+	glActiveTexture(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 

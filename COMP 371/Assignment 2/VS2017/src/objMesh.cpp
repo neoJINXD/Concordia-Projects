@@ -6,13 +6,18 @@ objMesh::objMesh(string path, glm::vec3 _color, glm::vec3 _position, glm::vec3 _
 	position = _position;
 	rotation = _rotation;
 	scale = _scale;
+	texture = new Texture("assets/textures/color.png", GL_TEXTURE_2D);
 	part = glm::mat4(1.f);
 	worldMatrix = glm::mat4(1.f);
 	loadObj(path.c_str());
 	init();
 }
 
-objMesh::~objMesh(){}
+objMesh::~objMesh()
+{
+	//delete texture;
+	texture = nullptr;
+}
 
 void objMesh::draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix)
 {
@@ -161,6 +166,8 @@ void objMesh::Bind()
 	glBindBuffer(GL_ARRAY_BUFFER, vertices_VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, normals_VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, uvs_VBO);
+	if (texture)
+		texture->Bind();
 }
 
 void objMesh::Unbind()
@@ -168,6 +175,8 @@ void objMesh::Unbind()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glUseProgram(0);
+	if (texture)
+		texture->Unbind();
 }
 
 void objMesh::init()
@@ -221,4 +230,10 @@ void objMesh::updatePartMatrix()
 	part = glm::rotate(part, glm::radians(rotation.z), glm::vec3(0.f, 0.f, 1.f));
 
 	part = glm::scale(part, scale);
+}
+
+void objMesh::setTexture(Texture* _text)
+{
+	//delete texture;
+	texture = _text;
 }

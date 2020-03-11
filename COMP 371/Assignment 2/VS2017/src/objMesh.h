@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Shader.h"
+#include "Texture.h"
 
 #ifndef GLEW_STATIC
 #define GLEW_STATIC 1
@@ -25,6 +26,8 @@ class objMesh
 private:
 	void loadObj(const char* path);
 
+	Texture* texture = nullptr;
+	
 	std::vector<glm::vec3> out_vertices;
 	std::vector<glm::vec3> out_normals;
 	std::vector<glm::vec2> out_uvs;
@@ -64,6 +67,9 @@ public:
 	void updatePartMatrix();
 	void applyGroup(glm::mat4 groupMatrix);
 	void draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix = glm::mat4(1.f));
+	
+	void setTexture(Texture* _text);
 
+	void setColor(glm::vec3 _color) { color = _color; };
 };
 
