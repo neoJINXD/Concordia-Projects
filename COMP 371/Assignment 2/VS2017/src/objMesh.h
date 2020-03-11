@@ -63,7 +63,7 @@ public:
 
 	void updatePartMatrix();
 	void applyGroup(glm::mat4 groupMatrix);
-	void draw(Shader* sh, unsigned int type);
+	void draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix = glm::mat4(1.f));
 
 };
 

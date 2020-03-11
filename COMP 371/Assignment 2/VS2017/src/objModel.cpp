@@ -3,7 +3,6 @@
 objModel::objModel()
 {
 	groupMatrix = glm::mat4(1.f); 
-	//scale = glm::vec3(1.f);
 }
 
 objModel::~objModel(){}
@@ -12,9 +11,9 @@ void objModel::draw(Shader* sh, unsigned int type)
 {
 	for (auto* i : meshes)
 	{
-		i->updatePartMatrix();
-		i->applyGroup(groupMatrix);
-		i->draw(sh, type);
+		//i->updatePartMatrix();
+		//i->applyGroup(groupMatrix);
+		i->draw(sh, type, groupMatrix);
 	}
 }
 
@@ -44,12 +43,12 @@ void objModel::scaleUpDown(float n)
 	groupMatrix = glm::scale(groupMatrix, glm::vec3(n));
 }
 
-void objModel::addMesh(objMesh* _mesh)
-{
-	meshes.push_back(_mesh);
-}
-
 void objModel::reset()
 {
 	groupMatrix = glm::mat4(1.f);
+}
+
+void objModel::addMesh(objMesh* _mesh)
+{
+	meshes.push_back(_mesh);
 }

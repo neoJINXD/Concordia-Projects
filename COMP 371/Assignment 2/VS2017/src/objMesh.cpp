@@ -14,7 +14,7 @@ objMesh::objMesh(string path, glm::vec3 _color, glm::vec3 _position, glm::vec3 _
 
 objMesh::~objMesh(){}
 
-void objMesh::draw(Shader* sh, unsigned int type)
+void objMesh::draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix)
 {
 	glUseProgram(sh->shaderProgram);
 
@@ -25,9 +25,8 @@ void objMesh::draw(Shader* sh, unsigned int type)
 
 	unsigned int worldMatrixLocation = glGetUniformLocation(sh->shaderProgram, "worldMatrix");
 
-	//glm::mat4 MVP = glm::mat4(1.f);
-	//glm::mat4 MVP = glm::translate(glm::mat4(1.f), glm::vec3(0.f,0.f,-5.f));
-	//updatePartMatrix();
+	updatePartMatrix();
+	applyGroup(groupMatrix);
 
 	//draw
 	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);

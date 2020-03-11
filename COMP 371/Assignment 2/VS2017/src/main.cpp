@@ -117,7 +117,7 @@ int main() {
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
 
 	// creating the snowman
-	MeshEBO footLeft(eboCube, eboCubeIndices, glm::vec3(.5f, 0.25f, 0.f), glm::vec3(0.f), glm::vec3(.2f, .5f, .2f), glm::vec3(0.f), glm::vec3(0.f));
+	/*MeshEBO footLeft(eboCube, eboCubeIndices, glm::vec3(.5f, 0.25f, 0.f), glm::vec3(0.f), glm::vec3(.2f, .5f, .2f), glm::vec3(0.f), glm::vec3(0.f));
 	MeshEBO footRight(eboCube, eboCubeIndices, glm::vec3(-.5f, 0.25f, 0.f), glm::vec3(0.f), glm::vec3(.2f, .5f, .2f), glm::vec3(0.f), glm::vec3(0.f));
 	
 	MeshEBO legLeft(eboCube, eboCubeIndices, glm::vec3(.5f, 0.75f, 0.f), glm::vec3(0.f), glm::vec3(.4f, 1.f, .4f), glm::vec3(0.f), glm::vec3(0.5f));
@@ -137,10 +137,10 @@ int main() {
 	MeshEBO eye(eboCube, eboCubeIndices, glm::vec3(0.f, 4.f, 0.2f), glm::vec3(0.f), glm::vec3(.6f, 0.2f, .8f), glm::vec3(0.f), glm::vec3(0.f));
 	MeshEBO hatBottom(eboCube, eboCubeIndices, glm::vec3(0.f, 4.5f, 0.f), glm::vec3(0.f), glm::vec3(1.5f, 0.2f, 1.1f), glm::vec3(0.f), glm::vec3(.91f, .55f, .12f));
 	MeshEBO hatTop(eboCube, eboCubeIndices, glm::vec3(0.f, 4.6f, 0.f), glm::vec3(0.f), glm::vec3(.8f, 1.f, .8f), glm::vec3(0.f), glm::vec3(1.f, .88f, .42f));
-	MeshEBO topper(eboCube, eboCubeIndices, glm::vec3(0.f, 5.f, 0.f), glm::vec3(0.f), glm::vec3(.3f, 2.f, .3f), glm::vec3(0.f), glm::vec3(0.f));
+	MeshEBO topper(eboCube, eboCubeIndices, glm::vec3(0.f, 5.f, 0.f), glm::vec3(0.f), glm::vec3(.3f, 2.f, .3f), glm::vec3(0.f), glm::vec3(0.f));*/
 
 	// creates the hierarchy
-	torso.addChild(&footLeft);
+	/*torso.addChild(&footLeft);
 	torso.addChild(&footRight);
 	torso.addChild(&legLeft);
 	torso.addChild(&legRight);
@@ -154,16 +154,51 @@ int main() {
 	torso.addChild(&eye);
 	torso.addChild(&hatBottom);
 	torso.addChild(&hatTop);
-	torso.addChild(&topper);
+	torso.addChild(&topper);*/
 
-	objMesh sphere("assets/models/sphere.obj", glm::vec3(.5f), glm::vec3(0.f, 0.f, 0.f));
-	objMesh sphere2("assets/models/sphere.obj", glm::vec3(.0f), glm::vec3(1.f, 0.f, 0.f));
-	objMesh sphere3("assets/models/sphere.obj", glm::vec3(1.f), glm::vec3(-1.f, 0.f, 0.f));
+	objMesh plane("assets/models/plane.obj", glm::vec3(.8f), glm::vec3(0.f), glm::vec3(50.f, 1.f, 50.f));
+
+
+	objMesh torso("assets/models/sphere.obj", glm::vec3(.99f), glm::vec3(0.f, 2.1f, 0.f), glm::vec3(1.5f, 1.f, 1.f));
+	objMesh button1("assets/models/sphere.obj", glm::vec3(0.f), glm::vec3(0.f, 2.6f, .9f), glm::vec3(.2f, .2f, .2f));
+	objMesh button2("assets/models/sphere.obj", glm::vec3(0.f), glm::vec3(0.f, 2.1f, .9f), glm::vec3(.2f, .2f, .2f));
+	objMesh button3("assets/models/sphere.obj", glm::vec3(0.f), glm::vec3(0.f, 1.6f, .9f), glm::vec3(.2f, .2f, .2f));
+
+	objMesh head("assets/models/sphere.obj", glm::vec3(1.f), glm::vec3(0.f, 3.6f, 0.f), glm::vec3(1.2f));
+	objMesh hat1("assets/models/cube.obj", glm::vec3(.0f), glm::vec3(0.f, 4.8f, 0.f), glm::vec3(1.f, .3f, 1.f));
+	objMesh hat2("assets/models/cube.obj", glm::vec3(1.f, .88f, .42f), glm::vec3(0.f, 5.8f, 0.f), glm::vec3(.7f, .5f, .7f));
+	objMesh hat3("assets/models/cube.obj", glm::vec3(.0f), glm::vec3(0.f, 6.8f, 0.f), glm::vec3(.25f, .7f, .25f));
+	objMesh eye("assets/models/cube.obj", glm::vec3(.0f), glm::vec3(0.f, 4.1f, 1.f), glm::vec3(.8f, .2f, .2f));
+
+	objMesh leftArm("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(2.8f, 2.1f, 0.f), glm::vec3(1.5f, .1f, .1f));
+	objMesh rightArm("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(-2.8f, 2.1f, 0.f), glm::vec3(1.5f, .1f, .1f));
+
+	objMesh leftLeg("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(.5f, .3f, 0.f), glm::vec3(.2f, 1.f, .2f));
+	objMesh rightLeg("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(-.5f, .3f, 0.f), glm::vec3(.2f, 1.f, .2f));
+	objMesh leftFoot("assets/models/cube.obj", glm::vec3(0.f), glm::vec3(.5f, .1f, 0.f), glm::vec3(.35f, .1f, .35f));
+	objMesh rightFoot("assets/models/cube.obj", glm::vec3(0.f), glm::vec3(-.5f, .1f, 0.f), glm::vec3(.35f, .1f, .35f));
+
+	objMesh scarf("assets/models/cube.obj", glm::vec3(.81f, .55f, .18f), glm::vec3(0.f, 3.f, 0.f), glm::vec3(1.2f, .2f, 1.f), glm::vec3(0.f, 0.f, 10.f));
+	objMesh scarfBit("assets/models/cube.obj", glm::vec3(.81f, .55f, .18f), glm::vec3(1.f, 3.f, 0.f), glm::vec3(1.2f, .2f, .2f), glm::vec3(0.f, 0.f, 10.f));
+
 	objModel olaf;
-
-	olaf.addMesh(&sphere);
-	olaf.addMesh(&sphere2);
-	olaf.addMesh(&sphere3);
+	olaf.addMesh(&torso);
+	olaf.addMesh(&button1);
+	olaf.addMesh(&button2);
+	olaf.addMesh(&button3);
+	olaf.addMesh(&head);
+	olaf.addMesh(&hat1);
+	olaf.addMesh(&hat2);
+	olaf.addMesh(&hat3);
+	olaf.addMesh(&eye);
+	olaf.addMesh(&leftArm);
+	olaf.addMesh(&rightArm);
+	olaf.addMesh(&leftLeg);
+	olaf.addMesh(&leftFoot);
+	olaf.addMesh(&rightLeg);
+	olaf.addMesh(&rightFoot);
+	olaf.addMesh(&scarf);
+	olaf.addMesh(&scarfBit);
 
 	// Background Color
 	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
@@ -171,7 +206,7 @@ int main() {
 	// Setting up Camera with starting point
 	float spd = 1.0f;
 	
-	glm::vec3 Eye = glm::vec3(0.0f, 10.0f, 10.0f);
+	glm::vec3 Eye = glm::vec3(0.0f, 25.0f, 10.0f);
 	glm::vec3 Center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -212,27 +247,28 @@ int main() {
 		glm::mat4 scalingMatrix;
 		glm::mat4 translationMatrix;
 		glm::mat4 worldMatrix;
+		glm::mat4 rotation;
 		unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
 
-		// Grid Lines
-		scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 1.0f));
+		//// Grid Lines
+		//scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 1.0f));
 
-		glLineWidth(1);
+		//glLineWidth(1);
 
-		// Z-axis Lines
-		for (int i = -50; i <= 50; i++) {
-			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, i * 1.0f));
-			worldMatrix = translationMatrix * scalingMatrix;
-			_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
-		}
+		//// Z-axis Lines
+		//for (int i = -50; i <= 50; i++) {
+		//	translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, i * 1.0f));
+		//	worldMatrix = translationMatrix * scalingMatrix;
+		//	_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
+		//}
 
-		// X-axis Lines
-		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		for (int i = -50; i <= 50; i++) {
-			translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(i * 1.0f, 0.0f, 0.0f));
-			worldMatrix = translationMatrix * rotation * scalingMatrix;
-			_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
-		}
+		//// X-axis Lines
+		//glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//for (int i = -50; i <= 50; i++) {
+		//	translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(i * 1.0f, 0.0f, 0.0f));
+		//	worldMatrix = translationMatrix * rotation * scalingMatrix;
+		//	_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
+		//}
 		
 		// Coordinate Axis Lines
 		int scale = 5; // 5 Unit length
@@ -263,7 +299,7 @@ int main() {
 
 		//torso.Draw(&sh);
 
-		
+		plane.draw(&sh, GL_TRIANGLES);
 		//sphere.draw(&sh, GL_TRIANGLES);
 		olaf.draw(&sh, GL_TRIANGLES);
 		//olaf.scaleUpDown(n);
@@ -281,74 +317,74 @@ int main() {
 		}
 		if (glfwGetKey(win, GLFW_KEY_L) == GLFW_PRESS) {
 			// Wireframe with GL_LINE_LOOP
-			torso.changeType(GL_LINE_LOOP);
+			//torso.changeType(GL_LINE_LOOP);
 		}
 		if (glfwGetKey(win, GLFW_KEY_T) == GLFW_PRESS) {
 			// Shape with GL_TRIANGLES
-			torso.changeType(GL_TRIANGLES);
+			//torso.changeType(GL_TRIANGLES);
 		}
 		if (glfwGetKey(win, GLFW_KEY_P) == GLFW_PRESS) {
 			// Points with GL_POINTS
-			torso.changeType(GL_POINTS);
+			//torso.changeType(GL_POINTS);
 		}
 		if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
-				torso.moveBy(.1f, .0f, .0f);
+				//torso.moveBy(.1f, .0f, .0f);
 				olaf.moveBy(.1f, .0f, .0f);
 			}
 			else
 			{
-				torso.rotate(0.f, -1.f, 0.f);
+				//torso.rotate(0.f, -1.f, 0.f);
 				olaf.rotateBy(0.f, -1.f, 0.f);
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
-				torso.moveBy(-.1f, .0f, .0f);
+				//torso.moveBy(-.1f, .0f, .0f);
 				olaf.moveBy(-.1f, .0f, .0f);
 			}
 			else
 			{
-				torso.rotate(0.f, 1.f, 0.f);
+				//torso.rotate(0.f, 1.f, 0.f);
 				olaf.rotateBy(0.f, 1.f, 0.f);
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
-				torso.moveBy(.0f, .0f, -.1f);
-				olaf.moveBy(.0f, .0f, -.1f);
+				//torso.moveBy(.0f, .0f, -.1f);
+				olaf.moveBy(.0f, .0f, .1f);
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
-				torso.moveBy(.0f, .0f, .1f);
-				olaf.moveBy(.0f, .0f, .1f);
+				//torso.moveBy(.0f, .0f, .1f);
+				olaf.moveBy(.0f, .0f, -.1f);
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_U) == GLFW_PRESS){
-			torso.scaleUpDown(.1f);
+			//torso.scaleUpDown(.1f);
 			olaf.scaleUpDown(1.1f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_J) == GLFW_PRESS){
-			torso.scaleUpDown(-.1f);
+			//torso.scaleUpDown(-.1f);
 			olaf.scaleUpDown(.9f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_HOME) == GLFW_PRESS) {
-			glm::vec3 currentPosition = torso.getPosition();
-			glm::vec3 currentRotation = torso.getRotation();
-			torso.moveBy(-currentPosition.x, -currentPosition.y, -currentPosition.z);
-			torso.rotate(-currentRotation.x, -currentRotation.y, -currentRotation.z);
+			//glm::vec3 currentPosition = torso.getPosition();
+			//glm::vec3 currentRotation = torso.getRotation();
+			//torso.moveBy(-currentPosition.x, -currentPosition.y, -currentPosition.z);
+			//torso.rotate(-currentRotation.x, -currentRotation.y, -currentRotation.z);
 			cam.reset();
 			olaf.reset();
 		}
 		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS){
 			if (!hasRandomized) {
 				hasRandomized = true;
-				torso.randomizePos();
+				//torso.randomizePos();
 				olaf.randomizePos();
 			}
 		}
