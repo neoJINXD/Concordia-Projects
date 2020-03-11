@@ -28,6 +28,16 @@ void objMesh::draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix)
 
 	this->Bind();
 
+	int ambientLoc = glGetUniformLocation(sh->shaderProgram, "ambientColor");
+	glUniform3f(ambientLoc, 1.0f, 1.0f, 1.0f);
+
+	unsigned int matDiff = glGetUniformLocation(sh->shaderProgram, "material.diffuse");
+	unsigned int matSpec = glGetUniformLocation(sh->shaderProgram, "material.specular");
+	unsigned int matShine = glGetUniformLocation(sh->shaderProgram, "material.shiny");
+	glUniform1i(matDiff, 0);
+	glUniform1i(matSpec, 1);
+	glUniform1f(matShine, 32.f);
+
 	unsigned int worldMatrixLocation = glGetUniformLocation(sh->shaderProgram, "worldMatrix");
 
 	updatePartMatrix();

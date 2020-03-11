@@ -108,6 +108,10 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 		1024.0f / 768.0f,      // aspect ratio
 		0.01f, 200.0f);       // near and far (near > 0)
 	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
+	
+	
+	glUniform3f(glGetUniformLocation(sh.shaderProgram, "viewPos"), camEye->x, camEye->y, camEye->z);
+
 	// View Transform - from camera movement
 	unsigned int viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
 

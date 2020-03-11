@@ -259,6 +259,24 @@ int main() {
 		// Performing view and projection transformations for camera
 		cam.updateView(sh, win, dt);
 
+		//Light
+		unsigned int lightPosLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.pos");
+		glUniform3f(lightPosLoc, 0.f, 10.f, 0.f);
+
+		unsigned int lightAmbLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.ambient");
+		glUniform3f(lightAmbLoc, .05f, .05f, .05f);
+		unsigned int lightDifLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.diffuse");
+		glUniform3f(lightDifLoc, .8f, .8f, .8f);
+		unsigned int lightSpeLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.specular");
+		glUniform3f(lightSpeLoc, 1.f, 1.f, 1.f);
+
+		unsigned int lightConstLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.constant");
+		glUniform1f(lightConstLoc, 1.f);
+		unsigned int lightLinLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.linear");
+		glUniform1f(lightLinLoc, .09f);
+		unsigned int lightQuadLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.quadratic");
+		glUniform1f(lightQuadLoc, .032f);
+
 		// Rendering
 		glm::mat4 scalingMatrix;
 		glm::mat4 translationMatrix;
@@ -266,26 +284,6 @@ int main() {
 		glm::mat4 rotation;
 		unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
 
-		//// Grid Lines
-		//scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(100.0f, 1.0f, 1.0f));
-
-		//glLineWidth(1);
-
-		//// Z-axis Lines
-		//for (int i = -50; i <= 50; i++) {
-		//	translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, i * 1.0f));
-		//	worldMatrix = translationMatrix * scalingMatrix;
-		//	_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
-		//}
-
-		//// X-axis Lines
-		//glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		//for (int i = -50; i <= 50; i++) {
-		//	translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(i * 1.0f, 0.0f, 0.0f));
-		//	worldMatrix = translationMatrix * rotation * scalingMatrix;
-		//	_line.draw(sh, GL_LINES, 0, 3, worldMatrix);
-		//}
-		
 		// Coordinate Axis Lines
 		int scale = 5; // 5 Unit length
 		glLineWidth(5);
