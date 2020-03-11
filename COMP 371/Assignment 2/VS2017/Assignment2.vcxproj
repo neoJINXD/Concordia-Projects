@@ -105,6 +105,7 @@
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\objMesh.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="src\ColoredVertex.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fragShader.glsl" />
