@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "ColoredVertex.h"
 #include "Mesh.h"
+#include "objMesh.h"
 #include "objModel.h"
 
 #ifndef GLEW_STATIC
@@ -155,7 +156,14 @@ int main() {
 	torso.addChild(&hatTop);
 	torso.addChild(&topper);
 
-	objModel sphere("assets/models/sphere.obj");
+	objMesh sphere("assets/models/sphere.obj", glm::vec3(.5f), glm::vec3(0.f, 0.f, 0.f));
+	objMesh sphere2("assets/models/sphere.obj", glm::vec3(.0f), glm::vec3(1.f, 0.f, 0.f));
+	objMesh sphere3("assets/models/sphere.obj", glm::vec3(1.f), glm::vec3(-1.f, 0.f, 0.f));
+	objModel olaf;
+
+	olaf.addMesh(&sphere);
+	olaf.addMesh(&sphere2);
+	olaf.addMesh(&sphere3);
 
 	// Background Color
 	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
@@ -182,6 +190,7 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 
 	bool hasRandomized = false;
+	float n = 1.f;
 
 	while (!glfwWindowShouldClose(win))
 	{
@@ -252,25 +261,14 @@ int main() {
 		glLineWidth(1);
 		glPointSize(10);
 
-		torso.Draw(&sh);
-		/*footRight.Draw(&sh);
-		footLeft.Draw(&sh);
-		legLeft.Draw(&sh);
-		legRight.Draw(&sh);
-		button1.Draw(&sh);
-		button2.Draw(&sh);
-		armLeft.Draw(&sh);
-		armRight.Draw(&sh);
-		handLeft.Draw(&sh);
-		handRight.Draw(&sh);
-		head.Draw(&sh);
-		eye.Draw(&sh);
-		hatBottom.Draw(&sh);
-		hatTop.Draw(&sh);
-		topper.Draw(&sh);*/
+		//torso.Draw(&sh);
+
 		
-		sphere.draw(&sh, GL_TRIANGLES);
-		
+		//sphere.draw(&sh, GL_TRIANGLES);
+		olaf.draw(&sh, GL_TRIANGLES);
+		//olaf.scaleUpDown(n);
+
+
 		// Swap buffers
 		glfwSwapBuffers(win);
 		// Check/call events
@@ -295,29 +293,49 @@ int main() {
 		}
 		if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+			{
 				torso.moveBy(.1f, .0f, .0f);
+				olaf.moveBy(.1f, .0f, .0f);
+			}
 			else
+			{
 				torso.rotate(0.f, -1.f, 0.f);
+				olaf.rotateBy(0.f, -1.f, 0.f);
+			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+			{
 				torso.moveBy(-.1f, .0f, .0f);
-			else 
+				olaf.moveBy(-.1f, .0f, .0f);
+			}
+			else
+			{
 				torso.rotate(0.f, 1.f, 0.f);
+				olaf.rotateBy(0.f, 1.f, 0.f);
+			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+			{
 				torso.moveBy(.0f, .0f, -.1f);
+				olaf.moveBy(.0f, .0f, -.1f);
+			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+			{
 				torso.moveBy(.0f, .0f, .1f);
+				olaf.moveBy(.0f, .0f, .1f);
+			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_U) == GLFW_PRESS){
 			torso.scaleUpDown(.1f);
+			olaf.scaleUpDown(1.1f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_J) == GLFW_PRESS){
 			torso.scaleUpDown(-.1f);
+			olaf.scaleUpDown(.9f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_HOME) == GLFW_PRESS) {
 			glm::vec3 currentPosition = torso.getPosition();
@@ -325,11 +343,13 @@ int main() {
 			torso.moveBy(-currentPosition.x, -currentPosition.y, -currentPosition.z);
 			torso.rotate(-currentRotation.x, -currentRotation.y, -currentRotation.z);
 			cam.reset();
+			olaf.reset();
 		}
 		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS){
 			if (!hasRandomized) {
 				hasRandomized = true;
 				torso.randomizePos();
+				olaf.randomizePos();
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_RELEASE) {

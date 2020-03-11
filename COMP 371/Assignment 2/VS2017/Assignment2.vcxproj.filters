@@ -35,7 +35,7 @@
     <ClCompile Include="src\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model.cpp">
+    <ClCompile Include="src\objMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\objModel.cpp">
@@ -53,8 +53,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Mesh.h" />
-    <ClInclude Include="src\Model.h" />
-    <ClInclude Include="src\objLoader.h" />
+    <ClInclude Include="src\objMesh.h" />
     <ClInclude Include="src\objModel.h" />
   </ItemGroup>
   <ItemGroup>
