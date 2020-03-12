@@ -239,6 +239,7 @@ int main() {
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_FRAMEBUFFER_SRGB);
 
 	bool hasRandomized = false;
 	float n = 1.f;
@@ -260,22 +261,11 @@ int main() {
 		cam.updateView(sh, win, dt);
 
 		//Light
-		unsigned int lightPosLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.pos");
-		glUniform3f(lightPosLoc, 0.f, 10.f, 0.f);
 
-		unsigned int lightAmbLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.ambient");
-		glUniform3f(lightAmbLoc, .05f, .05f, .05f);
-		unsigned int lightDifLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.diffuse");
-		glUniform3f(lightDifLoc, .8f, .8f, .8f);
-		unsigned int lightSpeLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.specular");
-		glUniform3f(lightSpeLoc, 1.f, 1.f, 1.f);
-
-		unsigned int lightConstLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.constant");
-		glUniform1f(lightConstLoc, 1.f);
-		unsigned int lightLinLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.linear");
-		glUniform1f(lightLinLoc, .09f);
-		unsigned int lightQuadLoc = glGetUniformLocation(sh.shaderProgram, "pointLight.quadratic");
-		glUniform1f(lightQuadLoc, .032f);
+		unsigned int liPosLoc = glGetUniformLocation(sh.shaderProgram, "light.position");
+		glUniform3f(liPosLoc, 0.f, 30.f, 0.f);
+		unsigned int liColLoc = glGetUniformLocation(sh.shaderProgram, "light.intensities");
+		glUniform3f(liColLoc, 1.f, 1.f, 1.f);
 
 		// Rendering
 		glm::mat4 scalingMatrix;
@@ -345,7 +335,7 @@ int main() {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
 				//torso.moveBy(.1f, .0f, .0f);
-				olaf.moveBy(.1f, .0f, .0f);
+				olaf.moveBy(-.1f, .0f, .0f);
 			}
 			else
 			{
@@ -357,7 +347,7 @@ int main() {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
 				//torso.moveBy(-.1f, .0f, .0f);
-				olaf.moveBy(-.1f, .0f, .0f);
+				olaf.moveBy(.1f, .0f, .0f);
 			}
 			else
 			{

@@ -26,6 +26,8 @@ void objModel::rotateBy(float x, float y, float z)
 
 void objModel::randomizePos()
 {
+	reset();
+
 	float newX = (std::rand() % 100) - 50;
 	float newZ = (std::rand() % 100) - 50;
 

@@ -35,8 +35,8 @@ void objMesh::draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix)
 	unsigned int matSpec = glGetUniformLocation(sh->shaderProgram, "material.specular");
 	unsigned int matShine = glGetUniformLocation(sh->shaderProgram, "material.shiny");
 	glUniform1i(matDiff, 0);
-	glUniform1i(matSpec, 1);
-	glUniform1f(matShine, 32.f);
+	glUniform1f(matSpec, 1.f);
+	glUniform1f(matShine, 32.0f);
 
 	unsigned int worldMatrixLocation = glGetUniformLocation(sh->shaderProgram, "worldMatrix");
 
