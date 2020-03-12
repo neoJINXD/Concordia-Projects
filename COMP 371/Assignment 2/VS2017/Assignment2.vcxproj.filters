@@ -44,6 +44,9 @@
     <ClCompile Include="src\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Shadow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h">
@@ -59,6 +62,7 @@
     <ClInclude Include="src\objMesh.h" />
     <ClInclude Include="src\objModel.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Shadow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fragShader.glsl">
@@ -67,5 +71,7 @@
     <None Include="assets\shaders\vertexShader.glsl">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="assets\shaders\shadowVert.glsl" />
+    <None Include="assets\shaders\shadowFrag.glsl" />
   </ItemGroup>
 </Project>

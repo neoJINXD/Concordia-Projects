@@ -99,6 +99,7 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Shadow.cpp" />
     <ClCompile Include="src\objMesh.cpp" />
     <ClCompile Include="src\objModel.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
@@ -108,6 +109,7 @@
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Shadow.h" />
     <ClInclude Include="src\objMesh.h" />
     <ClInclude Include="src\objModel.h" />
     <ClInclude Include="src\Mesh.h" />
@@ -118,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fragShader.glsl" />
+    <None Include="assets\shaders\shadowFrag.glsl" />
+    <None Include="assets\shaders\shadowVert.glsl" />
     <None Include="assets\shaders\vertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
