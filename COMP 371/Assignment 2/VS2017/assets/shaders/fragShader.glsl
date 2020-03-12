@@ -63,3 +63,4 @@ void main()
    //FragColor = textureColor * uColor;
 
 }
+//Much help from https://www.tomdalling.com/blog/modern-opengl/07-more-lighting-ambient-specular-attenuation-gamma/
