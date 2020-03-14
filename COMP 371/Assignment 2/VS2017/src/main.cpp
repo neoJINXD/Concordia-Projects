@@ -118,45 +118,6 @@ int main() {
 	// creating line
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
 
-	// creating the snowman
-	/*MeshEBO footLeft(eboCube, eboCubeIndices, glm::vec3(.5f, 0.25f, 0.f), glm::vec3(0.f), glm::vec3(.2f, .5f, .2f), glm::vec3(0.f), glm::vec3(0.f));
-	MeshEBO footRight(eboCube, eboCubeIndices, glm::vec3(-.5f, 0.25f, 0.f), glm::vec3(0.f), glm::vec3(.2f, .5f, .2f), glm::vec3(0.f), glm::vec3(0.f));
-	
-	MeshEBO legLeft(eboCube, eboCubeIndices, glm::vec3(.5f, 0.75f, 0.f), glm::vec3(0.f), glm::vec3(.4f, 1.f, .4f), glm::vec3(0.f), glm::vec3(0.5f));
-	MeshEBO legRight(eboCube, eboCubeIndices, glm::vec3(-.5f, 0.75f, 0.f), glm::vec3(0.f), glm::vec3(.4f, 1.f, .4f), glm::vec3(0.f), glm::vec3(0.5f));
-
-	MeshEBO torso(eboCube, eboCubeIndices, glm::vec3(0.f, 2.f, 0.f), glm::vec3(0.f), glm::vec3(2.f, 2.f, 1.f));
-	MeshEBO button1(eboCube, eboCubeIndices, glm::vec3(0.f, 2.5f, .2f), glm::vec3(0.f), glm::vec3(.2f, .2f, .8f), glm::vec3(0.f), glm::vec3(0.f));
-	MeshEBO button2(eboCube, eboCubeIndices, glm::vec3(0.f, 1.5f, .2f), glm::vec3(0.f), glm::vec3(.2f, .2f, .8f), glm::vec3(0.f), glm::vec3(0.f));
-
-	MeshEBO armLeft(eboCube, eboCubeIndices, glm::vec3(1.5f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(3.f, .2f, .2f), glm::vec3(0.f), glm::vec3(.5f, .37f, .2f));
-	MeshEBO armRight(eboCube, eboCubeIndices, glm::vec3(-1.5f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(3.f, .2f, .2f), glm::vec3(0.f), glm::vec3(.5f, .37f, .2f));
-
-	MeshEBO handLeft(eboCube, eboCubeIndices, glm::vec3(3.f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(.5f), glm::vec3(0.f));
-	MeshEBO handRight(eboCube, eboCubeIndices, glm::vec3(-3.f, 2.5f, 0.f), glm::vec3(0.f), glm::vec3(.5f), glm::vec3(0.f));
-
-	MeshEBO head(eboCube, eboCubeIndices, glm::vec3(0.f, 3.5f, 0.f), glm::vec3(0.f), glm::vec3(1.f, 2.f, 1.f));
-	MeshEBO eye(eboCube, eboCubeIndices, glm::vec3(0.f, 4.f, 0.2f), glm::vec3(0.f), glm::vec3(.6f, 0.2f, .8f), glm::vec3(0.f), glm::vec3(0.f));
-	MeshEBO hatBottom(eboCube, eboCubeIndices, glm::vec3(0.f, 4.5f, 0.f), glm::vec3(0.f), glm::vec3(1.5f, 0.2f, 1.1f), glm::vec3(0.f), glm::vec3(.91f, .55f, .12f));
-	MeshEBO hatTop(eboCube, eboCubeIndices, glm::vec3(0.f, 4.6f, 0.f), glm::vec3(0.f), glm::vec3(.8f, 1.f, .8f), glm::vec3(0.f), glm::vec3(1.f, .88f, .42f));
-	MeshEBO topper(eboCube, eboCubeIndices, glm::vec3(0.f, 5.f, 0.f), glm::vec3(0.f), glm::vec3(.3f, 2.f, .3f), glm::vec3(0.f), glm::vec3(0.f));*/
-
-	// creates the hierarchy
-	/*torso.addChild(&footLeft);
-	torso.addChild(&footRight);
-	torso.addChild(&legLeft);
-	torso.addChild(&legRight);
-	torso.addChild(&button1);
-	torso.addChild(&button2);
-	torso.addChild(&armLeft);
-	torso.addChild(&armRight);
-	torso.addChild(&handLeft);
-	torso.addChild(&handRight);
-	torso.addChild(&head);
-	torso.addChild(&eye);
-	torso.addChild(&hatBottom);
-	torso.addChild(&hatTop);
-	torso.addChild(&topper);*/
 
 	objMesh plane("assets/models/plane.obj", glm::vec3(.8f), glm::vec3(0.f), glm::vec3(50.f, 1.f, 50.f));
 
@@ -297,12 +258,9 @@ int main() {
 		glLineWidth(1);
 		glPointSize(10);
 
-		//torso.Draw(&sh);
 
 		plane.draw(&sh, GL_TRIANGLES);
-		//sphere.draw(&sh, GL_TRIANGLES);
 		olaf.draw(&sh, GL_TRIANGLES);
-		//olaf.scaleUpDown(n);
 
 
 		// Swap buffers
@@ -330,61 +288,48 @@ int main() {
 		if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
-				//torso.moveBy(.1f, .0f, .0f);
 				olaf.moveBy(-.1f, .0f, .0f);
 			}
 			else
 			{
-				//torso.rotate(0.f, -1.f, 0.f);
 				olaf.rotateBy(0.f, -1.f, 0.f);
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
-				//torso.moveBy(-.1f, .0f, .0f);
 				olaf.moveBy(.1f, .0f, .0f);
 			}
 			else
 			{
-				//torso.rotate(0.f, 1.f, 0.f);
 				olaf.rotateBy(0.f, 1.f, 0.f);
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
-				//torso.moveBy(.0f, .0f, -.1f);
 				olaf.moveBy(.0f, .0f, .1f);
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
-				//torso.moveBy(.0f, .0f, .1f);
 				olaf.moveBy(.0f, .0f, -.1f);
 			}
 		}
 		if (glfwGetKey(win, GLFW_KEY_U) == GLFW_PRESS){
-			//torso.scaleUpDown(.1f);
 			olaf.scaleUpDown(1.1f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_J) == GLFW_PRESS){
-			//torso.scaleUpDown(-.1f);
 			olaf.scaleUpDown(.9f);
 		}
 		if (glfwGetKey(win, GLFW_KEY_HOME) == GLFW_PRESS) {
-			//glm::vec3 currentPosition = torso.getPosition();
-			//glm::vec3 currentRotation = torso.getRotation();
-			//torso.moveBy(-currentPosition.x, -currentPosition.y, -currentPosition.z);
-			//torso.rotate(-currentRotation.x, -currentRotation.y, -currentRotation.z);
 			cam.reset();
 			olaf.reset();
 		}
 		if (glfwGetKey(win, GLFW_KEY_SPACE) == GLFW_PRESS){
 			if (!hasRandomized) {
 				hasRandomized = true;
-				//torso.randomizePos();
 				olaf.randomizePos();
 			}
 		}
