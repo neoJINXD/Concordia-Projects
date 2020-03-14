@@ -11,7 +11,7 @@ using std::string;
 class Shader
 {
 public:
-	Shader(string vertFilePath, string fragFilePath);
+	Shader(string vertFilePath, string fragFilePath, const char* geometryPath = nullptr);
 	~Shader();
 	int shaderProgram;
 
@@ -33,8 +33,10 @@ public:
 private:
 	string vertShader;
 	string fragShader;
+	string geoShader;
 	int vertShaderID;
 	int fragShaderID;
+	int geoShaderID;
 	string readShaderFile(const char* filePath);
 	void compileShader();
 	void linkShader();

@@ -121,6 +121,7 @@
   <ItemGroup>
     <None Include="assets\shaders\fragShader.glsl" />
     <None Include="assets\shaders\shadowFrag.glsl" />
+    <None Include="assets\shaders\shadowGeo.glsl" />
     <None Include="assets\shaders\shadowVert.glsl" />
     <None Include="assets\shaders\vertexShader.glsl" />
   </ItemGroup>

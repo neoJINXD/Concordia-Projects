@@ -44,6 +44,7 @@ static bool glError(const char* funct, const char* file, int line) {
 int main() {
 
 	unsigned int WIDTH = 1024, HEIGHT = 768;
+	bool shadows = true;
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -59,7 +60,7 @@ int main() {
 		return -1;
 	}
 	glfwMakeContextCurrent(win);
-	
+
 	// VSYNC - Sync framerate with screen refresh rate - 60Hz
 	glfwSwapInterval(1);
 
@@ -77,7 +78,7 @@ int main() {
 
 	// Shader Creation
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
-	Shader depthShader("assets/shaders/shadowVert.glsl", "assets/shaders/shadowFrag.glsl");
+	Shader depthShader("assets/shaders/shadowVert.glsl", "assets/shaders/shadowFrag.glsl", "assets/shaders/shadowGeo.glsl");
 
 
 	// Arrays for the shapes used in rendering
@@ -154,6 +155,21 @@ int main() {
 	unsigned int depthMapFBO;
 	glGenFramebuffers(1, &depthMapFBO);
 
+	unsigned int depthCubemap;
+	glGenTextures(1, &depthCubemap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
+	for (unsigned int i = 0; i < 6; i++)
+	{
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT,
+			0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);
+
+	/*
 	unsigned int depthMap;
 	glGenTextures(1, &depthMap);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
@@ -163,10 +179,10 @@ int main() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	float borderColor[] = { 1.f, 1.f, 1.f, 1.f };
-	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);*/
 
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -179,7 +195,7 @@ int main() {
 
 	//glm::vec3 lightPos = glm::vec3(0.f, 30.f, 0.f);
 	//glm::vec3 lightPos = glm::vec3(-1.f, 4.f, -2.f);
-	glm::vec3 lightPos = glm::vec3(-1.f, 5.f, -2.f);
+	glm::vec3 lightPos = glm::vec3(0.f, 10.f, 0.f);
 
 
 
@@ -229,14 +245,28 @@ int main() {
 		glm::mat4 lightSpaceMatrix;
 		float near_plane = -1.f, far_plane = 40.f;
 
-		//lightProjection = glm::perspective(glm::radians(45.f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
-		lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f, near_plane, far_plane);
-		lightView = glm::lookAt(lightPos, glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
+		lightProjection = glm::perspective(glm::radians(90.f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
+		//lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f, near_plane, far_plane);
+		//lightView = glm::lookAt(lightPos, glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
+		std::vector<glm::mat4> shadowTransforms;
+
+		shadowTransforms.push_back(lightView = glm::lookAt(lightPos, lightPos + glm::vec3(1.f, 0.f, 0.f), glm::vec3(0.f, -1.f, 0.f)));
+		shadowTransforms.push_back(lightView = glm::lookAt(lightPos, lightPos + glm::vec3(-1.f, 0.f, 0.f), glm::vec3(0.f, -1.f, 0.f)));
+		shadowTransforms.push_back(lightView = glm::lookAt(lightPos, lightPos + glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 1.f)));
+		shadowTransforms.push_back(lightView = glm::lookAt(lightPos, lightPos + glm::vec3(0.f, -1.f, 0.f), glm::vec3(0.f, 0.f, -1.f)));
+		shadowTransforms.push_back(lightView = glm::lookAt(lightPos, lightPos + glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, -1.f, 0.f)));
+		shadowTransforms.push_back(lightView = glm::lookAt(lightPos, lightPos + glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, -1.f, 0.f)));
+
 		lightSpaceMatrix = lightProjection * lightView;
 
 		//render from ligth's pov
 		depthShader.use();
-		depthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+		//depthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+		for (unsigned int i = 0; i < 6; ++i)
+			depthShader.setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
+		depthShader.setFloat("far_plane", far_plane);
+		depthShader.setVec3("lightPos", lightPos);
+
 
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
@@ -269,10 +299,12 @@ int main() {
 		sh.setVec3("light.position", lightPos);
 		sh.setVec3("light.intensities", 1.f, 1.f, 1.f);
 		sh.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+		sh.setInt("shadows", shadows);
+		sh.setFloat("far_plane", far_plane);
 
 		//plane.setTexture(&depthMap);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, depthMap);
+		glBindTexture(GL_TEXTURE_2D, depthCubemap);
 
 		//drawing
 		//Drawing snowman at origin

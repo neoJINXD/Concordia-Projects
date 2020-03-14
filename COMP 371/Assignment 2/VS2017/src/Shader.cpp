@@ -10,11 +10,30 @@
 
 #include <GL/glew.h>
 
-Shader::Shader(string vertFilePath, string fragFilePath) {
+Shader::Shader(string vertFilePath, string fragFilePath, const char* geometryPath) {
     vertShader = readShaderFile(vertFilePath.c_str());
     fragShader = readShaderFile(fragFilePath.c_str());
+    if (geometryPath != nullptr)
+        geoShader = readShaderFile(geometryPath);
     compileShader();
     linkShader();
+
+    if (geometryPath != nullptr)
+    {
+        const char* gShaderCode = geoShader.c_str();
+        geoShaderID = glCreateShader(GL_GEOMETRY_SHADER);
+        glShaderSource(geoShaderID, 1, &gShaderCode, NULL);
+        glCompileShader(geoShaderID);
+        // check for shader compile errors
+        int success;
+        char infoLog[512];
+        glGetShaderiv(vertShaderID, GL_COMPILE_STATUS, &success);
+        if (!success)
+        {
+            glGetShaderInfoLog(vertShaderID, 512, NULL, infoLog);
+            std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        }
+    }
 };
 
 Shader::~Shader()

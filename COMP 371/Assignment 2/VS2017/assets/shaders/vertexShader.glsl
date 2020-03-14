@@ -12,14 +12,14 @@ uniform mat4 lightSpaceMatrix;
 out vec3 vertexPos;
 out vec3 vertexNormal;
 out vec2 vertexUV;
-out vec4 FragPosLightSpace;
+//out vec4 FragPosLightSpace;
 
 void main()
 {
    vertexPos = vec3(worldMatrix * vec4(aPos, 1.0));
    vertexNormal = mat3(transpose(inverse(worldMatrix))) * aNormal;
    vertexUV = aUv;
-   FragPosLightSpace = lightSpaceMatrix * vec4(vertexPos, 1.0);
+   //FragPosLightSpace = lightSpaceMatrix * vec4(vertexPos, 1.0);
 
    gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 }
