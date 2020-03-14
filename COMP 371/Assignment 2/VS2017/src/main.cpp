@@ -41,13 +41,16 @@ static bool glError(const char* funct, const char* file, int line) {
 
 
 int main() {
+
+	unsigned int WIDTH = 1024, HEIGHT = 768;
+
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Creating GLFW window
-	GLFWwindow* win = glfwCreateWindow(1024, 768, "COMP371 - Assignment 1", NULL, NULL);
+	GLFWwindow* win = glfwCreateWindow(WIDTH, HEIGHT, "COMP371 - Assignment 1", NULL, NULL);
 	if (win == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -71,7 +74,7 @@ int main() {
 
 	// Shader Creation
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
-
+	Shader depthShader("assets/shaders/shadowVert.glsl", "assets/shaders/shadowFrag.glsl");
 
 
 	// Arrays for the shapes used in rendering
@@ -80,47 +83,12 @@ int main() {
 		coloredVertex(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)),
 	};
 
-	std::vector<coloredVertex> eboCube{
-		coloredVertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.f)),
-		coloredVertex(glm::vec3( 0.5f, -0.5f, 0.5f), glm::vec3(1.f)),
-		coloredVertex(glm::vec3( 0.5f,  0.5f, 0.5f), glm::vec3(1.f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f, 0.5f), glm::vec3(1.f)),
-
-		coloredVertex(glm::vec3(-0.5f, -0.5f,-0.5f), glm::vec3(1.f)),
-		coloredVertex(glm::vec3( 0.5f, -0.5f,-0.5f), glm::vec3(1.f)),
-		coloredVertex(glm::vec3( 0.5f,  0.5f,-0.5f), glm::vec3(1.f)),
-		coloredVertex(glm::vec3(-0.5f,  0.5f,-0.5f), glm::vec3(1.f)),
-	};
-
-	std::vector<unsigned int> eboCubeIndices{
-		0, 1, 2,
-		0, 2, 3,
-
-		1, 5, 6,
-		1, 6, 2,
-
-		5, 4, 7,
-		5, 7, 6,
-
-		4, 0, 3,
-		4, 3, 7,
-
-		3, 2, 6,
-		3, 6, 7,
-
-		0, 5, 1,
-		0, 4, 5, 
-	};
-
-
 
 	// Creating meshes
 	// creating line
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
 
-
 	objMesh plane("assets/models/plane.obj", glm::vec3(.8f), glm::vec3(0.f), glm::vec3(50.f, 1.f, 50.f));
-
 
 	objMesh torso("assets/models/sphere.obj", glm::vec3(.99f), glm::vec3(0.f, 2.1f, 0.f), glm::vec3(1.5f, 1.f, 1.f));
 	objMesh button1("assets/models/sphere.obj", glm::vec3(0.f), glm::vec3(0.f, 2.6f, .9f), glm::vec3(.2f, .2f, .2f));
@@ -176,9 +144,38 @@ int main() {
 
 	Texture col("assets/textures/color.png", GL_TEXTURE_2D);
 
+	//configuring depth map
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+	unsigned int depthMapFBO;
+	glGenFramebuffers(1, &depthMapFBO);
 
-	// Background Color
-	glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
+	unsigned int depthMap;
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	float borderColor[] = { 1.f, 1.f, 1.f, 1.f };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//initial shader config
+	sh.use();
+	sh.setInt("diffuseTexture", 0);
+	sh.setInt("shadowMap", 1);
+
+
+	glm::vec3 lightPos = glm::vec3(0.f, 30.f, 0.f);
+
+
+
 	
 	// Setting up Camera with starting point
 	float spd = 1.0f;
@@ -207,13 +204,51 @@ int main() {
 
 	while (!glfwWindowShouldClose(win))
 	{
-		sh.use();
-
 		// calculating deltatime
 		float dt = glfwGetTime() - lastFrameTime;
 		lastFrameTime += dt;
 
+		// Background Color
+		glClearColor(0.11f, 0.44f, 0.68f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		//first pass, render shadow map
+
+		glm::mat4 lightProjection, lightView;
+		glm::mat4 lightSpaceMatrix;
+		float near_plane = 1.f, far_plane = 25.f;
+
+		//lightProjection = glm::perspective(glm::radians(45.f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
+		lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f, near_plane, far_plane);
+		lightView = glm::lookAt(lightPos, glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
+		lightSpaceMatrix = lightProjection * lightView;
+
+		//render from ligth's pov
+		depthShader.use();
+		depthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		plane.draw(&depthShader, GL_TRIANGLES);
+		olaf.draw(&depthShader, GL_TRIANGLES);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+		//reset
+		glViewport(0, 0, WIDTH, HEIGHT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////
+		//second pass, render scene
+		glViewport(0, 0, WIDTH, HEIGHT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		sh.use();
 
 		// camera's input processing
 		cam.processMovement(win, dt);
@@ -221,9 +256,22 @@ int main() {
 		// Performing view and projection transformations for camera
 		cam.updateView(sh, win, dt);
 
+		
 		//Light
-		sh.setVec3("light.position", 0.f, 30.f, 0.f);
+		sh.setVec3("light.position", lightPos);
 		sh.setVec3("light.intensities", 1.f, 1.f, 1.f);
+		sh.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+		//plane.setTexture(&depthMap);
+
+		//drawing
+		//Drawing snowman at origin
+		glLineWidth(1);
+		glPointSize(10);
+
+		plane.draw(&sh, GL_TRIANGLES);
+		olaf.draw(&sh, GL_TRIANGLES);
+
 
 		// Rendering
 		glm::mat4 scalingMatrix;
@@ -252,16 +300,7 @@ int main() {
 		translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, scale * 0.5f));
 		worldMatrix = translationMatrix * rotation * scalingMatrix;
 		_line.draw(sh, GL_LINES, 0, 3, worldMatrix, glm::vec3(0.0f, 0.0f, 1.0f));
-		
-
-		//Drawing snowman at origin
-		glLineWidth(1);
-		glPointSize(10);
-
-
-		plane.draw(&sh, GL_TRIANGLES);
-		olaf.draw(&sh, GL_TRIANGLES);
-
+		/////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// Swap buffers
 		glfwSwapBuffers(win);
