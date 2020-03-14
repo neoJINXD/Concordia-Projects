@@ -66,7 +66,7 @@ void main()
     // diffuse
     vec3 lightDir = normalize(light.position - vertexPos);
     float diff = max(dot(lightDir, normal), 0.0);
-    vec3 diffuse = diff * lightColor;
+    vec3 diffuse = diff * lightColor * color;
 
     // specular
     vec3 viewDir = normalize(viewPos - vertexPos);
@@ -75,9 +75,14 @@ void main()
     vec3 halfwayDir = normalize(lightDir + viewDir);  
     spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
     vec3 specular = spec * lightColor;    
+
+    //attenuation
+    float distToLight = length(light.position - vertexPos);
+    float attenuation = 1.0 / (1.0 + 0.0002 * pow(distToLight, 2));
+
     // calculate shadow
     float shadow = shadowCalc(FragPosLightSpace);                      
-    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;    
+    vec3 lighting = (ambient + attenuation * (1.0 - shadow) * (diffuse + specular)) * color;    
     
     FragColor = vec4(lighting, 1.0);
 
