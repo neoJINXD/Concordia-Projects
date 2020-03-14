@@ -209,6 +209,8 @@ int main() {
 
 	bool hasRandomized = false;
 	float n = 1.f;
+	bool shadows = true;
+	bool hasTurned = false;
 
 	while (!glfwWindowShouldClose(win))
 	{
@@ -269,6 +271,7 @@ int main() {
 		sh.setVec3("light.position", lightPos);
 		sh.setVec3("light.intensities", 1.f, 1.f, 1.f);
 		sh.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+		sh.setBool("shadows", shadows);
 
 		//plane.setTexture(&depthMap);
 		glActiveTexture(GL_TEXTURE1);
@@ -410,6 +413,16 @@ int main() {
 			eye.setColor(glm::vec3(0.f));
 			hat1.setColor(glm::vec3(0.f));
 			hat3.setColor(glm::vec3(0.f));
+		}
+		if (glfwGetKey(win, GLFW_KEY_B) == GLFW_PRESS && !hasTurned)
+		{
+			shadows = !shadows;
+			hasTurned = true;
+		}
+		if (glfwGetKey(win, GLFW_KEY_B) == GLFW_RELEASE)
+		{
+			//shadows = false;
+			hasTurned = false;
 		}
 
 		glUseProgram(0);
