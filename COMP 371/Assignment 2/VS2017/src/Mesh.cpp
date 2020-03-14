@@ -31,17 +31,15 @@ void Mesh::Unbind()
 
 void Mesh::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MVP)
 {
-	glUseProgram(sh.shaderProgram);
+	sh.use();
 
-	int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
-	glUniform4f(colorInfo, color.x, color.y, color.z, 1.0f);
+	sh.setVec4("uColor", glm::vec4(color, 1.0f));
 
 	this->Bind();
 
-	unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
+	sh.setMat4("worldMatrix", MVP);
 
 	//draw
-	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &MVP[0][0]);
 	glDrawArrays(type, start, count);
 
 	//clean
@@ -50,17 +48,15 @@ void Mesh::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MV
 
 void Mesh::draw(Shader sh, unsigned int type, int start, int count, glm::mat4 MVP, glm::vec3 colorOverride)
 {
-	glUseProgram(sh.shaderProgram);
+	sh.use();
 
-	int colorInfo = glGetUniformLocation(sh.shaderProgram, "uColor");
-	glUniform4f(colorInfo, colorOverride.x, colorOverride.y, colorOverride.z, 1.0f);
+	sh.setVec4("uColor", glm::vec4(colorOverride, 1.0f));
 
 	this->Bind();
 
-	unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
+	sh.setMat4("worldMatrix", MVP);
 
 	//draw
-	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &MVP[0][0]);
 	glDrawArrays(type, start, count);
 
 	//clean
@@ -138,19 +134,16 @@ MeshEBO::~MeshEBO()
 
 void MeshEBO::Draw(Shader* sh)
 {
+	sh->use();
 
-	glUseProgram(sh->shaderProgram);
-
-	int colorInfo = glGetUniformLocation(sh->shaderProgram, "uColor");
-	glUniform4f(colorInfo, color.x, color.y, color.z, 1.0f);
+	sh->setVec4("uColor", glm::vec4(color, 1.0f));
 
 	updateModelMatrix();
-	unsigned int worldMatrixLocation = glGetUniformLocation(sh->shaderProgram, "worldMatrix");
+
+	sh->setMat4("worldMatrix", ModelMatrix);
+
 	this->Bind();
-
-
 	//draw
-	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &ModelMatrix[0][0]);
 	glDrawElements(type, indices.size(), GL_UNSIGNED_INT, 0);
 
 	//clean

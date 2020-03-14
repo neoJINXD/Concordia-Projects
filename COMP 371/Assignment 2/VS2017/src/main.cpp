@@ -246,7 +246,7 @@ int main() {
 
 	while (!glfwWindowShouldClose(win))
 	{
-		glUseProgram(sh.shaderProgram);
+		sh.use();
 
 		// calculating deltatime
 		float dt = glfwGetTime() - lastFrameTime;
@@ -261,18 +261,14 @@ int main() {
 		cam.updateView(sh, win, dt);
 
 		//Light
-
-		unsigned int liPosLoc = glGetUniformLocation(sh.shaderProgram, "light.position");
-		glUniform3f(liPosLoc, 0.f, 30.f, 0.f);
-		unsigned int liColLoc = glGetUniformLocation(sh.shaderProgram, "light.intensities");
-		glUniform3f(liColLoc, 1.f, 1.f, 1.f);
+		sh.setVec3("light.position", 0.f, 30.f, 0.f);
+		sh.setVec3("light.intensities", 1.f, 1.f, 1.f);
 
 		// Rendering
 		glm::mat4 scalingMatrix;
 		glm::mat4 translationMatrix;
 		glm::mat4 worldMatrix;
 		glm::mat4 rotation;
-		unsigned int worldMatrixLocation = glGetUniformLocation(sh.shaderProgram, "worldMatrix");
 
 		// Coordinate Axis Lines
 		int scale = 5; // 5 Unit length
@@ -424,7 +420,6 @@ int main() {
 	}
 
 	// Cleanup
-	glDeleteProgram(sh.shaderProgram);
 	glfwTerminate();
 
 	return 0;

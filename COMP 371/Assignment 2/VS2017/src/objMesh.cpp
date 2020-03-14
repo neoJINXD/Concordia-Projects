@@ -21,30 +21,23 @@ objMesh::~objMesh()
 
 void objMesh::draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix)
 {
-	glUseProgram(sh->shaderProgram);
+	sh->use();
 
-	int colorInfo = glGetUniformLocation(sh->shaderProgram, "uColor");
-	glUniform4f(colorInfo, color.x, color.y, color.z, 1.0f);
+	sh->setVec4("uColor", glm::vec4(color, 1.0f));
 
 	this->Bind();
 
-	int ambientLoc = glGetUniformLocation(sh->shaderProgram, "ambientColor");
-	glUniform3f(ambientLoc, 1.0f, 1.0f, 1.0f);
+	sh->setInt("material.diffuse", 0);
+	sh->setFloat("material.specular", 1.f);
+	sh->setFloat("material.shininess", 32.f);
 
-	unsigned int matDiff = glGetUniformLocation(sh->shaderProgram, "material.diffuse");
-	unsigned int matSpec = glGetUniformLocation(sh->shaderProgram, "material.specular");
-	unsigned int matShine = glGetUniformLocation(sh->shaderProgram, "material.shiny");
-	glUniform1i(matDiff, 0);
-	glUniform1f(matSpec, 1.f);
-	glUniform1f(matShine, 32.0f);
-
-	unsigned int worldMatrixLocation = glGetUniformLocation(sh->shaderProgram, "worldMatrix");
 
 	updatePartMatrix();
 	applyGroup(groupMatrix);
 
+	sh->setMat4("worldMatrix", worldMatrix);
+
 	//draw
-	glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 	glDrawArrays(type, 0, vertexCount);
 
 	//clean

@@ -103,17 +103,14 @@ void Camera::processMovement(GLFWwindow* win, float deltaTime) {
 void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 
 	// Projection Transform
-	unsigned int projectionMatrixLocation = glGetUniformLocation(sh.shaderProgram, "projectionMatrix");
 	projectionMatrix = glm::perspective(glm::radians(angle),  // field of view in degrees
 		1024.0f / 768.0f,      // aspect ratio
 		0.01f, 200.0f);       // near and far (near > 0)
-	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
+	sh.setMat4("projectionMatrix", projectionMatrix);
 	
-	
-	glUniform3f(glGetUniformLocation(sh.shaderProgram, "viewPos"), camEye->x, camEye->y, camEye->z);
+	sh.setVec3("viewPos", *camEye);
 
 	// View Transform - from camera movement
-	unsigned int viewMatrixLocation = glGetUniformLocation(sh.shaderProgram, "viewMatrix");
 
 	float camX = sin(position) * radius;
 	float camZ = cos(position) * radius;
@@ -132,8 +129,7 @@ void Camera::updateView(Shader sh, GLFWwindow* win, float deltaTime) {
 		*camUp
 	);
 
-	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
-
+	sh.setMat4("viewMatrix", viewMatrix);
 }
 
 void Camera::reset() {

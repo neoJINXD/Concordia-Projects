@@ -58,9 +58,9 @@ void Shadow::draw(Shader* sh, objModel* model)
 
 	glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 
-	glUseProgram(sh->shaderProgram);
+	//glUseProgram(sh->shaderProgram);
 
-	glUniformMatrix4fv(glGetUniformLocation(sh->shaderProgram, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
+	//glUniformMatrix4fv(glGetUniformLocation(sh->shaderProgram, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
 	
 
 	//Bind();

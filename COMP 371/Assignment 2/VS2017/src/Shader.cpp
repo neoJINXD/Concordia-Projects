@@ -17,7 +17,10 @@ Shader::Shader(string vertFilePath, string fragFilePath) {
     linkShader();
 };
 
-Shader::~Shader() {};
+Shader::~Shader()
+{
+    glDeleteShader(shaderProgram);
+};
 
 
 string Shader::readShaderFile(const char* fileName) {
@@ -98,6 +101,11 @@ void Shader::linkShader() {
     glDeleteShader(fragShaderID);
 }
 
+
+void Shader::use()
+{
+    glUseProgram(shaderProgram);
+}
 
 // utility uniform functions from learnopengl
     // ------------------------------------------------------------------------
