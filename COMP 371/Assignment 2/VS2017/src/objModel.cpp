@@ -7,13 +7,13 @@ objModel::objModel()
 
 objModel::~objModel(){}
 
-void objModel::draw(Shader* sh, unsigned int type)
+void objModel::draw(Shader* sh)
 {
 	for (auto* i : meshes)
 	{
 		//i->updatePartMatrix();
 		//i->applyGroup(groupMatrix);
-		i->draw(sh, type, groupMatrix);
+		i->draw(sh, groupMatrix);
 	}
 }
 
@@ -53,4 +53,12 @@ void objModel::reset()
 void objModel::addMesh(objMesh* _mesh)
 {
 	meshes.push_back(_mesh);
+}
+
+void objModel::changeType(unsigned int _type)
+{
+	for (auto* i : meshes)
+	{
+		i->changeType(_type);
+	}
 }

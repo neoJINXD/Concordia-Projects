@@ -53,6 +53,9 @@ private:
 	glm::mat4 part;
 	glm::mat4 worldMatrix;
 
+	float shininess;
+	unsigned int type;
+
 public:
 	objMesh(
 		string path, 
@@ -66,10 +69,14 @@ public:
 
 	void updatePartMatrix();
 	void applyGroup(glm::mat4 groupMatrix);
-	void draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix = glm::mat4(1.f));
+	void draw(Shader* sh, glm::mat4 groupMatrix = glm::mat4(1.f));
 	
 	void setTexture(Texture* _text);
 
 	void setColor(glm::vec3 _color) { color = _color; };
+
+	void setShiny(float _shininess) { shininess = _shininess; };
+
+	void changeType(unsigned int _type);
 };
 
