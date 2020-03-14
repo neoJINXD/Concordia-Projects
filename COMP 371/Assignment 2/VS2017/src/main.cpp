@@ -40,6 +40,7 @@ static bool glError(const char* funct, const char* file, int line) {
 }
 
 
+
 int main() {
 
 	unsigned int WIDTH = 1024, HEIGHT = 768;
@@ -72,6 +73,8 @@ int main() {
 	// OpenGL Version Check
 	//std::cout << glGetString(GL_VERSION) << std::endl;
 
+
+
 	// Shader Creation
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
 	Shader depthShader("assets/shaders/shadowVert.glsl", "assets/shaders/shadowFrag.glsl");
@@ -89,6 +92,8 @@ int main() {
 	Mesh _line(line, sizeof(line), glm::vec3(1.0f, 1.0f, 0.0f));
 
 	objMesh plane("assets/models/plane.obj", glm::vec3(.8f), glm::vec3(0.f), glm::vec3(50.f, 1.f, 50.f));
+
+	//objMesh id("assets/models/sphere.obj", glm::vec3(1.f), glm::vec3(10.f, 1.1f, 10.f), glm::vec3(.1f));
 
 	objMesh torso("assets/models/sphere.obj", glm::vec3(.99f), glm::vec3(0.f, 2.1f, 0.f), glm::vec3(1.5f, 1.f, 1.f));
 	objMesh button1("assets/models/sphere.obj", glm::vec3(0.f), glm::vec3(0.f, 2.6f, .9f), glm::vec3(.2f, .2f, .2f));
@@ -172,7 +177,9 @@ int main() {
 	sh.setInt("shadowMap", 1);
 
 
-	glm::vec3 lightPos = glm::vec3(0.f, 30.f, 0.f);
+	//glm::vec3 lightPos = glm::vec3(0.f, 30.f, 0.f);
+	//glm::vec3 lightPos = glm::vec3(-1.f, 4.f, -2.f);
+	glm::vec3 lightPos = glm::vec3(-1.f, 5.f, -2.f);
 
 
 
@@ -181,6 +188,7 @@ int main() {
 	float spd = 1.0f;
 	
 	glm::vec3 Eye = glm::vec3(0.0f, 25.0f, 10.0f);
+	//glm::vec3 Eye = lightPos;
 	glm::vec3 Center = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -219,7 +227,7 @@ int main() {
 
 		glm::mat4 lightProjection, lightView;
 		glm::mat4 lightSpaceMatrix;
-		float near_plane = 1.f, far_plane = 25.f;
+		float near_plane = -1.f, far_plane = 40.f;
 
 		//lightProjection = glm::perspective(glm::radians(45.f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
 		lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f, near_plane, far_plane);
@@ -263,14 +271,18 @@ int main() {
 		sh.setMat4("lightSpaceMatrix", lightSpaceMatrix);
 
 		//plane.setTexture(&depthMap);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
 
 		//drawing
 		//Drawing snowman at origin
 		glLineWidth(1);
 		glPointSize(10);
 
+		
 		plane.draw(&sh, GL_TRIANGLES);
 		olaf.draw(&sh, GL_TRIANGLES);
+		//id.draw(&sh, GL_TRIANGLES);
 
 
 		// Rendering
