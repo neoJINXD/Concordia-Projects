@@ -10,7 +10,7 @@ public:
 	objModel();
 	~objModel();
 
-	void draw(Shader* sh, unsigned int type);
+	void draw(Shader* sh);
 	void rotateBy(float x, float y, float z);
 	void randomizePos();
 	void moveBy(float x, float y, float z);
@@ -18,6 +18,8 @@ public:
 	void reset();
 
 	void addMesh(objMesh* _mesh);
+
+	void changeType(unsigned int _type);
 
 
 private:

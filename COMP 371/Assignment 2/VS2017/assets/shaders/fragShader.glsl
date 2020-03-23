@@ -12,6 +12,7 @@ uniform vec4 uColor;
 uniform sampler2D diffuseTexture;
 uniform vec3 viewPos;
 uniform sampler2D shadowMap;
+uniform bool shadows;
 
 uniform struct Material{
     sampler2D diffuse;
@@ -71,20 +72,30 @@ void main()
     // specular
     vec3 viewDir = normalize(viewPos - vertexPos);
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = 0.0;
-    vec3 halfwayDir = normalize(lightDir + viewDir);  
-    spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
-    vec3 specular = spec * lightColor;    
+    //Blinn-Phong
+    //float spec = 0.0;
+    //vec3 halfwayDir = normalize(lightDir + viewDir);  
+    //spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
+    //vec3 specular = spec * lightColor;
+
+    //Phong
+    float specularCoef = 0.0;
+    vec3 reflected = normalize(reflect(lightDir, normal));
+    if (diff > 0.0)
+        specularCoef = pow(max(0.0, dot(viewDir, reflected)), material.shininess);
+    vec3 specular = specularCoef * lightColor;
 
     //attenuation
     float distToLight = length(light.position - vertexPos);
     float attenuation = 1.0 / (1.0 + 0.0002 * pow(distToLight, 2));
 
+
     // calculate shadow
-    float shadow = shadowCalc(FragPosLightSpace);                      
+    float shadow = shadows ? shadowCalc(FragPosLightSpace) : 0.0;                      
     vec3 lighting = (ambient + attenuation * (1.0 - shadow) * (diffuse + specular)) * color;    
     
     FragColor = vec4(lighting, 1.0);
 
 }
-//Much help from https://www.tomdalling.com/blog/modern-opengl/07-more-lighting-ambient-specular-attenuation-gamma/
+//help from https://www.tomdalling.com/blog/modern-opengl/07-more-lighting-ambient-specular-attenuation-gamma/
+//and learnopengl.com

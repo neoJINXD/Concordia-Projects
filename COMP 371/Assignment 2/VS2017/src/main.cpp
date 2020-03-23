@@ -179,8 +179,10 @@ int main() {
 
 	//glm::vec3 lightPos = glm::vec3(0.f, 30.f, 0.f);
 	//glm::vec3 lightPos = glm::vec3(-1.f, 4.f, -2.f);
-	glm::vec3 lightPos = glm::vec3(-1.f, 5.f, -2.f);
+	glm::vec3 lightPos = glm::vec3(0.f, 20.f, -1.f);
 
+	hat1.setShiny(256.f);
+	hat3.setShiny(256.f);
 
 
 	
@@ -209,6 +211,8 @@ int main() {
 
 	bool hasRandomized = false;
 	float n = 1.f;
+	bool shadows = true;
+	bool hasTurned = false;
 
 	while (!glfwWindowShouldClose(win))
 	{
@@ -241,8 +245,8 @@ int main() {
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		plane.draw(&depthShader, GL_TRIANGLES);
-		olaf.draw(&depthShader, GL_TRIANGLES);
+		plane.draw(&depthShader);
+		olaf.draw(&depthShader);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
@@ -269,6 +273,7 @@ int main() {
 		sh.setVec3("light.position", lightPos);
 		sh.setVec3("light.intensities", 1.f, 1.f, 1.f);
 		sh.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+		sh.setBool("shadows", shadows);
 
 		//plane.setTexture(&depthMap);
 		glActiveTexture(GL_TEXTURE1);
@@ -280,8 +285,8 @@ int main() {
 		glPointSize(10);
 
 		
-		plane.draw(&sh, GL_TRIANGLES);
-		olaf.draw(&sh, GL_TRIANGLES);
+		plane.draw(&sh);
+		olaf.draw(&sh);
 		//id.draw(&sh, GL_TRIANGLES);
 
 
@@ -326,15 +331,15 @@ int main() {
 		}
 		if (glfwGetKey(win, GLFW_KEY_L) == GLFW_PRESS) {
 			// Wireframe with GL_LINE_LOOP
-			//torso.changeType(GL_LINE_LOOP);
+			olaf.changeType(GL_LINE_LOOP);
 		}
 		if (glfwGetKey(win, GLFW_KEY_T) == GLFW_PRESS) {
 			// Shape with GL_TRIANGLES
-			//torso.changeType(GL_TRIANGLES);
+			olaf.changeType(GL_TRIANGLES);
 		}
 		if (glfwGetKey(win, GLFW_KEY_P) == GLFW_PRESS) {
 			// Points with GL_POINTS
-			//torso.changeType(GL_POINTS);
+			olaf.changeType(GL_POINTS);
 		}
 		if (glfwGetKey(win, GLFW_KEY_D) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
@@ -410,6 +415,16 @@ int main() {
 			eye.setColor(glm::vec3(0.f));
 			hat1.setColor(glm::vec3(0.f));
 			hat3.setColor(glm::vec3(0.f));
+		}
+		if (glfwGetKey(win, GLFW_KEY_B) == GLFW_PRESS && !hasTurned)
+		{
+			shadows = !shadows;
+			hasTurned = true;
+		}
+		if (glfwGetKey(win, GLFW_KEY_B) == GLFW_RELEASE)
+		{
+			//shadows = false;
+			hasTurned = false;
 		}
 
 		glUseProgram(0);

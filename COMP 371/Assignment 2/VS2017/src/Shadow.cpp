@@ -69,7 +69,7 @@ void Shadow::draw(Shader* sh, objModel* model)
 	glClear(GL_DEPTH_BUFFER_BIT);
 
 	//render all meshes
-	model->draw(sh, GL_TRIANGLES);
+	model->draw(sh);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

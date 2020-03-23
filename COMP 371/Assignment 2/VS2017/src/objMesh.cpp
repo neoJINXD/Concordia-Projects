@@ -6,6 +6,8 @@ objMesh::objMesh(string path, glm::vec3 _color, glm::vec3 _position, glm::vec3 _
 	position = _position;
 	rotation = _rotation;
 	scale = _scale;
+	shininess = 32.f;
+	type = GL_TRIANGLES;
 	texture = new Texture("assets/textures/color.png", GL_TEXTURE_2D);
 	part = glm::mat4(1.f);
 	worldMatrix = glm::mat4(1.f);
@@ -19,7 +21,7 @@ objMesh::~objMesh()
 	texture = nullptr;
 }
 
-void objMesh::draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix)
+void objMesh::draw(Shader* sh, glm::mat4 groupMatrix)
 {
 	sh->use();
 
@@ -29,7 +31,7 @@ void objMesh::draw(Shader* sh, unsigned int type, glm::mat4 groupMatrix)
 
 	sh->setInt("material.diffuse", 0);
 	sh->setFloat("material.specular", 1.f);
-	sh->setFloat("material.shininess", 32.f);
+	sh->setFloat("material.shininess", shininess);
 
 
 	updatePartMatrix();
@@ -239,4 +241,9 @@ void objMesh::setTexture(Texture* _text)
 {
 	//delete texture;
 	texture = _text;
+}
+
+void objMesh::changeType(unsigned int _type)
+{
+	type = _type;
 }
