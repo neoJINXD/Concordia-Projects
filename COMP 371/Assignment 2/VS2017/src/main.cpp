@@ -47,11 +47,16 @@ float map(float input ,int start, int end, int newStart, int newEnd)
 	return output;
 }
 
-
+unsigned int WIDTH = 1024, HEIGHT = 768;
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+	WIDTH = width;
+	HEIGHT = height;
+}
 
 int main() {
 
-	unsigned int WIDTH = 1024, HEIGHT = 768;
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -81,7 +86,7 @@ int main() {
 	// OpenGL Version Check
 	//std::cout << glGetString(GL_VERSION) << std::endl;
 
-
+	glfwSetFramebufferSizeCallback(win, framebuffer_size_callback);
 
 	// Shader Creation
 	Shader sh("assets/shaders/vertexShader.glsl", "assets/shaders/fragShader.glsl");
@@ -211,7 +216,7 @@ int main() {
 	float lastFrameTime = glfwGetTime();
 
 	// Disabling mouse cursor
-	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
@@ -226,7 +231,7 @@ int main() {
 
 	while (!glfwWindowShouldClose(win))
 	{
-
+		cam.setAspectRatio(WIDTH, HEIGHT);
 
 		// calculating deltatime
 		float dt = glfwGetTime() - lastFrameTime;

@@ -137,3 +137,11 @@ void Camera::reset() {
 	pitch = -45.0f;
 	position = 0.f;
 }
+
+void Camera::setAspectRatio(unsigned int w, unsigned int h)
+{
+	float aspectRatio = (float)w / (float)h;
+	projectionMatrix = glm::perspective(glm::radians(angle),  // field of view in degrees
+		aspectRatio,      // aspect ratio
+		0.01f, 200.0f);       // near and far (near > 0)
+}

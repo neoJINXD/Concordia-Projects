@@ -33,6 +33,8 @@ public:
 	void updateView(Shader sh, GLFWwindow* win, float deltaTime);
 	void reset();
 
+	void setAspectRatio(unsigned int w, unsigned int h);
+
 private:
 	float* speed;
 	float radius;
