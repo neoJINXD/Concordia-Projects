@@ -18,3 +18,9 @@ Right Click X movement - Camera pan
 Middle Click Y movement - Camera tilt
 Left Click Y movement - Camera zoom
 Up / Down Arrows - Enable / Disable Textures
+
+NEW KEYBINDS FROM ASSIGNMENT 2
+
+Up / Down Arrows - Enable / Disable Textures
+B - Enable / Disable Shadows
+BackSpace / '\' - Moves the light source Down / Up

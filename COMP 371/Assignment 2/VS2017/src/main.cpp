@@ -420,14 +420,6 @@ int main() {
 				rightArm.rotate(0, 0, armAngle, glm::vec3(1.5f, 0.f, 0.f));
 			}
 		}
-		/*if (glfwGetKey(win, GLFW_KEY_W) == GLFW_RELEASE)
-		{
-			rotAngle = 0;
-			leftLeg.resetRotation();
-			rightLeg.resetRotation();
-			leftFoot.resetRotation();
-			rightFoot.resetRotation();
-		}*/
 
 		if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
@@ -510,6 +502,15 @@ int main() {
 			//shadows = false;
 			hasTurned = false;
 		}
+		if (glfwGetKey(win, GLFW_KEY_BACKSPACE))
+		{
+			lightPos.y -= .1f;
+		}
+		if (glfwGetKey(win, GLFW_KEY_BACKSLASH))
+		{
+			lightPos.y += .1f;
+		}
+		std::cout << lightPos.y << std::endl;
 
 		glUseProgram(0);
 	}
