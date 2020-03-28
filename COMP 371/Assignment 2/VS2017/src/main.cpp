@@ -510,7 +510,7 @@ int main() {
 		{
 			lightPos.y += .1f;
 		}
-		std::cout << lightPos.y << std::endl;
+		//std::cout << lightPos.y << std::endl;
 
 		glUseProgram(0);
 	}
