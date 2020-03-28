@@ -5,7 +5,9 @@ objMesh::objMesh(string path, glm::vec3 _color, glm::vec3 _position, glm::vec3 _
 	color = _color;
 	position = _position;
 	rotation = _rotation;
+	defaultRot = _rotation;
 	scale = _scale;
+	pivot = glm::vec3(0.f);
 	shininess = 32.f;
 	type = GL_TRIANGLES;
 	texture = new Texture("assets/textures/color.png", GL_TEXTURE_2D);
@@ -230,9 +232,13 @@ void objMesh::updatePartMatrix()
 
 	part = glm::translate(part, position);
 
+	part = glm::translate(part, pivot);
+
 	part = glm::rotate(part, glm::radians(rotation.x), glm::vec3(1.f, 0.f, 0.f));
 	part = glm::rotate(part, glm::radians(rotation.y), glm::vec3(0.f, 1.f, 0.f));
 	part = glm::rotate(part, glm::radians(rotation.z), glm::vec3(0.f, 0.f, 1.f));
+	
+	part = glm::translate(part, -pivot);
 
 	part = glm::scale(part, scale);
 }
@@ -246,4 +252,18 @@ void objMesh::setTexture(Texture* _text)
 void objMesh::changeType(unsigned int _type)
 {
 	type = _type;
+}
+
+void objMesh::rotate(float x, float y, float z, glm::vec3 _pivot)
+{
+	//rotation.x += x;
+	rotation.x = x;
+	rotation.y = y;
+	rotation.z = z;
+	pivot = _pivot;
+}
+
+void objMesh::resetRotation()
+{
+	rotation = defaultRot;
 }

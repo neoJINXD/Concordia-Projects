@@ -48,7 +48,9 @@ private:
 
 	glm::vec3 position;
 	glm::vec3 rotation;
+	glm::vec3 defaultRot;
 	glm::vec3 scale;
+	glm::vec3 pivot;
 
 	glm::mat4 part;
 	glm::mat4 worldMatrix;
@@ -78,5 +80,8 @@ public:
 	void setShiny(float _shininess) { shininess = _shininess; };
 
 	void changeType(unsigned int _type);
+
+	void rotate(float x, float y, float z, glm::vec3 _pivot = glm::vec3(0.f));
+	void resetRotation();
 };
 

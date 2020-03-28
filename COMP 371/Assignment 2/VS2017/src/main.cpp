@@ -20,6 +20,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <math.h>
+
 
 //For error checking for error checking
 #define ASSERT(x) if (!(x)) __debugbreak();
@@ -37,6 +39,12 @@ static bool glError(const char* funct, const char* file, int line) {
 		return false;
 	}
 	return true;
+}
+
+float map(float input ,int start, int end, int newStart, int newEnd)
+{
+	float output = newStart + ((newEnd - newStart) / (end - start)) * (input - start);
+	return output;
 }
 
 
@@ -109,8 +117,8 @@ int main() {
 	objMesh leftArm("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(2.8f, 2.1f, 0.f), glm::vec3(1.5f, .1f, .1f));
 	objMesh rightArm("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(-2.8f, 2.1f, 0.f), glm::vec3(1.5f, .1f, .1f));
 
-	objMesh leftLeg("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(.5f, .3f, 0.f), glm::vec3(.2f, 1.f, .2f));
-	objMesh rightLeg("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(-.5f, .3f, 0.f), glm::vec3(.2f, 1.f, .2f));
+	objMesh leftLeg("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(.5f, .5f, 0.f), glm::vec3(.2f, .7f, .2f));
+	objMesh rightLeg("assets/models/cube.obj", glm::vec3(.5f, .37f, .2f), glm::vec3(-.5f, .5f, 0.f), glm::vec3(.2f, .7f, .2f));
 	objMesh leftFoot("assets/models/cube.obj", glm::vec3(0.f), glm::vec3(.5f, .1f, 0.f), glm::vec3(.35f, .1f, .35f));
 	objMesh rightFoot("assets/models/cube.obj", glm::vec3(0.f), glm::vec3(-.5f, .1f, 0.f), glm::vec3(.35f, .1f, .35f));
 
@@ -213,9 +221,13 @@ int main() {
 	float n = 1.f;
 	bool shadows = true;
 	bool hasTurned = false;
+	float rotAngle = 0;
+	float scarfAnim = 0;
 
 	while (!glfwWindowShouldClose(win))
 	{
+
+
 		// calculating deltatime
 		float dt = glfwGetTime() - lastFrameTime;
 		lastFrameTime += dt;
@@ -324,6 +336,11 @@ int main() {
 		// Check/call events
 		glfwPollEvents();
 
+
+		scarfAnim += 0.1;
+		scarfBit.rotate(0, map(sin(scarfAnim), -1, 1, -10, 10), 0);
+
+
 		//TODO setup as callback
 		if (glfwGetKey(win, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			// Escape to close window
@@ -350,6 +367,16 @@ int main() {
 			{
 				olaf.rotateBy(0.f, -1.f, 0.f);
 			}
+			rotAngle += 0.1;
+			int newAngle = map(sin(rotAngle), -1, 1, -45, 45);
+			leftLeg.rotate(newAngle, 0, 0, glm::vec3(0.f, 1.f, 0.f));
+			rightLeg.rotate(-newAngle, 0, 0, glm::vec3(0.f, 1.f, 0.f));
+			leftFoot.rotate(newAngle, 0, 0, glm::vec3(0.f, 1.2f, 0.f));
+			rightFoot.rotate(-newAngle, 0, 0, glm::vec3(0.f, 1.2f, 0.f));
+
+			int armAngle = map(sin(rotAngle), -1, 1, -20, 20);
+			leftArm.rotate(0, 0, armAngle, glm::vec3(-1.5f, 0.f, 0.f));
+			rightArm.rotate(0, 0, armAngle, glm::vec3(1.5f, 0.f, 0.f));
 		}
 		if (glfwGetKey(win, GLFW_KEY_A) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
@@ -360,19 +387,71 @@ int main() {
 			{
 				olaf.rotateBy(0.f, 1.f, 0.f);
 			}
+			rotAngle += 0.1;
+			int newAngle = map(sin(rotAngle), -1, 1, -45, 45);
+			leftLeg.rotate(newAngle, 0, 0, glm::vec3(0.f, 1.f, 0.f));
+			rightLeg.rotate(-newAngle, 0, 0, glm::vec3(0.f, 1.f, 0.f));
+			leftFoot.rotate(newAngle, 0, 0, glm::vec3(0.f, 1.2f, 0.f));
+			rightFoot.rotate(-newAngle, 0, 0, glm::vec3(0.f, 1.2f, 0.f));
+
+			int armAngle = map(sin(rotAngle), -1, 1, -20, 20);
+			leftArm.rotate(0, 0, armAngle, glm::vec3(-1.5f, 0.f, 0.f));
+			rightArm.rotate(0, 0, armAngle, glm::vec3(1.5f, 0.f, 0.f));
 		}
+
 		if (glfwGetKey(win, GLFW_KEY_W) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
 				olaf.moveBy(.0f, .0f, .1f);
+				rotAngle += 0.1;
+				int newAngle = map(sin(rotAngle), -1, 1, -45, 45);
+				leftLeg.rotate(newAngle, 0, 0, glm::vec3(0.f, 1.f, 0.f));
+				rightLeg.rotate(-newAngle, 0, 0, glm::vec3(0.f, 1.f, 0.f));
+				leftFoot.rotate(newAngle, 0, 0, glm::vec3(0.f, 1.2f, 0.f));
+				rightFoot.rotate(-newAngle, 0, 0, glm::vec3(0.f, 1.2f, 0.f));
+
+				int armAngle = map(sin(rotAngle), -1, 1, -20, 20);
+				leftArm.rotate(0, 0, armAngle, glm::vec3(-1.5f, 0.f, 0.f));
+				rightArm.rotate(0, 0, armAngle, glm::vec3(1.5f, 0.f, 0.f));
 			}
 		}
+		/*if (glfwGetKey(win, GLFW_KEY_W) == GLFW_RELEASE)
+		{
+			rotAngle = 0;
+			leftLeg.resetRotation();
+			rightLeg.resetRotation();
+			leftFoot.resetRotation();
+			rightFoot.resetRotation();
+		}*/
+
 		if (glfwGetKey(win, GLFW_KEY_S) == GLFW_PRESS) {
 			if (glfwGetKey(win, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 			{
 				olaf.moveBy(.0f, .0f, -.1f);
+				rotAngle += 0.1;
+				int newAngle = map(sin(rotAngle), -1, 1, -45, 45);
+				leftLeg.rotate(newAngle, 0, 0, glm::vec3(0.f, 1.f, 0.f));
+				rightLeg.rotate(-newAngle, 0, 0, glm::vec3(0.f, 1.f, 0.f));
+				leftFoot.rotate(newAngle, 0, 0, glm::vec3(0.f, 1.2f, 0.f));
+				rightFoot.rotate(-newAngle, 0, 0, glm::vec3(0.f, 1.2f, 0.f));
+
+				int armAngle = map(sin(rotAngle), -1, 1, -20, 20);
+				leftArm.rotate(0, 0, armAngle, glm::vec3(-1.5f, 0.f, 0.f));
+				rightArm.rotate(0, 0, armAngle, glm::vec3(1.5f, 0.f, 0.f));
 			}
 		}
+		if (glfwGetKey(win, GLFW_KEY_S) == GLFW_RELEASE && glfwGetKey(win, GLFW_KEY_W) == GLFW_RELEASE && glfwGetKey(win, GLFW_KEY_A) == GLFW_RELEASE && glfwGetKey(win, GLFW_KEY_D) == GLFW_RELEASE)
+		{
+			rotAngle = 0;
+			leftLeg.resetRotation();
+			rightLeg.resetRotation();
+			leftFoot.resetRotation();
+			rightFoot.resetRotation();
+
+			leftArm.resetRotation();
+			rightArm.resetRotation();
+		}
+
 		if (glfwGetKey(win, GLFW_KEY_U) == GLFW_PRESS){
 			olaf.scaleUpDown(1.1f);
 		}
