@@ -14,17 +14,19 @@ public class Philosopher extends BaseThread {
 	public static final long TIME_TO_WASTE = 1000;
 
 	/**
-	 * The act of eating. - Print the fact that a given phil (their TID) has started
-	 * eating. - yield - Then sleep() for a random interval. - yield - The print
-	 * that they are done eating.
+	 * The act of eating. 
+	 * - Print the fact that a given phil (their TID) has started eating. 
+	 * - yield 
+	 * - Then sleep() for a random interval. 
+	 * - yield - The print that they are done eating.
 	 */
 	public void eat() {
 		try {
-			System.out.printf("The time is to consume💦\n");
+			System.out.printf("Philosopher %d: is to eat\n", getTID());
 			yield();
 			sleep((long) (Math.random() * TIME_TO_WASTE));
 			yield();
-			System.out.printf("The consuming is completing\n");
+			System.out.printf("Philosopher %d: is done eating\n", getTID());
 		} catch (InterruptedException e) {
 			System.err.println("Philosopher.eat():");
 			DiningPhilosophers.reportException(e);
@@ -39,11 +41,11 @@ public class Philosopher extends BaseThread {
 	 */
 	public void think() {
 		try {
-			System.out.printf("The time is 🤔\n");
+			System.out.printf("Philosopher %d: is thinking\n", getTID());
 			yield();
 			sleep((long) (Math.random() * TIME_TO_WASTE));
 			yield();
-			System.out.printf("No more thonking\n");
+			System.out.printf("Philosopher %d: is done think\n", getTID());
 		} catch (InterruptedException e) {
 			System.err.println("Philosopher.think():");
 			DiningPhilosophers.reportException(e);
@@ -58,11 +60,11 @@ public class Philosopher extends BaseThread {
 	 */
 	public void talk() {
 
-		System.out.printf("The time is speech👁‍🗨\n");
+		System.out.printf("Philosopher %d: wants talking\n", getTID());
 		yield();
 		saySomething();
 		yield();
-		System.out.printf("Silence\n");
+		System.out.printf("Philosopher %d: has been silenced\n", getTID());
 
 	}
 
@@ -71,27 +73,25 @@ public class Philosopher extends BaseThread {
 	 */
 	public void run() {
 		for (int i = 0; i < DiningPhilosophers.DINING_STEPS; i++) {
+		//for (int i = 0; i < 1; i++) { //Running just once for testing
 			DiningPhilosophers.soMonitor.pickUp(getTID());
-
 			eat();
-
 			DiningPhilosophers.soMonitor.putDown(getTID());
 
 			think();
-
-			/*
-			 * TODO: A decision is made at random whether this particular philosopher is
-			 * about to say something terribly useful.
-			 */
+			
 			Random rand = new Random();
-			// if(rand.nextInt(10) < 5)
-			if (true) {
-				// Some monitor ops down here...
-				talk();
-				// ...
+			if(rand.nextInt(10) < 5){
+			//if (true){
+					DiningPhilosophers.soMonitor.iWantToTalk(getTID());
+					DiningPhilosophers.soMonitor.requestTalk();
+					talk();
+					DiningPhilosophers.soMonitor.endTalk();
+					DiningPhilosophers.soMonitor.iDontWantToTalk(getTID());
 			}
 
 			yield();
+			System.out.println();
 		}
 	} // run()
 
