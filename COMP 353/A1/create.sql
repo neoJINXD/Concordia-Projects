@@ -1,0 +1,46 @@
+USE kekw;
+
+CREATE TABLE IF NOT EXISTS Patient(
+    pid INT PRIMARY KEY AUTO_INCREMENT,
+    pname VARCHAR(255),
+    age INT,
+    city VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Doctor(
+    did INT PRIMARY KEY AUTO_INCREMENT,
+    dname VARCHAR(255),
+    city VARCHAR(255),
+);
+
+CREATE TABLE IF NOT EXISTS Specialization(
+    did INT NOT NULL,
+    specialization VARCHAR(255) NOT NULL,
+    start_date DATE,
+    FOREIGN KEY (did) REFERENCES doctor(did) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Clinic(
+    cid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cname VARCHAR(255),
+    city VARCHAR(255),
+);
+
+CREATE TABLE IF NOT EXISTS Works_in(
+    did INT NOT NULL,
+    cid INT NOT NULL,
+    hours_per_week INT NOT NULL,
+    FOREIGN KEY (did) REFERENCES doctor(did) ON DELETE CASCADE,
+    FOREIGN KEY (cid) REFERENCES clinic(cid) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Consults(
+    pid INT NOT NULL,
+    did INT NOT NULL,
+    cid INT NOT NULL,
+    date DATE,
+    illness VARCHAR(255) NOT NULL,
+    FOREIGN KEY (pid) REFERENCES patient(pid) ON DELETE CASCADE,
+    FOREIGN KEY (did) REFERENCES doctor(did) ON DELETE CASCADE,
+    FOREIGN KEY (cid) REFERENCES clinic(cid) ON DELETE CASCADE
+);
