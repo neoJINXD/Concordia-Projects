@@ -14,11 +14,15 @@ public class Enemy : MonoBehaviour
 
     private bool stopped = true;
     private Vector3 targetLocation;
+    private GameManager gm;
+    private EnemySpawner spawner;
 
     void Start()
     {
         if (randomize)
             transform.position = GetRandomPos();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
     }
 
     void FixedUpdate() 
@@ -44,8 +48,8 @@ public class Enemy : MonoBehaviour
     {
         Instantiate(explosionFX, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
         Destroy(gameObject);
-        GameObject.Find("GameManager").GetComponent<GameManager>().IncreasePoints(pointValue);
-        GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>().Killed();
+        gm.IncreasePoints(pointValue);
+        spawner.Killed();
     }
 
     private Vector3 GetRandomPos()

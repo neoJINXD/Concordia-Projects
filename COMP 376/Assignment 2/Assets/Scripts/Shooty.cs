@@ -7,10 +7,17 @@ public class Shooty : MonoBehaviour
     [SerializeField] float timeBtwShot = 1;
     private float timer;
 
+    private AudioSource shootySound;
+    private GameManager gm;
+    private ReloadTime reloader;
+
     void Start() 
     {
         timer = timeBtwShot;
-        GameObject.Find("ReloadIndicator").GetComponent<ReloadTime>().SetMax(timeBtwShot);    
+        GameObject.Find("ReloadIndicator").GetComponent<ReloadTime>().SetMax(timeBtwShot);
+        shootySound = GetComponent<AudioSource>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        reloader = GameObject.Find("ReloadIndicator").GetComponent<ReloadTime>();
     }
 
     void Update()
@@ -21,7 +28,7 @@ public class Shooty : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 // print("click");
-                GetComponent<AudioSource>().Play();
+                shootySound.Play();
                 
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2 mouse2D = new Vector2(mousePos.x, mousePos.y);
@@ -32,21 +39,21 @@ public class Shooty : MonoBehaviour
                 {
                     // print(hit.collider.name);
                     hit.collider.GetComponent<Enemy>().Damage();
-                    
+
                     // add posibility of killing multiple enemies with 1 shot
                     hit = Physics2D.Raycast(mouse2D, Vector2.zero);
                     if (hit.collider != null)
                     {
                         hit.collider.GetComponent<Enemy>().Damage();
-                        GameObject.Find("GameManager").GetComponent<GameManager>().IncreasePoints(5);
+                        gm.IncreasePoints(5);
                     }
                 } 
                 else
                 {
-                    GameObject.Find("GameManager").GetComponent<GameManager>().DecreasePoints(1);
+                    gm.DecreasePoints(1);
                 }        
                 timer = 0;
-                GameObject.Find("ReloadIndicator").GetComponent<ReloadTime>().TurnOn();
+                reloader.TurnOn();
             }
         }
     }
