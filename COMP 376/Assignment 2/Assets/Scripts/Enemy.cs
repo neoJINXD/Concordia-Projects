@@ -8,13 +8,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] float speed = 1f;
     [SerializeField] float threshold = 1f;
     [SerializeField] int pointValue = 3;
+    [SerializeField] bool randomize = true;
 
     private bool stopped = true;
     private Vector3 targetLocation;
 
     void Start()
     {
-        transform.position = GetRandomPos();
+        if (randomize)
+            transform.position = GetRandomPos();
     }
 
     void FixedUpdate() 
