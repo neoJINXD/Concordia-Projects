@@ -44,7 +44,16 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void Damage()
+    virtual public void Damage()
+    {
+        Die();
+        // Instantiate(explosionFX, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
+        // Destroy(gameObject);
+        // gm.IncreasePoints(pointValue);
+        // spawner.Killed();
+    }
+
+    protected void Die()
     {
         Instantiate(explosionFX, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
         Destroy(gameObject);

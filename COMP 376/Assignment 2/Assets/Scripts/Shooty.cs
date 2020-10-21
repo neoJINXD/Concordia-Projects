@@ -33,20 +33,28 @@ public class Shooty : MonoBehaviour
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2 mouse2D = new Vector2(mousePos.x, mousePos.y);
 
-                RaycastHit2D hit = Physics2D.Raycast(mouse2D, Vector2.zero);
+                // RaycastHit2D hit = Physics2D.Raycast(mouse2D, Vector2.zero);
+                RaycastHit2D[] hits = Physics2D.RaycastAll(mouse2D, Vector2.zero);
 
-                if (hit.collider != null)
+                // if (hit.collider != null)
+                if (hits.Length != 0)
                 {
-                    // print(hit.collider.name);
-                    hit.collider.GetComponent<Enemy>().Damage();
-
-                    // add posibility of killing multiple enemies with 1 shot
-                    hit = Physics2D.Raycast(mouse2D, Vector2.zero);
-                    if (hit.collider != null)
+                    foreach (RaycastHit2D hit in hits)
                     {
                         hit.collider.GetComponent<Enemy>().Damage();
-                        gm.IncreasePoints(5);
                     }
+                    gm.IncreasePoints(5 * (hits.Length - 1));
+
+                    // // print(hit.collider.name);
+                    // hit.collider.GetComponent<Enemy>().Damage();
+
+                    // // add posibility of killing multiple enemies with 1 shot
+                    // hit = Physics2D.Raycast(mouse2D, Vector2.zero);
+                    // if (hit.collider != null)
+                    // {
+                    //     hit.collider.GetComponent<Enemy>().Damage();
+                    //     gm.IncreasePoints(5);
+                    // }
                 } 
                 else
                 {
