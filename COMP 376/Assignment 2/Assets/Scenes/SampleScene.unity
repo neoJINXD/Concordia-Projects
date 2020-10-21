@@ -221,6 +221,11 @@ PrefabInstance:
       propertyPath: speed
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -299067740953716793, guid: ce717588359bfc146a80af241aa947c6,
+        type: 3}
+      propertyPath: randomize
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2430016772282271060, guid: ce717588359bfc146a80af241aa947c6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -591,6 +596,7 @@ MonoBehaviour:
   points: 0
   pointCounter: {fileID: 1200124610}
   shotsLeft: {fileID: 588030179}
+  reloader: {fileID: 136027817}
 --- !u!4 &741630615
 Transform:
   m_ObjectHideFlags: 0
@@ -714,6 +720,7 @@ MonoBehaviour:
     type: 3}
   spawnLimit: 0
   spawnTimer: 1
+  count: 0
 --- !u!4 &854035323
 Transform:
   m_ObjectHideFlags: 0
@@ -738,6 +745,11 @@ PrefabInstance:
     - target: {fileID: -299067740953716793, guid: ce717588359bfc146a80af241aa947c6,
         type: 3}
       propertyPath: speed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -299067740953716793, guid: ce717588359bfc146a80af241aa947c6,
+        type: 3}
+      propertyPath: randomize
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2430016772282271060, guid: ce717588359bfc146a80af241aa947c6,

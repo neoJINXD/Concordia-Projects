@@ -32,7 +32,14 @@ public class Shooty : MonoBehaviour
                 {
                     // print(hit.collider.name);
                     hit.collider.GetComponent<Enemy>().Damage();
-                    //TODO add posibility of killing multiple enemies with 1 shot
+                    
+                    // add posibility of killing multiple enemies with 1 shot
+                    hit = Physics2D.Raycast(mouse2D, Vector2.zero);
+                    if (hit.collider != null)
+                    {
+                        hit.collider.GetComponent<Enemy>().Damage();
+                        GameObject.Find("GameManager").GetComponent<GameManager>().IncreasePoints(5);
+                    }
                 } 
                 else
                 {

@@ -23,7 +23,7 @@ public class MouseFollower : MonoBehaviour
         //Setting player position to mouse position
         Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
-        print(mousePos);
+        // print(mousePos);
         player.position = mousePos;
         reloader.rectTransform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
     }

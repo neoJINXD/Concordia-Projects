@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] int points;
     [SerializeField] Text pointCounter; 
     [SerializeField] Text shotsLeft; 
+    [SerializeField] GameObject reloader;
+
+    //TODO add level system
+    //TODO increase in speed per level player is at
+    //TODO add SUPER ULTRA SHOOTING MODE
     private GameObject player;
     private int level = 0;
     private int missedShots = 0;
@@ -32,6 +37,7 @@ public class GameManager : MonoBehaviour
     {
         // Destroy(player);
         player.SetActive(false);
+        reloader.SetActive(false);
         print("suckle the dingdong");
     }
 

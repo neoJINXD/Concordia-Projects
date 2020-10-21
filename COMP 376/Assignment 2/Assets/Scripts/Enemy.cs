@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] int pointValue = 3;
     [SerializeField] bool randomize = true;
 
+    //TODO add life timer for enemy
+
     private bool stopped = true;
     private Vector3 targetLocation;
 
