@@ -78,4 +78,9 @@ public class Enemy : MonoBehaviour
         float spawnY = Random.Range(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y, Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
         return new Vector3(spawnX, spawnY, 0);
     }
+
+    public void setSpeed(float _speed)
+    {
+        speed = _speed;
+    }
 }

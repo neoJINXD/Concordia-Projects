@@ -10,9 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text pointCounter; 
     [SerializeField] Text shotsLeft; 
     [SerializeField] GameObject reloader;
-
-    //TODO add level system
-    [SerializeField]private int level;
+    private int level;
     [SerializeField] Text levelCounter;
 
     //TODO increase in speed per level player is at
@@ -26,6 +24,7 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         level = 1;
         spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
+        spawner.setLevel(level);
     }
 
     void Update() 
@@ -40,6 +39,7 @@ public class GameManager : MonoBehaviour
         {
             level++;
             spawner.ResetWitchCount();
+            spawner.setLevel(level);
         }
         levelCounter.text = "Level: " + level.ToString();
     }

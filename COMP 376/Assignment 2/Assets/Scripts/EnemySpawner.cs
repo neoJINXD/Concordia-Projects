@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
 
     [SerializeField] GameObject enemyPrefab;
+    private Enemy prefabEnemy;
 
     [SerializeField] GameObject witchPrefab;
     [SerializeField, Range(0,1)] float witchChance = 0;
@@ -17,6 +18,7 @@ public class EnemySpawner : MonoBehaviour
     private float timer = 0;
     private int count = 0;
 
+    private int level = 0;
     
 
     void Start() 
@@ -24,6 +26,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Baddy");
         count = enemies.Length;
         witchAlive = false;
+        prefabEnemy = enemyPrefab.GetComponent<Enemy>();
     }
 
     void Update() 
@@ -32,7 +35,10 @@ public class EnemySpawner : MonoBehaviour
         if (timer >= spawnTimer && count < spawnLimit)
         {
             // print("reeeeeeeeeeeee");
-            Instantiate(enemyPrefab);
+            // print(levelToSpeed(0));
+            prefabEnemy.setSpeed(levelToSpeed(level));
+            GameObject spawnedEnemy = Instantiate(enemyPrefab);
+            // spawnedEnemy.GetComponent<Enemy>().setSpeed(levelToSpeed(level));
             timer = 0;
             count++;
             if (!witchAlive && witchCount < 2)
@@ -77,5 +83,15 @@ public class EnemySpawner : MonoBehaviour
     public void ResetWitchCount()
     {
         witchCount = 0;
+    }
+
+    private float levelToSpeed(int level)
+    {
+        return level + 0.6f * Mathf.Cos(1.7f * level);
+    }
+
+    public void setLevel(int _level)
+    {
+        level = _level;
     }
 }
