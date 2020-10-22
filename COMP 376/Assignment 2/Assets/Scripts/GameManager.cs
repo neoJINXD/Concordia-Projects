@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     private int missedShots = 0;
     private EnemySpawner spawner;
+    private ScoreKeeper scoreKeeper;
 
     void Start() 
     {
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
         spawner.setLevel(level);
         shooter = player.GetComponent<Shooty>();
         shooter.setHyperDur(ultraInstictTimeLimit);
+        scoreKeeper = GameObject.Find("ScoreKeeper").GetComponent<ScoreKeeper>();
     }
 
     void Update() 
@@ -56,7 +59,10 @@ public class GameManager : MonoBehaviour
         // Destroy(player);
         player.SetActive(false);
         reloader.SetActive(false);
-        print("suckle the dingdong");
+        // print("suckle the dingdong");
+        Cursor.visible = true;
+        scoreKeeper.setScore(points);
+        SceneManager.LoadScene("GameOver");
     }
 
     public void IncreasePoints(int pt)
