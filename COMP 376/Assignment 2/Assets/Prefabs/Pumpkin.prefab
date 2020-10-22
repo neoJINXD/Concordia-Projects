@@ -138,6 +138,7 @@ MonoBehaviour:
   speed: 1
   threshold: 1
   pointValue: 3
+  hyperPointValue: 1
   randomize: 1
   lifeTime: 15
 --- !u!111 &3634456872387885746

@@ -121,7 +121,8 @@ MonoBehaviour:
     type: 3}
   speed: 5
   threshold: 1
-  pointValue: 69
+  pointValue: 15
+  hyperPointValue: 5
   randomize: 1
   lifeTime: 15
   dmgAnimation: {fileID: 4856994504329470532}

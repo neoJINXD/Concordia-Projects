@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject reloader;
     private int level;
     [SerializeField] Text levelCounter;
-
-    //TODO increase in speed per level player is at
-    //TODO add SUPER ULTRA SHOOTING MODE
+    [SerializeField] KeyCode ultraInstinctKey;
+    [SerializeField] float ultraInstictTimeLimit;
+    private Shooty shooter;
     private GameObject player;
     private int missedShots = 0;
     private EnemySpawner spawner;
@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
         level = 1;
         spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
         spawner.setLevel(level);
+        shooter = player.GetComponent<Shooty>();
+        shooter.setHyperDur(ultraInstictTimeLimit);
     }
 
     void Update() 
@@ -42,6 +44,11 @@ public class GameManager : MonoBehaviour
             spawner.setLevel(level);
         }
         levelCounter.text = "Level: " + level.ToString();
+
+        if (Input.GetKeyDown(ultraInstinctKey))
+        {
+            shooter.activateHyperMode();
+        }
     }
 
     private void GameOver()

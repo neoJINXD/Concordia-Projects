@@ -7,7 +7,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] ParticleSystem explosionFX;
     [SerializeField] float speed = 1f;
     [SerializeField] float threshold = 1f;
-    [SerializeField] int pointValue = 3;
+    [SerializeField] int pointValue;
+    [SerializeField] int hyperPointValue;
     [SerializeField] bool randomize = true;
 
     [SerializeField] protected float lifeTime;
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
 
     private bool stopped = true;
     private Vector3 targetLocation;
+    
     private GameManager gm;
     protected EnemySpawner spawner;
     protected Animation anim;
@@ -83,4 +85,5 @@ public class Enemy : MonoBehaviour
     {
         speed = _speed;
     }
+
 }

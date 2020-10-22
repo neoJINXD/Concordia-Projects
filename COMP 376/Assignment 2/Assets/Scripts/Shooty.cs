@@ -7,9 +7,16 @@ public class Shooty : MonoBehaviour
     [SerializeField] float timeBtwShot = 1;
     private float timer;
 
+    [SerializeField] int missedBad;
+    [SerializeField] int missedBadHyper;
+
     private AudioSource shootySound;
     private GameManager gm;
     private ReloadTime reloader;
+    private bool hyperMode = false;
+    private float hyperModeDuration;
+    private int hyperCounter = 0;
+    private float hyperCountLimit;
 
     void Start() 
     {
@@ -18,39 +25,63 @@ public class Shooty : MonoBehaviour
         shootySound = GetComponent<AudioSource>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         reloader = GameObject.Find("ReloadIndicator").GetComponent<ReloadTime>();
+        
     }
 
     void Update()
     {
+        hyperCountLimit = hyperModeDuration / timeBtwShot;
         timer += Time.deltaTime;
         if (timer >= timeBtwShot)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) || hyperMode)
             {
-                // print("click");
-                shootySound.Play();
-                
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2 mouse2D = new Vector2(mousePos.x, mousePos.y);
-
-                RaycastHit2D[] hits = Physics2D.RaycastAll(mouse2D, Vector2.zero);
-
-                if (hits.Length != 0)
-                {
-                    foreach (RaycastHit2D hit in hits)
-                    {
-                        hit.collider.GetComponent<Enemy>().Damage();
-                    }
-                    gm.IncreasePoints(5 * (hits.Length - 1));
-
-                } 
-                else
-                {
-                    gm.DecreasePoints(1);
-                }        
+                Shoot();
                 timer = 0;
-                reloader.TurnOn();
+                hyperCounter++;
+                if (hyperCounter >= hyperCountLimit)
+                    hyperMode = false;
             }
         }
+    }
+
+    private void Shoot()
+    {
+        // print("click");
+        shootySound.Play();
+        
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mouse2D = new Vector2(mousePos.x, mousePos.y);
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mouse2D, Vector2.zero);
+
+        if (hits.Length != 0)
+        {
+            foreach (RaycastHit2D hit in hits)
+            {
+                hit.collider.GetComponent<Enemy>().Damage();
+            }
+            gm.IncreasePoints(5 * (hits.Length - 1));
+
+        } 
+        else
+        {
+            if (hyperMode)
+                gm.DecreasePoints(missedBadHyper);
+            else
+                gm.DecreasePoints(missedBad);
+        }        
+        reloader.TurnOn();
+    }
+
+    public void activateHyperMode()
+    {
+        hyperMode = true;
+        hyperCounter = 0;
+    }
+
+    public void setHyperDur(float dur)
+    {
+        hyperModeDuration = dur;
     }
 }
