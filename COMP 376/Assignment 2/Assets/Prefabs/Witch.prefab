@@ -125,6 +125,7 @@ MonoBehaviour:
   hyperPointValue: 5
   randomize: 1
   lifeTime: 15
+  screenGap: 25
   dmgAnimation: {fileID: 4856994504329470532}
 --- !u!60 &1082460889562154261
 PolygonCollider2D:

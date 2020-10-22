@@ -135,12 +135,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionFX: {fileID: 6060381478479891201, guid: 64b139343746e124d86fd7ebb80c0ace,
     type: 3}
-  speed: 1
+  speed: 0.92269325
   threshold: 1
   pointValue: 3
   hyperPointValue: 1
   randomize: 1
   lifeTime: 15
+  screenGap: 25
 --- !u!111 &3634456872387885746
 Animation:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     private GameManager gm;
     protected EnemySpawner spawner;
     protected Animation anim;
+    [SerializeField] int screenGap;
 
     void Start()
     {
@@ -76,8 +77,8 @@ public class Enemy : MonoBehaviour
 
     private Vector3 GetRandomPos()
     {
-        float spawnX = Random.Range(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
-        float spawnY = Random.Range(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y, Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
+        float spawnX = Random.Range(Camera.main.ScreenToWorldPoint(new Vector2(screenGap, 0)).x, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width-screenGap, 0)).x);
+        float spawnY = Random.Range(Camera.main.ScreenToWorldPoint(new Vector2(0, screenGap + 50)).y, Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height-screenGap)).y);
         return new Vector3(spawnX, spawnY, 0);
     }
 
