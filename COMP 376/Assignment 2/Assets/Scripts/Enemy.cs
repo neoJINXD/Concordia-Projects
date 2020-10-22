@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     private Vector3 targetLocation;
     private GameManager gm;
     protected EnemySpawner spawner;
-    // protected Animator anim;
+    protected Animation anim;
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
             transform.position = GetRandomPos();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
-        // anim = GetComponent<Animator>();
+        anim = GetComponent<Animation>();
     }
 
     void Update() 
@@ -36,6 +36,9 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
             spawner.Killed();
         }
+        if (lifeTime-timer < 5)
+            anim.Play("Enemy_Sayonara");
+
     }
 
     void FixedUpdate() 

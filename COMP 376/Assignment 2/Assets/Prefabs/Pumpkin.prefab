@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2430016772282271061}
   - component: {fileID: 7295905719476040173}
   - component: {fileID: -299067740953716793}
+  - component: {fileID: 3634456872387885746}
   m_Layer: 0
   m_Name: Pumpkin
   m_TagString: Baddy
@@ -139,3 +140,19 @@ MonoBehaviour:
   pointValue: 3
   randomize: 1
   lifeTime: 15
+--- !u!111 &3634456872387885746
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430016772282271062}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 9d4889c694e7148459bf4fef7bc16d8e, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

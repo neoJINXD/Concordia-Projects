@@ -13,12 +13,10 @@ public class Witch : Enemy
     {
         health--;
         dmgAnimation.Play("Witch_Dmg");
-        // anim.SetBool("damage", true);
         Invoke("ResetState", 0.5f);
         if (health <= 0)
         {
             Die();
-            // spawner.WitchAlive = false;
             spawner.ResetWitchState();
             spawner.WitchKilled();
         }
@@ -33,6 +31,8 @@ public class Witch : Enemy
             spawner.ResetWitchState();
             spawner.Killed();
         }
+        if (lifeTime-timer < 5)
+            dmgAnimation.Play("Witch_Sayonara");
     }
     
 

@@ -49,7 +49,7 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnWitch()
     {
         float result = Random.value;
-        print(result);
+        // print(result);
         if (result <= witchChance)
         {
             Instantiate(witchPrefab);
