@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1082460889562154262}
   - component: {fileID: 1082460889562154258}
   - component: {fileID: 1082460889562154261}
+  - component: {fileID: 4856994504329470532}
   m_Layer: 0
   m_Name: Witch
   m_TagString: Untagged
@@ -118,10 +119,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionFX: {fileID: 1599539100276810920, guid: 1c378243c02e31b4497adaeed23ef880,
     type: 3}
-  speed: 1
+  speed: 5
   threshold: 1
   pointValue: 69
-  randomize: 0
+  randomize: 1
+  lifeTime: 15
+  dmgAnimation: {fileID: 4856994504329470532}
 --- !u!60 &1082460889562154261
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -177,3 +180,19 @@ PolygonCollider2D:
       - {x: 0.04975766, y: -0.1569706}
       - {x: 0.09778458, y: -0.088129714}
       - {x: 0.099881455, y: -0.04778461}
+--- !u!111 &4856994504329470532
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082460889562154265}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: f43b327810eea42438fc06e5315ca8ca, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

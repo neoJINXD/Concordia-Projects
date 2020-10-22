@@ -27,7 +27,7 @@ public class ReloadTime : MonoBehaviour
             if (currentValue <= 0)
             {
                 on = false;
-                print("done");
+                // print("done");
             }
 		}
     }
@@ -39,7 +39,7 @@ public class ReloadTime : MonoBehaviour
 
     public void TurnOn()
     {
-        print("brrrr");
+        // print("brrrr");
         on = true;
         currentValue = maxValue;
         loading.fillAmount = 1;

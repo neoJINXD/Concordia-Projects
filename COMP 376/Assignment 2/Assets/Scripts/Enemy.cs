@@ -10,12 +10,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] int pointValue = 3;
     [SerializeField] bool randomize = true;
 
-    //TODO add life timer for enemy
+    [SerializeField] protected float lifeTime;
+    protected float timer = 0;
 
     private bool stopped = true;
     private Vector3 targetLocation;
     private GameManager gm;
-    private EnemySpawner spawner;
+    protected EnemySpawner spawner;
+    // protected Animator anim;
 
     void Start()
     {
@@ -23,6 +25,17 @@ public class Enemy : MonoBehaviour
             transform.position = GetRandomPos();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
+        // anim = GetComponent<Animator>();
+    }
+
+    void Update() 
+    {
+        timer += Time.deltaTime;
+        if (timer >= lifeTime)
+        {
+            Destroy(gameObject);
+            spawner.Killed();
+        }
     }
 
     void FixedUpdate() 
@@ -41,16 +54,11 @@ public class Enemy : MonoBehaviour
             else
                 transform.position += dir.normalized * speed * Time.deltaTime; // vroom vroom
         }
-
     }
 
     virtual public void Damage()
     {
         Die();
-        // Instantiate(explosionFX, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
-        // Destroy(gameObject);
-        // gm.IncreasePoints(pointValue);
-        // spawner.Killed();
     }
 
     protected void Die()
