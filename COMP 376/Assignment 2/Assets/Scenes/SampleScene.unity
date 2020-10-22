@@ -1352,6 +1352,11 @@ MonoBehaviour:
   timeBtwShot: 1
   missedBad: 1
   missedBadHyper: 2
+  moonElement: {fileID: 1100544234}
+  normalMoon: {fileID: -5679657590885005731, guid: 472fb075ad50e254584b7cc092138039,
+    type: 3}
+  bloodMoon: {fileID: 9083969447635318612, guid: 472fb075ad50e254584b7cc092138039,
+    type: 3}
 --- !u!82 &1303314772
 AudioSource:
   m_ObjectHideFlags: 0

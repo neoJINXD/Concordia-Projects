@@ -10,6 +10,11 @@ public class Shooty : MonoBehaviour
     [SerializeField] int missedBad;
     [SerializeField] int missedBadHyper;
 
+    [SerializeField] SpriteRenderer moonElement;
+    [SerializeField] Sprite normalMoon;
+    [SerializeField] Sprite bloodMoon;
+
+
     private AudioSource shootySound;
     private GameManager gm;
     private ReloadTime reloader;
@@ -40,7 +45,10 @@ public class Shooty : MonoBehaviour
                 timer = 0;
                 hyperCounter++;
                 if (hyperCounter >= hyperCountLimit)
+                {
                     hyperMode = false;
+                    moonElement.sprite = normalMoon;
+                }
             }
         }
     }
@@ -78,6 +86,7 @@ public class Shooty : MonoBehaviour
     {
         hyperMode = true;
         hyperCounter = 0;
+        moonElement.sprite = bloodMoon;
     }
 
     public void setHyperDur(float dur)
