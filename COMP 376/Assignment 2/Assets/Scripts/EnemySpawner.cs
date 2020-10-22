@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-
+    //Assignables
     [SerializeField] GameObject enemyPrefab;
-    private Enemy prefabEnemy;
-
     [SerializeField] GameObject witchPrefab;
-    [SerializeField, Range(0,1)] float witchChance = 0;
+    [SerializeField, Range(0,1)] float witchChance = 0; // chance of the next spawn being a witch
+    [SerializeField] int spawnLimit; // how many enimies at a time
+    [SerializeField] float spawnTimer; // time between spawns
+    
+    //References
+    private Enemy prefabEnemy;
     private bool witchAlive;
-    [SerializeField]private int witchCount = 0;
 
-    [SerializeField] int spawnLimit;
-    [SerializeField] float spawnTimer;
+    //Others
+    private int witchCount = 0; // how many witches killed
     private float timer = 0;
     private int count = 0;
-
     private int level = 0;
-    
+
 
     void Start() 
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Baddy");
-        count = enemies.Length;
+        count = enemies.Length; // adds the already existing enemies (for debug use mainly)
         witchAlive = false;
         prefabEnemy = enemyPrefab.GetComponent<Enemy>();
     }
@@ -54,15 +55,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnWitch()
     {
-        float result = Random.value;
-        // print(result);
+        float result = Random.value; // random!!!
         if (result <= witchChance)
         {
             Instantiate(witchPrefab);
             witchAlive = true;
             count++;
         }
-        // timer = 0;
     }
 
     public void WitchKilled()
@@ -87,7 +86,9 @@ public class EnemySpawner : MonoBehaviour
 
     private float levelToSpeed(int level)
     {
-        return level + 0.6f * Mathf.Cos(1.7f * level);
+        // formula for the speed enemies should have based on the level
+        // https://www.desmos.com/calculator/gkckylmckf
+        return level + 0.6f * Mathf.Cos(1.7f * level); 
     }
 
     public void setLevel(int _level)

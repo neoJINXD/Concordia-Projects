@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class Witch : Enemy
 {
+    //Assignables
+    [SerializeField] Animation dmgAnimation;
+
+
+    //Reference
     private int health = 3;
 
-    [SerializeField] Animation dmgAnimation;
-    
 
     override public void Damage()
     {
+        // overriding since witch takes multiple shots to die
         health--;
         dmgAnimation.Play("Witch_Dmg");
         Invoke("ResetState", 0.5f);
@@ -34,7 +38,5 @@ public class Witch : Enemy
         if (lifeTime-timer < 5)
             dmgAnimation.Play("Witch_Sayonara");
     }
-    
-
     
 }

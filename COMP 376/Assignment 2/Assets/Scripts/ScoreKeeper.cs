@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ScoreKeeper : MonoBehaviour
 {
+    //Other - keep track of score between the scene change
     private int score;
 
     void Start()

@@ -6,7 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class RestartGame : MonoBehaviour
 {
+    //Assignable
     [SerializeField] Text finalScore;
+    
+    //Reference
     private ScoreKeeper scoreKeeper;
     void Start() 
     {
@@ -20,6 +23,7 @@ public class RestartGame : MonoBehaviour
 
     public void ResetGame()
     {
+        // function for the button in the GameOver scene
         SceneManager.LoadScene("GameScene");
     }
 }

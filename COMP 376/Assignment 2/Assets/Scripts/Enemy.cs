@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    // Assignables
     [SerializeField] ParticleSystem explosionFX;
     [SerializeField] float speed = 1f;
     [SerializeField] float threshold = 1f;
-    [SerializeField] int pointValue;
     [SerializeField] int hyperPointValue;
     [SerializeField] bool randomize = true;
-
     [SerializeField] protected float lifeTime;
-    protected float timer = 0;
+    [SerializeField] int screenGap;
+    [SerializeField] int pointValue;
 
+    //References
+    protected float timer = 0;
     private bool stopped = true;
     private Vector3 targetLocation;
-    
     private GameManager gm;
     protected EnemySpawner spawner;
     protected Animation anim;
-    [SerializeField] int screenGap;
 
     void Start()
     {
@@ -33,12 +33,14 @@ public class Enemy : MonoBehaviour
 
     void Update() 
     {
+        // lifetimer
         timer += Time.deltaTime;
         if (timer >= lifeTime)
         {
             Destroy(gameObject);
             spawner.Killed();
         }
+        // animation flashes when 5s of life left
         if (lifeTime-timer < 5)
             anim.Play("Enemy_Sayonara");
 
@@ -46,6 +48,7 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate() 
     {
+        // finding position and moving towards it 
         if (stopped)
         {
             targetLocation = GetRandomPos();

@@ -7,19 +7,28 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] int points;
+    //Assignables
+    [SerializeField] KeyCode ultraInstinctKey;
+    [SerializeField] float ultraInstictTimeLimit;
+
+    //UI
     [SerializeField] Text pointCounter; 
     [SerializeField] Text shotsLeft; 
     [SerializeField] GameObject reloader;
-    private int level;
     [SerializeField] Text levelCounter;
-    [SerializeField] KeyCode ultraInstinctKey;
-    [SerializeField] float ultraInstictTimeLimit;
+
+    //References
     private Shooty shooter;
-    private GameObject player;
-    private int missedShots = 0;
     private EnemySpawner spawner;
     private ScoreKeeper scoreKeeper;
+    private GameObject player;
+
+    //Other
+    [SerializeField] int points; // point count
+    private int level; // current level
+    private int missedShots = 0;
+
+
 
     void Start() 
     {
@@ -34,20 +43,25 @@ public class GameManager : MonoBehaviour
 
     void Update() 
     {
-        pointCounter.text = "Score: " + points.ToString();
-        shotsLeft.text = "Bullets: " + (3-missedShots).ToString();
         if (missedShots >= 3)
         {
+            // lose after missing 3 shots
             GameOver();
         }
         if (spawner.EnoughWitchesKilled())
         {
+            // level progression is done through killing 2 witches
             level++;
             spawner.ResetWitchCount();
             spawner.setLevel(level);
         }
+
+        // updating ui
+        pointCounter.text = "Score: " + points.ToString();
+        shotsLeft.text = "Bullets: " + (3-missedShots).ToString();
         levelCounter.text = "Level: " + level.ToString();
 
+        // activate hyper mode
         if (Input.GetKeyDown(ultraInstinctKey))
         {
             shooter.activateHyperMode();
@@ -56,10 +70,8 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        // Destroy(player);
         player.SetActive(false);
         reloader.SetActive(false);
-        // print("suckle the dingdong");
         Cursor.visible = true;
         scoreKeeper.setScore(points);
         SceneManager.LoadScene("GameOver");
@@ -71,7 +83,7 @@ public class GameManager : MonoBehaviour
     }
     public void DecreasePoints(int pt)
     {
-        points = points-pt < 0 ? 0 : points-pt;
+        points = points-pt < 0 ? 0 : points-pt; // clamping points to be non negative
         missedShots++;
     }
 }

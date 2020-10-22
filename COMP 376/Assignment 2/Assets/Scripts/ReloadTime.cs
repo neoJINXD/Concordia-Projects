@@ -5,11 +5,14 @@ using UnityEngine.UI;
 
 public class ReloadTime : MonoBehaviour
 {
+    //References
     private Image loading;
+
+    //Other - for circular loading bar for the reload
     private float currentValue = 5;
     private float maxValue = 5;
     private float speed = 1;
-    [SerializeField] private bool on = false;
+    private bool on = false;
 
     void Start() 
     {

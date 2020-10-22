@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class Shooty : MonoBehaviour
 {
+    //Assignables
     [SerializeField] float timeBtwShot = 1;
-    private float timer;
-
-    [SerializeField] int missedBad;
-    [SerializeField] int missedBadHyper;
-
-    [SerializeField] SpriteRenderer moonElement;
+    [SerializeField] int missedBad; // score decrement for missing
+    [SerializeField] int missedBadHyper; // score decrement for missing in hyper mode
+    [SerializeField] SpriteRenderer moonElement; // changing sprite of the moon when in hyper mode
     [SerializeField] Sprite normalMoon;
     [SerializeField] Sprite bloodMoon;
 
-
+    //References
     private AudioSource shootySound;
     private GameManager gm;
     private ReloadTime reloader;
+
+    //Other
+    private float timer;
     private bool hyperMode = false;
-    private float hyperModeDuration;
+    private float hyperModeDuration; // received from GameManager
     private int hyperCounter = 0;
     private float hyperCountLimit;
 
@@ -30,7 +31,6 @@ public class Shooty : MonoBehaviour
         shootySound = GetComponent<AudioSource>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         reloader = GameObject.Find("ReloadIndicator").GetComponent<ReloadTime>();
-        
     }
 
     void Update()
@@ -65,12 +65,13 @@ public class Shooty : MonoBehaviour
 
         if (hits.Length != 0)
         {
+            // all raycast hits, checking for all the hit enemies
             foreach (RaycastHit2D hit in hits)
             {
                 hit.collider.GetComponent<Enemy>().Damage();
             }
+            // bonus points for each of them
             gm.IncreasePoints(5 * (hits.Length - 1));
-
         } 
         else
         {
@@ -79,7 +80,7 @@ public class Shooty : MonoBehaviour
             else
                 gm.DecreasePoints(missedBad);
         }        
-        reloader.TurnOn();
+        reloader.TurnOn(); // activates the reload bar
     }
 
     public void activateHyperMode()

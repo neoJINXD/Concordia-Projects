@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class MouseFollower : MonoBehaviour
 {
+    //References
     [SerializeField] Transform player;
     [SerializeField] Image reloader;
     private RectTransform canvas;
     private Camera cam;
+    
     void Start()
     {
         Cursor.visible = false;
