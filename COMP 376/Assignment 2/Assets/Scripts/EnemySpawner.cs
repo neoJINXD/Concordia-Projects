@@ -68,4 +68,14 @@ public class EnemySpawner : MonoBehaviour
     {
         witchAlive = false;
     }
+
+    public bool EnoughWitchesKilled()
+    {
+        return witchCount == 2;
+    }
+
+    public void ResetWitchCount()
+    {
+        witchCount = 0;
+    }
 }

@@ -12,15 +12,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject reloader;
 
     //TODO add level system
+    [SerializeField]private int level;
+    [SerializeField] Text levelCounter;
+
     //TODO increase in speed per level player is at
     //TODO add SUPER ULTRA SHOOTING MODE
     private GameObject player;
-    private int level = 0;
     private int missedShots = 0;
+    private EnemySpawner spawner;
 
     void Start() 
     {
         player = GameObject.FindWithTag("Player");
+        level = 1;
+        spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
     }
 
     void Update() 
@@ -31,6 +36,12 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+        if (spawner.EnoughWitchesKilled())
+        {
+            level++;
+            spawner.ResetWitchCount();
+        }
+        levelCounter.text = "Level: " + level.ToString();
     }
 
     private void GameOver()
