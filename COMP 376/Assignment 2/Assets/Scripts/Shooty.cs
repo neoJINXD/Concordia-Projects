@@ -12,10 +12,14 @@ public class Shooty : MonoBehaviour
     [SerializeField] Sprite normalMoon;
     [SerializeField] Sprite bloodMoon;
 
+    [SerializeField] int hyperModeSpawnLimit;
+    [SerializeField] float hyperModeTimeBtwSpawn;
+
     //References
     private AudioSource shootySound;
     private GameManager gm;
     private ReloadTime reloader;
+    private EnemySpawner spawner;
 
     //Other
     private float timer;
@@ -31,6 +35,7 @@ public class Shooty : MonoBehaviour
         shootySound = GetComponent<AudioSource>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         reloader = GameObject.Find("ReloadIndicator").GetComponent<ReloadTime>();
+        spawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
     }
 
     void Update()
@@ -46,8 +51,15 @@ public class Shooty : MonoBehaviour
                 hyperCounter++;
                 if (hyperCounter >= hyperCountLimit)
                 {
+                    // turning hyper mode off
                     hyperMode = false;
                     moonElement.sprite = normalMoon;
+                    spawner.ResetHyper();
+                    GameObject[] arr = GameObject.FindGameObjectsWithTag("Baddy");
+                    foreach (GameObject i in arr)
+                    {
+                        Destroy(i);
+                    }
                 }
             }
         }
@@ -88,6 +100,8 @@ public class Shooty : MonoBehaviour
         hyperMode = true;
         hyperCounter = 0;
         moonElement.sprite = bloodMoon;
+        spawner.timeBtw(hyperModeTimeBtwSpawn);
+        spawner.changeLimit(hyperModeSpawnLimit);
     }
 
     public void setHyperDur(float dur)

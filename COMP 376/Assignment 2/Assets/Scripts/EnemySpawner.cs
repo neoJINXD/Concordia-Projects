@@ -9,7 +9,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject witchPrefab;
     [SerializeField, Range(0,1)] float witchChance = 0; // chance of the next spawn being a witch
     [SerializeField] int spawnLimit; // how many enimies at a time
+    private int defaultLimit;
     [SerializeField] float spawnTimer; // time between spawns
+    private float defaultTimer;
     
     //References
     private Enemy prefabEnemy;
@@ -28,6 +30,9 @@ public class EnemySpawner : MonoBehaviour
         count = enemies.Length; // adds the already existing enemies (for debug use mainly)
         witchAlive = false;
         prefabEnemy = enemyPrefab.GetComponent<Enemy>();
+
+        defaultLimit = spawnLimit;
+        defaultTimer = spawnTimer;
     }
 
     void Update() 
@@ -95,4 +100,21 @@ public class EnemySpawner : MonoBehaviour
     {
         level = _level;
     }
+
+    public void timeBtw(float newLimit)
+    {
+        spawnTimer = newLimit;
+    }
+
+    public void changeLimit(int newLimit)
+    {
+        spawnLimit = newLimit;
+    }
+
+    public void ResetHyper()
+    {
+         spawnLimit = defaultLimit;
+         spawnTimer = defaultTimer;
+    }
+
 }
