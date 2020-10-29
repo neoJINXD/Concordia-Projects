@@ -58,7 +58,8 @@ public class Shooty : MonoBehaviour
                     GameObject[] arr = GameObject.FindGameObjectsWithTag("Baddy");
                     foreach (GameObject i in arr)
                     {
-                        Destroy(i);
+                        // Destroy(i);
+                        i.GetComponent<Enemy>().Die();
                     }
                 }
             }

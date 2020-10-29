@@ -67,14 +67,15 @@ public class Enemy : MonoBehaviour
 
     virtual public void Damage()
     {
+        gm.IncreasePoints(pointValue);
         Die();
     }
 
-    protected void Die()
+    public void Die()
     {
         Instantiate(explosionFX, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
         Destroy(gameObject);
-        gm.IncreasePoints(pointValue);
+        // gm.IncreasePoints(pointValue);
         spawner.Killed();
     }
 
