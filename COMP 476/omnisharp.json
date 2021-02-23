@@ -1,0 +1,11 @@
+{
+    "RoslynExtensionsOptions": {
+        "EnableAnalyzersSupport": true,
+        "LocationPaths": [
+            "./NuGet"
+        ]
+    },
+    "msbuild": {
+        "useBundledOnly": true
+    }
+}
